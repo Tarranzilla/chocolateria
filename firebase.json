@@ -1,7 +1,13 @@
 {
-    "hosting": {
-        "site": "tropicalcacau",
-
-        "public": "public"
+  "hosting": {
+    "source": ".",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "frameworksBackend": {
+      "region": "us-east1"
     }
+  }
 }
