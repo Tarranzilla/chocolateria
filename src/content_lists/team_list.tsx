@@ -12,8 +12,8 @@ const teamList: TeamMember[] = [
         email: "leticia@tropicalcacau.com.br",
 
         description: [
-            "Letícia é formada em nutrição pela Universidade Federal do Paraná e confeiteira pela Escola de Confeitaria Diego Lozano.",
-            "Após anos de experiência em confeitaria, Letícia decidiu fundar a Tropical Cacau, uma chocolateria que tem como objetivo oferecer uma experiência única e deliciosa para seus clientes, ao mesmo tempo que promove a responsabilidade social e ambiental em cada etapa da produção.",
+            "Letícia é formada em nutrição pela Universidade Tuiuti e possui especialização como chocolate maker e chocolatier pela Escola de Chocolateria Castelli.",
+            "Após anos de experiência como nutricionista, decidiu se aprofundar na confeitaria e fundar a Tropical Cacau, uma chocolateria que tem como objetivo oferecer uma experiência única e deliciosa para seus clientes, ao mesmo tempo que promove a responsabilidade social e ambiental em cada etapa da produção.",
         ],
     },
 ];

@@ -108,11 +108,12 @@ const portugueseWebStructure: WebStructure = {
                 key: "quem-somos",
                 title: "A Chocolateria",
                 paragraphs: [
-                    "A Tropical Cacau é uma chocolateria Brasileira criada pela confeiteira e nutricionista Letícia Guedes. Confecionamos sabores e experiências de forma consciente por meio do uso de ingredientes sustentáveis, orgânicos e saborosos.",
-                    "Na Tropical Cacau, estamos empenhados em trazer para você um chocolate de qualidade excepcional, enquanto protegemos o meio ambiente e promovemos o comércio justo.",
-                    "Como uma empresa com valores éticos e sustentáveis, estamos comprometidos em fornecer a nossos clientes uma experiência única e deliciosa. Desde o cacau cuidadosamente selecionado, até a produção artesanal em nossa própria fábrica em Curitiba, cada etapa do processo é feita com paixão e responsabilidade.",
-                    "Nossa missão é ser uma referência em chocolate de qualidade, inovação e responsabilidade social e ambiental. Nossa visão é oferecer ao mundo o melhor chocolate brasileiro, baseado em uma cadeia produtiva justa e sustentável, que valorize o trabalho humano e promova o desenvolvimento econômico e social.",
-                    "Junte-se a nós nesta jornada pelo chocolate brasileiro de qualidade, justo e sustentável!",
+                    "A Tropical Cacau é uma Chocolateria Brasileira criada pela nutricionista, chocolate-maker e chocolatier Letícia Guedes.",
+                    "Letícia é formada em nutrição pela Universidade Tuiuti e possui especialização como chocolate maker e chocolatier pela Escola de Chocolateria Castelli.",
+                    "Após anos de experiência como nutricionista, decidiu se aprofundar na confeitaria e fundar a Tropical Cacau, uma chocolateria que tem como objetivo oferecer experiências únicas e saborosas para seus clientes.",
+                    "Desde o cacau cuidadosamente selecionado, até a produção artesanal em nossa própria fábrica em Curitiba, cada etapa do processo é feita com paixão e responsabilidade.",
+                    "Pois buscamos oferecer ao mundo o melhor do chocolate brasileiro por meio de uma cadeia produtiva justa e sustentável - Que seja capaz de valorizar o trabalho das pessoas envolvidas e promover desenvolvimento econômico e social.",
+                    "Gostou da idéia? Então junte-se a nós nesta jornada em busca do verdadeiro sabor do Cacau!",
                 ],
             },
 
@@ -124,7 +125,7 @@ const portugueseWebStructure: WebStructure = {
 
             expertise: {
                 key: "chocolates",
-                title: "Chocolates",
+                title: "Os Chocolates",
                 expertiseList: expertiseList,
             },
 

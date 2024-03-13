@@ -4,7 +4,7 @@ const bannerList: Banner[] = [
     {
         key: "banner1",
         title: "Chocolates feitos com ingredientes orgânicos e sustentáveis",
-        subtitle: "Experimente nossa linha de chocolates feitos com ingredientes deliciosos e de comércio justo.",
+        subtitle: "Experimente já e se apaixone por nossos sabores únicos e inesquecíveis!",
         imgSrc: "/brand_imgs/dalle1.png",
         size: {
             width: 740,
@@ -14,7 +14,7 @@ const bannerList: Banner[] = [
     {
         key: "banner2",
         title: "A Páscoa está Chegando!",
-        subtitle: "Experimente nossos ovos recheados com creme de avelã, trufas e frutas e aproveite nossas ofertas especiais!",
+        subtitle: "Confira nossos Ovos com Lascas e Trufados - Recheados com Pistache, Castanha de Caju e do Pará!",
         imgSrc: "/brand_imgs/dalle2.png",
         size: {
             width: 740,
@@ -23,8 +23,8 @@ const bannerList: Banner[] = [
     },
     {
         key: "banner3",
-        title: "Chocolates Experimentais",
-        subtitle: "Faça parte do nosso clube de assinaturas e receba em casa nossos chocolates experimentais e exclusivos!",
+        title: "Clube Tropical Cacau",
+        subtitle: "Faça parte do nosso clube de assinaturas e receba todo mês em casa nossos chocolates clássicos, experimentais e exclusivos!",
         imgSrc: "/brand_imgs/dalle3.png",
         size: {
             width: 740,
@@ -33,8 +33,8 @@ const bannerList: Banner[] = [
     },
     {
         key: "banner4",
-        title: "Conheça a História do Cacau e do Chocolate!",
-        subtitle: "Aprenda sobre a história do cacau e do chocolate e descubra a cultura por detrás destas iguarias!",
+        title: "O Cacau é das Américas!",
+        subtitle: "Saiba mais sobre a história do Cacau e do Chocolate, descobrindo a cultura por detrás destas iguarias!",
         imgSrc: "/brand_imgs/dalle4.png",
         size: {
             width: 740,

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Banner from "@/types/Banner";
 import { motion as m, AnimatePresence } from "framer-motion";
@@ -15,33 +15,48 @@ export default function ImageSlider({ content }: ImageSliderProps) {
     const [activeIndex, setActiveIndex] = useState(0);
     const [isPlaying, setIsPlaying] = useState(true);
 
+    function toUrlValidString(str: string) {
+        return encodeURIComponent(str);
+    }
+
+    const telephone = "5541999977955";
+    const message = "Olá gostaria de saber mais sobre os produtos da tropical cacau.";
+    const encodedMessage = toUrlValidString(message);
+
+    const intervalRef = useRef<NodeJS.Timeout>();
+
+    const startInterval = () => {
+        intervalRef.current = setInterval(() => {
+            setActiveIndex((current) => (current + 1) % content.length);
+        }, 5000);
+    };
+
     const nextSlide = () => {
+        clearInterval(intervalRef.current as NodeJS.Timeout);
         setActiveIndex((current) => (current + 1) % content.length);
+        if (isPlaying) {
+            startInterval();
+        }
     };
 
     const prevSlide = () => {
+        clearInterval(intervalRef.current as NodeJS.Timeout);
         setActiveIndex((current) => (current === 0 ? content.length - 1 : current - 1));
+        if (isPlaying) {
+            startInterval();
+        }
     };
 
     const togglePlay = () => {
         setIsPlaying(!isPlaying);
     };
 
-    const message = "Olá gostaria de fazer a cotação de seus serviços.";
-
-    function toUrlValidString(str: string) {
-        return encodeURIComponent(str);
-    }
-
     // Change slide every 5 seconds
     useEffect(() => {
-        let interval: NodeJS.Timeout;
         if (isPlaying) {
-            interval = setInterval(() => {
-                setActiveIndex((current) => (current + 1) % content.length);
-            }, 5000);
+            startInterval();
         }
-        return () => clearInterval(interval);
+        return () => clearInterval(intervalRef.current as NodeJS.Timeout);
     }, [content, isPlaying]);
 
     return (
@@ -66,7 +81,7 @@ export default function ImageSlider({ content }: ImageSliderProps) {
                                 <h1 className="Banner_Title">{contentItem.title}</h1>
                                 <h2 className="Banner_SubTitle">{contentItem.subtitle}</h2>
 
-                                <Link href={`https://wa.me/1234567890?text=${toUrlValidString(message)}`} className="Banner_Action_Btn">
+                                <Link href={`https://wa.me/${telephone}?text=${encodedMessage}`} className="Banner_Action_Btn">
                                     Saiba Mais
                                 </Link>
 

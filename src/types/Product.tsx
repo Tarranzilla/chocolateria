@@ -1,9 +1,8 @@
-import { types } from "util";
-
 type Product = {
     key: string;
-    type: string;
     category: string;
+    type: string;
+    variant?: string;
 
     title: string;
     subtitle: string;

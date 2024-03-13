@@ -4,20 +4,30 @@ import { useRouter } from "next/router";
 
 import { useSimpleTranslation } from "@/international/useSimpleTranslation";
 
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/store/store";
+import { toggleCartOpen } from "@/store/slices/interface";
+
 export default function Footer() {
     const router = useRouter();
-    const message = "Olá, eu gostaria de agendar uma consulta.";
-    const t = useSimpleTranslation();
+    const dispatch = useDispatch();
 
-    function toUrlValidString(str: string) {
-        return encodeURIComponent(str);
-    }
+    const t = useSimpleTranslation();
 
     const changeLanguage = () => {
         const currentLocale = router.locale;
         const newLocale = currentLocale === "en" ? "pt-BR" : "en";
         const currentPath = router.asPath;
         router.push(currentPath, currentPath, { locale: newLocale });
+    };
+
+    const isCartOpen = useSelector((state: RootState) => state.interface.isCartOpen);
+    const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+
+    const cartItemsTotalAmmount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+
+    const toggleCartAction = () => {
+        dispatch(toggleCartOpen());
     };
 
     return (
@@ -42,10 +52,13 @@ export default function Footer() {
                 <p className="Desktop_Only">© 2024 Tropical Cacau</p>
 
                 <div className="Footer_Actions">
-                    <div className="Footer_Btn Quote_Btn" title={t.footer.scheduleBtn.label}>
-                        <Link href={`https://wa.me/1234567890?text=${toUrlValidString(message)}`} target="_blank" rel="noopener noreferrer">
-                            <span className="Footer_Icon material-icons">shopping_cart</span>
-                        </Link>
+                    <div
+                        onClick={toggleCartAction}
+                        className={isCartOpen ? "Footer_Btn Footer_Cart_Btn Active" : "Footer_Btn Footer_Cart_Btn"}
+                        title={t.footer.scheduleBtn.label}
+                    >
+                        {cartItemsTotalAmmount > 0 && <span className="Footer_Badge">{cartItemsTotalAmmount}</span>}
+                        <span className="Footer_Icon material-icons">shopping_cart</span>
                     </div>
                     <div className="Footer_Btn Phone_Btn" title={t.footer.telephoneBtn.label}>
                         <Link href="tel:+1234567890">
