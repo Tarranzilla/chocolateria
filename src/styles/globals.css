@@ -337,12 +337,14 @@ p {
     overflow-y: auto;
     margin-block: var(--Navbar-height);
     padding-block: 0;
+    gap: var(--normal-gap);
+    min-height: unset;
 }
 
 .Checkout_Card {
     display: flex;
     flex-direction: column;
-    gap: var(--medium-gap);
+    gap: var(--normal-gap);
     padding: var(--medium-gap);
     border: 1px solid var(--text-color);
     border-radius: var(--border-radius);
@@ -363,6 +365,10 @@ p {
     text-align: center;
     padding-bottom: var(--normal-gap);
     border-bottom: 1px solid var(--bg-color);
+}
+
+.Checkout_Card_OrderNumber_Content {
+    text-align: center;
 }
 
 .Checkout_Shipping_Options {
@@ -407,7 +413,6 @@ p {
 
 .Shipping_Adress_Result {
     margin-top: var(--normal-gap);
-    padding-inline: 0.5rem;
 }
 
 .Shipping_Input {
@@ -450,6 +455,11 @@ p {
     text-align: center;
 }
 
+#wallet_container {
+    margin-bottom: -1rem;
+    margin-top: -0.75rem;
+}
+
 .Checkout_Return_Btn {
     padding: var(--medium-gap) var(--large-gap);
     background-color: var(--text-color);
@@ -467,7 +477,7 @@ p {
     gap: var(--normal-gap);
     font-size: 1.2rem;
     width: 100%;
-    max-width: 22rem;
+    max-width: 24rem;
 }
 
 .Menu {
@@ -758,6 +768,26 @@ p {
     flex-wrap: wrap;
     gap: var(--normal-gap);
     width: 100%;
+}
+
+.Checkout_Btn {
+    padding: var(--medium-gap) var(--large-gap);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 500;
+    transition: font-size 0.3s ease, background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--normal-gap);
+    font-size: 1rem;
+    width: 100%;
+    max-width: 24rem;
+    height: 3.2rem;
 }
 
 .Cart_Checkout_Btn {

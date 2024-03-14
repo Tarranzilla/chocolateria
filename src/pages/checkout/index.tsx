@@ -8,9 +8,19 @@ import { PrecoPrazoRequest, calcularPrecoPrazo, consultarCep, rastrearEncomendas
 import { setCartOpen } from "@/store/slices/interface";
 import Link from "next/link";
 
+import { useSimpleTranslation } from "@/international/useSimpleTranslation";
+
+const telephone = "5541999977955";
+
 export default function Checkout() {
     const dispatch = useDispatch();
     initMercadoPago(`${process.env.NEXT_PUBLIC_MERCADO_PAGO_PUBLIC_KEY}`);
+
+    const cartItems = useSelector((state: RootState) => state.cart.cartItems);
+    const cartTotal = useSelector((state: RootState) => state.cart.cartTotal);
+
+    const t = useSimpleTranslation();
+    const availableProducts = t.landingPage.sections.products.productsList;
 
     const mercadoPagoSlice = useSelector((state: RootState) => state.mercadoPago);
     const cartSlice = useSelector((state: RootState) => state.cart);
@@ -76,6 +86,31 @@ export default function Checkout() {
         });
     };
 
+    const generateWhatsAppURL = () => {
+        let message = "Olá, tenho interesse em adquirir os seguintes itens:\n\n";
+
+        cartItems.forEach((cartItem) => {
+            let product;
+            for (const prod of availableProducts) {
+                if (prod.key === cartItem.id) {
+                    product = prod;
+                    break;
+                }
+            }
+            if (product) {
+                message += `${cartItem.quantity}X ${product.title}\n`;
+            }
+        });
+
+        message += `\nTotal = ${cartTotal.toFixed(2)}`;
+
+        // Encode the message in a URL
+        const encodedMessage = encodeURIComponent(message);
+
+        // Return a WhatsApp Click to Chat URL
+        return `https://wa.me/${telephone}?text=${encodedMessage}`;
+    };
+
     useEffect(() => {
         if (cep.length === 8) {
             consultarCep(cep).then((response) => {
@@ -91,13 +126,10 @@ export default function Checkout() {
     }, [cep]);
 
     return (
-        <main className="Page_Wrapper Expertise_Page_Wrapper Checkout_Page_Wrapper">
+        <main className="Page_Wrapper Checkout_Page_Wrapper">
             <div className="Checkout_Card">
                 <h2 className="Checkout_Card_OrderNumber">Número do Pedido</h2>
-                <h3>{mercadoPagoSlice.preferenceId}</h3>
-
-                <h2 className="Checkout_Card_OrderNumber">Valor Total</h2>
-                <h3 className="Checkout_Card_Total">R$ {cartSlice.cartTotal},00</h3>
+                <h3 className="Checkout_Card_OrderNumber_Content">{mercadoPagoSlice.preferenceId}</h3>
             </div>
             <div className="Checkout_Card Checkout_Shipping">
                 <h2 className="Checkout_Card_OrderNumber">Como você gostaria de receber o pedido?</h2>
@@ -152,6 +184,7 @@ export default function Checkout() {
                                         name="street"
                                         onChange={handleStreetChange}
                                         placeholder="Rua"
+                                        value={street}
                                         required
                                     />
                                     <input
@@ -160,6 +193,7 @@ export default function Checkout() {
                                         name="number"
                                         onChange={handleNumberChange}
                                         placeholder="Número"
+                                        value={number}
                                         required
                                     />
                                 </div>
@@ -171,6 +205,7 @@ export default function Checkout() {
                                         name="city"
                                         onChange={handleCityChange}
                                         placeholder="Cidade"
+                                        value={city}
                                         required
                                     />
                                     <input
@@ -179,6 +214,7 @@ export default function Checkout() {
                                         name="state"
                                         onChange={handleStateChange}
                                         placeholder="Estado"
+                                        value={state}
                                         required
                                     />
                                 </div>
@@ -187,18 +223,30 @@ export default function Checkout() {
                                     <p className="Shipping_Adress_Result">{`${street}, ${number}, ${city}, ${state}`}</p>
                                 )}
                             </div>
+
+                            <div className="Shipping_Costs">
+                                <h3>Custo da Entrega</h3>
+                                <p>R$ {shippingCost},00</p>
+                            </div>
                         </>
                     )}
-
-                    <div className="Shipping_Costs">
-                        <h3>Custo da Entrega</h3>
-                        <p>R$ {shippingCost},00</p>
-                    </div>
                 </div>
             </div>
 
-            <div id="wallet_container" className="Wallet">
-                <Wallet initialization={{ preferenceId: mercadoPagoSlice.preferenceId }} customization={{ texts: { valueProp: "smart_option" } }} />
+            <div className="Checkout_Card">
+                <h2 className="Checkout_Card_OrderNumber">Valor Total</h2>
+                <h3 className="Checkout_Card_Total">R$ {cartSlice.cartTotal},00</h3>
+
+                <Link className="Checkout_Btn" href={generateWhatsAppURL()} target="_blank" rel="noopener noreferrer">
+                    Comprar pelo WhatsApp
+                </Link>
+
+                <div id="wallet_container" className="Wallet">
+                    <Wallet
+                        initialization={{ preferenceId: mercadoPagoSlice.preferenceId }}
+                        customization={{ texts: { valueProp: "smart_option" } }}
+                    />
+                </div>
             </div>
 
             <Link className="Checkout_Return_Btn" href="/#chocolates">
