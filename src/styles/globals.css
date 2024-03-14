@@ -292,8 +292,9 @@ p {
     color: var(--text-color);
     text-decoration: none;
     font-family: var(--special-font);
-    font-size: 1.2rem;
-    letter-spacing: 0.125rem;
+    font-size: 1rem;
+    letter-spacing: 0.15rem;
+    text-transform: uppercase;
     transition: font-size 0.3s ease, color 0.3s ease;
 }
 
@@ -331,7 +332,11 @@ p {
 }
 
 .Checkout_Page_Wrapper {
-    justify-content: center;
+    justify-content: start;
+    align-items: center;
+    overflow-y: auto;
+    margin-block: var(--Navbar-height);
+    padding-block: 0;
 }
 
 .Checkout_Card {
@@ -346,6 +351,9 @@ p {
 
     background-color: var(--text-color);
     color: var(--bg-color);
+
+    width: 100%;
+    max-width: 600px;
 }
 
 .Checkout_Card_OrderNumber {
@@ -355,6 +363,87 @@ p {
     text-align: center;
     padding-bottom: var(--normal-gap);
     border-bottom: 1px solid var(--bg-color);
+}
+
+.Checkout_Shipping_Options {
+    display: flex;
+    flex-direction: column;
+    gap: var(--medium-gap);
+}
+
+.Checkout_Shipping_Option {
+    display: flex;
+    align-items: center;
+    gap: var(--normal-gap);
+}
+
+.Shipping_Icon {
+    font-size: 2.4rem;
+}
+
+.Shipping_Selector_Frame {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--small-gap);
+    border: 1px solid var(--bg-color);
+    height: 1.8rem;
+    width: 1.8rem;
+    border-radius: 0.25rem;
+}
+
+.Shipping_Input_Container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--small-gap);
+}
+
+.Shipping_Input_Block {
+    display: flex;
+    align-items: center;
+    gap: var(--small-gap);
+}
+
+.Shipping_Adress_Result {
+    margin-top: var(--normal-gap);
+    padding-inline: 0.5rem;
+}
+
+.Shipping_Input {
+    border: 1px solid var(--bg-color);
+    padding: var(--small-gap) 0.5rem;
+    border-radius: var(--border-radius);
+    flex: 1;
+}
+
+.State_Input,
+.Number_Input {
+    width: 96px;
+}
+
+.Shipping_Calc_Btn {
+    padding: var(--small-gap) var(--large-gap);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 500;
+    transition: font-size 0.3s ease, background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--normal-gap);
+    font-size: 1rem;
+}
+
+.Shipping_Calc_Btn:focus-within,
+.Shipping_Calc_Btn:hover {
+    scale: 1.025;
+    background-color: white;
+    color: var(--bg-color);
 }
 
 .Checkout_Card_Total {

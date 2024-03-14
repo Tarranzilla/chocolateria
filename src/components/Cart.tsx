@@ -55,7 +55,7 @@ export default function Cart() {
 
         setPaymentLoading(true);
 
-        fetch("http://localhost:667/api/create_preference", {
+        fetch(`${process.env.NEXT_PUBLIC_MERCADO_PAGO_CREATE_PREFERENCE_API_URL}`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
