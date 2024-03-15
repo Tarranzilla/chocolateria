@@ -22,7 +22,7 @@ export default function Home() {
 
                 <meta property="og:title" content={t.common.customTitle} />
                 <meta property="og:description" content={t.common.customDescription} />
-                <meta property="og:image" content="https://chocolateria.vercel.app/brand_imgs/Icone_512.png" />
+                <meta property="og:image" content="https://chocolateria.vercel.app/brand_imgs/Icone_TC_512.png" />
                 <meta property="og:url" content="https://chocolateria.vercel.app/" />
 
                 <meta name="author" content="https://pragmata.ninja/"></meta>
