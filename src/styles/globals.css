@@ -407,12 +407,40 @@ p {
 
 .Shipping_Input_Block {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: var(--small-gap);
+    gap: var(--normal-gap);
 }
 
 .Shipping_Adress_Result {
     margin-top: var(--normal-gap);
+}
+
+.Inputs_Wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--normal-gap);
+}
+
+.Checkout_Input_Container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--small-gap);
+    width: 100%;
+}
+
+.Checkout_Input_Label {
+    display: flex;
+    align-items: center;
+    gap: var(--small-gap);
+}
+
+.Checkout_Input_Label > label {
+    font-size: 0.8rem;
+}
+
+.Checkout_Input_Label > span {
+    font-size: 0.8rem;
 }
 
 .Shipping_Input {
@@ -424,11 +452,10 @@ p {
 
 .State_Input,
 .Number_Input {
-    width: 96px;
+    flex: 0.5rem;
 }
 
 .Shipping_Calc_Btn {
-    padding: var(--small-gap) var(--large-gap);
     background-color: var(--bg-color);
     color: var(--text-color);
     border-radius: var(--border-radius);
@@ -442,6 +469,9 @@ p {
     justify-content: center;
     gap: var(--normal-gap);
     font-size: 1rem;
+    height: 2.8rem;
+    flex: 3;
+    min-width: max-content;
 }
 
 .Shipping_Calc_Btn:focus-within,
@@ -451,6 +481,26 @@ p {
     color: var(--bg-color);
 }
 
+.Card_Subtopic {
+    display: flex;
+    flex-direction: column;
+    gap: var(--small-gap);
+}
+
+.Observation_TextArea {
+    width: 100%;
+    max-width: 100%;
+    min-height: 4rem;
+    max-height: 10rem;
+    border: 1px solid var(--bg-color);
+    padding: var(--small-gap);
+    border-radius: 0.25rem;
+}
+
+.Total_Value_Card {
+    align-items: center;
+}
+
 .Checkout_Card_Total {
     text-align: center;
 }
@@ -458,6 +508,9 @@ p {
 #wallet_container {
     margin-bottom: -1rem;
     margin-top: -0.75rem;
+    max-width: 24rem;
+    width: 100%;
+    min-height: 6.4rem;
 }
 
 .Checkout_Return_Btn {
@@ -615,7 +668,8 @@ p {
     display: flex;
     flex-direction: column;
     gap: var(--medium-gap);
-    height: 75%;
+    height: 100%;
+    max-height: 75%;
     width: 100%;
     max-width: calc(1000px - 2 * var(--medium-gap));
 }
@@ -636,12 +690,12 @@ p {
 .Cart_List {
     display: flex;
     flex-direction: column;
-    gap: var(--medium-gap);
+    gap: var(--normal-gap);
     width: 100%;
     height: 100%;
     overflow-y: auto;
     padding-block: var(--medium-gap);
-    padding-inline: var(--large-gap);
+    padding-inline: var(--medium-gap);
     border-top: 1px solid var(--text-color);
     border-bottom: 1px solid var(--text-color);
 }
@@ -655,7 +709,7 @@ p {
     margin-inline: auto;
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: var(--border-radius);
-    padding: var(--medium-gap);
+    padding: var(--normal-gap);
 }
 
 .Cart_Item_Image_Container {
@@ -676,11 +730,12 @@ p {
 .Cart_Item_Content {
     display: flex;
     flex-direction: row;
-    gap: var(--medium-gap);
+    gap: var(--normal-gap);
 }
 
 .Cart_Item_Title {
-    font-size: 1rem;
+    font-size: 1.2rem;
+    font-family: var(--special-font);
 }
 
 .Cart_Item_Details {
@@ -689,11 +744,15 @@ p {
     gap: var(--normal-gap);
 }
 
+.Cart_Item_Price {
+    font-size: 1.4rem;
+}
+
 .Cart_Item_Actions {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: space-between;
-    height: 3.2rem;
+    height: 3rem;
     gap: var(--normal-gap);
 }
 
@@ -749,7 +808,7 @@ p {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--normal-gap);
+    gap: var(--medium-gap);
     width: 100%;
 }
 
@@ -954,6 +1013,7 @@ p {
     width: 100%;
     object-fit: cover;
     filter: contrast(0.5) saturate(1.6);
+    opacity: 0.5;
     z-index: 1;
 }
 
@@ -1149,11 +1209,22 @@ p {
     border-bottom: 1px solid var(--bg-color);
 }
 
+.Card_Header_Info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--small-gap);
+}
+
 .Card_Weight {
     background-color: var(--bg-color);
     color: var(--text-color);
     padding: var(--small-gap) var(--medium-gap);
     border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    min-width: max-content;
 }
 
 .Card_Title {
@@ -1353,11 +1424,11 @@ p {
     display: flex;
     flex-wrap: wrap;
     gap: var(--normal-gap);
-    min-height: 2.4rem;
 }
 
 .Filter_Price_Btn {
     padding: var(--small-gap) var(--medium-gap);
+    padding-left: 0.75rem;
     background-color: var(--text-color);
     color: var(--bg-color);
     border-radius: var(--border-radius);
@@ -1369,7 +1440,15 @@ p {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: var(--normal-gap);
+    gap: var(--small-gap);
+}
+
+.Filter_Price_Btn > p {
+    font-size: 0.8rem;
+}
+
+.Filter_Price_Btn > span {
+    font-size: 1rem;
 }
 
 .Filter_Price_Btn:focus-within,
@@ -1471,6 +1550,7 @@ p {
     padding-inline: var(--medium-gap);
     background-color: var(--bg-color-faded-50);
     backdrop-filter: blur(5px);
+    z-index: 5;
 }
 
 .Footer_Content {
@@ -1494,6 +1574,17 @@ p {
     text-decoration: none;
     color: var(--text-color);
     cursor: pointer;
+}
+
+.Footer_Badge {
+    background-color: #dc3545;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .Lang_Btn {
@@ -1558,7 +1649,6 @@ p {
     }
 
     .Cart_List_Container {
-        height: 70%;
     }
 
     .ImageSlide img {

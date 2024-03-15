@@ -10,7 +10,7 @@ interface MercadoPagoState {
 const initialState: MercadoPagoState = {
     publicKey: "No public key defined.",
     accessToken: "No access token defined.",
-    preferenceId: "No preference ID defined.",
+    preferenceId: "Nenhum Pedido Realizado",
     orderData: {},
 };
 

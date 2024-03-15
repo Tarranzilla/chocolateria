@@ -22,8 +22,8 @@ export default function Home() {
 
                 <meta property="og:title" content={t.common.customTitle} />
                 <meta property="og:description" content={t.common.customDescription} />
-                <meta property="og:image" content="https://stresseremachado.vercel.app/brand_imgs/Icone_512.png" />
-                <meta property="og:url" content="https://stresseremachado.vercel.app/" />
+                <meta property="og:image" content="https://chocolateria.vercel.app/brand_imgs/Icone_512.png" />
+                <meta property="og:url" content="https://chocolateria.vercel.app/" />
 
                 <meta name="author" content="https://pragmata.ninja/"></meta>
 
@@ -91,10 +91,10 @@ export default function Home() {
                             </div>
 
                             <iframe
-                                title="Mapa de localização do escritório de advocacia Stresser & Machado"
+                                title="Mapa de localização da Chocolateria Tropical Cacau"
                                 className="Map"
                                 referrerPolicy="no-referrer-when-downgrade"
-                                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBoWxQtCEHcm-AqgB3fjGveoXqVgy8g9pI&q=Avenida+Manoel+Ribas,+n%C2%BA+507,+Merc%C3%AAs+Curitiba+-+PR+-+Brasil"
+                                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBoWxQtCEHcm-AqgB3fjGveoXqVgy8g9pI&q=Rua+Franscisco+Camargo,+262,+Colombo+-+PR+-+Brasil"
                                 allowFullScreen
                             ></iframe>
                         </div>

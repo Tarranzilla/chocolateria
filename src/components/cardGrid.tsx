@@ -43,7 +43,11 @@ export default function CardGrid({ content, order }: CardGridProps) {
                             <Image src={item.imgSrc} alt={item.title} width={item.size.width} height={item.size.height} />
                             <div className="Card_Header">
                                 <h2 className="Card_Title">{item.title}</h2>
-                                <h3 className="Card_Weight">{item.weight}</h3>
+
+                                <div className="Card_Header_Info">
+                                    <h3 className="Card_Weight">{item.weight}</h3>
+                                    <h3 className="Card_Weight">R$ {item.price},00</h3>
+                                </div>
                             </div>
 
                             <p className="Card_Description">{item.description}</p>

@@ -153,7 +153,7 @@ const portugueseWebStructure: WebStructure = {
                 adress: {
                     key: "endereco",
                     title: "Endereço",
-                    adress: "Avenida Manoel Ribas, nº 507 - Sala 05 - Mercês Curitiba - PR 80510-346 Brasil",
+                    adress: "Rua Francisco Camargo, nº 262 - Apto 01 - Colombo - PR - Brasil",
                 },
             },
         },

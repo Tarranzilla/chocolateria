@@ -16,6 +16,8 @@ export default function GroupSlider() {
     const [activeOrder, setActiveOrder] = useState("Default_Grid_Order");
     const [activeProducts, setActiveProducts] = useState(products);
 
+    const [filterState, setFilterState] = useState("default");
+
     function sortByLowestPrice(a: Product, b: Product): number {
         return a.price - b.price;
     }
@@ -79,14 +81,22 @@ export default function GroupSlider() {
                 </div>
 
                 <div className="Filter_Price_Range">
+                    <button className="Filter_Price_Btn" onClick={handleSortByHighestPrice}>
+                        <span className="material-icons">arrow_drop_up</span>
+                        <p>Maior Valor</p>
+                    </button>
                     <button className="Filter_Price_Btn" onClick={handleSortByLowestPrice}>
-                        Ordenar pelo Menor Valor
+                        <span className="material-icons">arrow_drop_down</span>
+                        <p>Menor Valor</p>
                     </button>
-                    <button className="Filter_Price_Btn" onClick={handleSortByHighestPrice}>
-                        Ordenar pelo Maior Valor
-                    </button>
-                    <button className="Filter_Price_Btn" onClick={handleSortByHighestPrice}>
-                        Limpar Filtros
+                    <button
+                        className="Filter_Price_Btn"
+                        onClick={() => {
+                            filterProducts();
+                        }}
+                    >
+                        <span className="material-icons">close</span>
+                        <p>Limpar Filtros</p>
                     </button>
                 </div>
             </div>

@@ -110,7 +110,7 @@ export default function Cart() {
     };
 
     return (
-        <AnimatePresence mode="wait">
+        <AnimatePresence>
             {isCartOpen && (
                 <m.div
                     initial={{ opacity: 1 }}
@@ -211,19 +211,13 @@ export default function Cart() {
                             {cartItems.length > 0 ? (
                                 <>
                                     <button className="Cart_Checkout_Btn" onClick={handleMercadoClick}>
-                                        Comprar pelo Mercado Pago
+                                        Finalizar Pedido
                                     </button>
-                                    <Link className="Cart_Checkout_Btn" href={generateWhatsAppURL()} target="_blank" rel="noopener noreferrer">
-                                        Comprar pelo WhatsApp
-                                    </Link>
                                 </>
                             ) : (
                                 <>
                                     <button className="Cart_Checkout_Btn Disabled" disabled>
-                                        Comprar pelo Mercado Pago
-                                    </button>
-                                    <button className="Cart_Checkout_Btn Disabled" disabled>
-                                        Comprar pelo WhatsApp
+                                        Finalizar Pedido
                                     </button>
                                 </>
                             )}
