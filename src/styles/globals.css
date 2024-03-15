@@ -939,7 +939,7 @@ p {
 }
 
 .Banner_Action_Btn {
-    margin-top: auto;
+    margin-top: var(--normal-gap);
     z-index: 2;
     padding: var(--medium-gap) var(--large-gap);
     background-color: var(--text-color);
@@ -949,7 +949,7 @@ p {
     cursor: pointer;
     text-decoration: none;
     font-weight: 500;
-    transition: font-size 0.3s ease, background-color 0.3s ease;
+    transition: scale 0.3s ease, background-color 0.3s ease;
     display: flex;
     align-items: center;
     gap: var(--normal-gap);
@@ -957,7 +957,7 @@ p {
 
 .Banner_Action_Btn:focus-within,
 .Banner_Action_Btn:hover {
-    font-size: 1.2rem;
+    scale: 1.05;
     background-color: white;
 }
 
@@ -970,6 +970,11 @@ p {
     cursor: pointer;
     color: white;
     border: none;
+}
+
+.ImageSlider_Btn:hover > .ImageSlider_Arrow {
+    font-size: 2rem;
+    color: white;
 }
 
 .ImageSlider_Btn > * {
@@ -1163,7 +1168,7 @@ p {
 
 .Card_Grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: var(--medium-gap);
 }
 
@@ -1191,7 +1196,7 @@ p {
 }
 
 .Expertise_Card img {
-    height: 400px;
+    height: 248px;
     width: 100%;
     object-fit: cover;
     border-radius: 0.5rem;
@@ -1230,6 +1235,14 @@ p {
 .Card_Title {
     font-size: 1.2rem;
     font-family: var(--special-font);
+}
+
+.Card_Footer {
+    display: flex;
+    flex-direction: column;
+    gap: var(--small-gap);
+    width: 100%;
+    margin-top: auto;
 }
 
 .Card_Link {
@@ -1352,17 +1365,26 @@ p {
 .GroupSlider_Header {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     gap: var(--large-gap);
+    padding-inline: var(--medium-gap);
+    padding-bottom: var(--normal-gap);
     height: 3.2rem;
+
+    overflow-y: auto;
+}
+
+.GroupSlider_Header::-webkit-scrollbar {
+    height: 0.125rem;
 }
 
 .GroupSlider_Class {
     font-family: var(--special-font);
     letter-spacing: 0.15rem;
     cursor: pointer;
-    padding-bottom: var(--small-gap);
+    padding-bottom: 0.125rem;
     transition: scale 0.3s ease, border-bottom 0.3s ease;
+    transform-origin: start;
 }
 
 .GroupSlider_Class:focus-within,
@@ -1389,8 +1411,18 @@ p {
 
 .Filter_Types {
     display: flex;
-    text-align: center;
     gap: var(--medium-gap);
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    align-items: center;
+    padding-inline: var(--normal-gap);
+    padding-block: var(--normal-gap);
+    padding-bottom: 1rem;
+}
+
+.Filter_Types::-webkit-scrollbar {
+    height: 0.125rem;
 }
 
 .Filter_Type {
@@ -1400,24 +1432,27 @@ p {
 
     cursor: pointer;
     transition: scale 0.3s ease, color 0.3s ease;
-    padding-block: var(--small-gap);
+
     font-family: "profile-pro";
     font-size: 1.2rem;
     font-weight: 600;
+    min-width: max-content;
+    transform-origin: start;
+
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    padding: var(--small-gap) var(--normal-gap);
+    border-radius: var(--border-radius);
 }
 
 .Filter_Type:focus-within,
 .Filter_Type:hover {
     scale: 1.05;
-    color: white;
-    border-bottom: 1px solid white;
 }
 
 .Filter_Type.Active_Type {
+    background-color: white;
     scale: 1.1;
-    padding-bottom: var(--small-gap);
-    color: white;
-    border-bottom: 1px solid white;
 }
 
 .Filter_Price_Range {
@@ -1471,6 +1506,12 @@ p {
     max-width: 1000px;
 }
 
+.Contact_Content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--medium-gap);
+}
+
 .Contact_Card {
     width: 100%;
     max-width: 600px;
@@ -1481,6 +1522,7 @@ p {
     flex-direction: column;
 
     align-items: center;
+    justify-content: center;
 
     gap: var(--medium-gap);
     padding: 3rem var(--medium-gap);
@@ -1529,12 +1571,13 @@ p {
 }
 
 .Map {
-    height: 50vh;
+    height: 500px;
     width: 100%;
     border: none;
     border-radius: 0.5rem;
+    border: 0.5rem solid var(--text-color);
     outline: 0.5rem solid var(--text-color);
-    outline-offset: -0.25rem;
+    outline-offset: -0.5rem;
 }
 
 /* FOOTER */

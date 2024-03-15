@@ -51,15 +51,18 @@ export default function CardGrid({ content, order }: CardGridProps) {
                             </div>
 
                             <p className="Card_Description">{item.description}</p>
-                            <button
-                                className="Card_Btn"
-                                onClick={() => {
-                                    addToCartAction(item as Product);
-                                }}
-                            >
-                                Adicionar ao Carrinho
-                                {getCartItemAmmount(item.key) > 0 ? ` (${getCartItemAmmount(item.key)})` : ""}
-                            </button>
+
+                            <div className="Card_Footer">
+                                <button
+                                    className="Card_Btn"
+                                    onClick={() => {
+                                        addToCartAction(item as Product);
+                                    }}
+                                >
+                                    Adicionar ao Carrinho
+                                    {getCartItemAmmount(item.key) > 0 ? ` (${getCartItemAmmount(item.key)})` : ""}
+                                </button>
+                            </div>
 
                             <Link className="Card_Btn Card_Btn_More_Info" href={item.pageLink}>
                                 Mais Informações

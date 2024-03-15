@@ -58,45 +58,51 @@ export default function Home() {
                                 {t.landingPage.sections.contact.title}
                             </h2>
 
-                            <div className="Contact_Card">
-                                <p className="Contact_CallToAction">Sinta-se a vontade para entrar em contato!</p>
-                                <p className="Contact_CallToAction">
-                                    Estamos de prontidão para responder suas dúvidas, atender pedidos e encomendar chocolates especiais e
-                                    personalizados!
-                                </p>
+                            <div className="Contact_Content">
+                                <div className="Contact_Card">
+                                    <p className="Contact_CallToAction">Sinta-se a vontade para entrar em contato!</p>
+                                    <p className="Contact_CallToAction">
+                                        Estamos de prontidão para responder suas dúvidas, atender pedidos e encomendar chocolates especiais e
+                                        personalizados!
+                                    </p>
 
-                                <div className="Contact_Layout_Container">
-                                    <div className="Telephone Contact_Layout_Item" key={"contato_telefone"}>
-                                        <h3 className="Contact_Layout_Item_Title">{t.landingPage.sections.contact.telephone.title}</h3>
-                                        <p>(41) 999 999 999</p>
-                                    </div>
+                                    <div className="Contact_Layout_Container">
+                                        <div className="Telephone Contact_Layout_Item" key={"contato_telefone"}>
+                                            <h3 className="Contact_Layout_Item_Title">{t.landingPage.sections.contact.telephone.title}</h3>
+                                            <p>(41) 999 999 999</p>
+                                        </div>
 
-                                    <div className="Working_Hours Contact_Layout_Item" key={"contato_email"}>
-                                        <h3 className="Contact_Layout_Item_Title">Email</h3>
-                                        <p>contato@tropicalcacau.com</p>
-                                    </div>
+                                        <div className="Working_Hours Contact_Layout_Item" key={"contato_email"}>
+                                            <h3 className="Contact_Layout_Item_Title">Email</h3>
+                                            <p>contato@tropicalcacau.com</p>
+                                        </div>
 
-                                    <div className="Working_Hours Contact_Layout_Item">
-                                        <h3 key={t.landingPage.sections.contact.functioningHours.title} className="Contact_Layout_Item_Title">
-                                            {t.landingPage.sections.contact.functioningHours.title}
-                                        </h3>
-                                        <p key={"schedule"}>{t.landingPage.sections.contact.functioningHours.schedule}</p>
+                                        <div className="Working_Hours Contact_Layout_Item">
+                                            <h3 key={t.landingPage.sections.contact.functioningHours.title} className="Contact_Layout_Item_Title">
+                                                {t.landingPage.sections.contact.functioningHours.title}
+                                            </h3>
+                                            <p key={"schedule"}>{t.landingPage.sections.contact.functioningHours.schedule}</p>
+                                        </div>
+
+                                        <div className="Working_Hours Contact_Layout_Item">
+                                            <h3 key={t.landingPage.sections.contact.functioningHours.title} className="Contact_Layout_Item_Title">
+                                                Endereço
+                                            </h3>
+                                            <p key={"schedule"}>
+                                                Rua Francisco Camargo, nº 262 - Apto 01 <br></br> Colombo - PR - Brasil
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div className="Working_Hours Contact_Layout_Item Adress_Item">
-                                <h1 className="Adress_Title">{t.landingPage.sections.contact.adress.title}</h1>
-                                <p>{t.landingPage.sections.contact.adress.adress}</p>
+                                <iframe
+                                    title="Mapa de localização da Chocolateria Tropical Cacau"
+                                    className="Map"
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBoWxQtCEHcm-AqgB3fjGveoXqVgy8g9pI&q=Rua+Franscisco+Camargo,+262,+Colombo+-+PR+-+Brasil"
+                                    allowFullScreen
+                                ></iframe>
                             </div>
-
-                            <iframe
-                                title="Mapa de localização da Chocolateria Tropical Cacau"
-                                className="Map"
-                                referrerPolicy="no-referrer-when-downgrade"
-                                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBoWxQtCEHcm-AqgB3fjGveoXqVgy8g9pI&q=Rua+Franscisco+Camargo,+262,+Colombo+-+PR+-+Brasil"
-                                allowFullScreen
-                            ></iframe>
                         </div>
                     </section>
                 </main>

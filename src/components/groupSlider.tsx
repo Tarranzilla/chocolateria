@@ -57,6 +57,15 @@ export default function GroupSlider() {
     return (
         <div className="GroupSlider">
             <div className="GroupSlider_Header">
+                <h2
+                    className="GroupSlider_Class"
+                    onClick={() => {
+                        setActiveProducts(products);
+                    }}
+                >
+                    Todos
+                </h2>
+
                 {productCategories.map((category, index) => (
                     <h2
                         key={index}
