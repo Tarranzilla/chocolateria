@@ -14,7 +14,94 @@ import Navbar from "@/components/Navbar";
 import Cart from "@/components/Cart";
 import Footer from "@/components/Footer";
 
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { initializeAuth, browserSessionPersistence } from "firebase/auth";
+import { getFirestore, collection, query, where, doc, getDocs, addDoc, Firestore } from "firebase/firestore";
+import { useEffect } from "react";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+    apiKey: "AIzaSyDeiia7aGI9U1c-IYIUEgaIlh2fvXyIJ8g",
+    authDomain: "pragmatas-dev.firebaseapp.com",
+    projectId: "pragmatas-dev",
+    storageBucket: "pragmatas-dev.appspot.com",
+    messagingSenderId: "378425065259",
+    appId: "1:378425065259:web:9b729d86bae46f5cdf0f6e",
+    measurementId: "G-1RVSKZH43N",
+};
+
+import productList from "@/content_lists/product_list";
+
+// Initialize Firebase
+
+async function getProducts() {}
+
+async function getProject(db: Firestore) {
+    const request = collection(db, "projects");
+    const projects = await getDocs(request);
+
+    projects.forEach(async (doc) => {
+        console.log(doc.id, " => ", doc.data());
+        console.log("doc ref =>", doc.ref);
+
+        const docId = doc.id;
+        const docData = doc.data();
+        const docRef = doc.ref;
+
+        // Fetch 'products' subcollection for each project
+        const productsCollection = collection(docRef, "products");
+        const productsSnapshot = await getDocs(productsCollection);
+        const products = productsSnapshot.docs.map((doc) => doc.data());
+
+        console.log("Products:", products);
+
+        return {
+            id: docId,
+            data: docData,
+            ref: docRef,
+            products: products, // Include products in the returned object
+        };
+    });
+}
+
+async function addProduct(db: Firestore, projectId: string, product: any) {
+    // Get a reference to the 'products' collection inside the project document
+    const productsCollection = collection(db, "projects", projectId, "products");
+
+    // Create a query against the collection.
+    const q = query(productsCollection, where("title", "==", product.title));
+
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.empty) {
+        // Add a new document to the 'products' collection
+        const docRef = await addDoc(productsCollection, product);
+        console.log("Product added with ID:", docRef.id);
+    } else {
+        console.log("Product already exists");
+    }
+}
+
 export default function App({ Component, pageProps }: AppProps) {
+    useEffect(() => {
+        const app = initializeApp(firebaseConfig);
+        const analytics = getAnalytics(app);
+        const db = getFirestore(app);
+
+        const auth = initializeAuth(app, {
+            persistence: browserSessionPersistence,
+            popupRedirectResolver: undefined,
+        });
+        getProject(db);
+
+        // Add a product
+        // addProduct(db, "WIlxTvYLd20rFopeFTZT", productList[0]);
+    }, []);
+
     return (
         <>
             <Analytics />

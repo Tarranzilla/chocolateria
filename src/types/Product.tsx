@@ -4,18 +4,20 @@ type Product = {
     type: string;
     variant?: string;
 
+    availableForSale: boolean;
+    isPromoted: boolean;
+    showInStore: boolean;
+
+    stockQtty: number;
+
     title: string;
     subtitle: string;
     description: string[];
     price: number;
     weight: string;
 
-    ingredients: string[];
-    imgSrc: string;
-    size: {
-        width: number;
-        height: number;
-    };
+    ingredients: ProductIngredient[];
+    imgSrc: WebImg[];
     pageLink: string;
 };
 
@@ -25,4 +27,17 @@ export type Product_Category = {
     key: string;
     name: string;
     types: string[];
+};
+
+export type WebImg = {
+    src: string;
+    alt: string;
+    width: number;
+    height: number;
+};
+
+export type ProductIngredient = {
+    key: string;
+    name: string;
+    description: string[];
 };

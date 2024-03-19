@@ -40,7 +40,7 @@ export default function CardGrid({ content, order }: CardGridProps) {
                         transition={{ duration: 0.5 }}
                     >
                         <div className="Card Expertise_Card">
-                            <Image src={item.imgSrc} alt={item.title} width={item.size.width} height={item.size.height} />
+                            <Image src={item.imgSrc[0].src} alt={item.imgSrc[0].alt} width={item.imgSrc[0].width} height={item.imgSrc[0].height} />
                             <div className="Card_Header">
                                 <h2 className="Card_Title">{item.title}</h2>
 

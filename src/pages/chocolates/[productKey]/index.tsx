@@ -111,27 +111,9 @@ export default function ExpertiseDetail({ product }: { product: Product }) {
                         <h3 className="Product_Page_Header_Info">{product.category}</h3>
                     </div>
                     <div className="Product_Page_Image_Container">
-                        <Image
-                            className="Product_Page_Image"
-                            src={product.imgSrc}
-                            alt={product.title}
-                            width={product.size.width}
-                            height={product.size.height}
-                        />
-                        <Image
-                            className="Product_Page_Image"
-                            src={product.imgSrc}
-                            alt={product.title}
-                            width={product.size.width}
-                            height={product.size.height}
-                        />
-                        <Image
-                            className="Product_Page_Image"
-                            src={product.imgSrc}
-                            alt={product.title}
-                            width={product.size.width}
-                            height={product.size.height}
-                        />
+                        {product.imgSrc.map((img, index) => (
+                            <Image key={index} className="Product_Page_Image" src={img.src} alt={img.alt} width={img.width} height={img.height} />
+                        ))}
                     </div>
 
                     <p className="Product_Page_Description">{product.description}</p>
@@ -142,7 +124,10 @@ export default function ExpertiseDetail({ product }: { product: Product }) {
                             <div className="Ingredient_List">
                                 {product.ingredients.map((ingredient, index) => (
                                     <div className="Ingredient" key={index}>
-                                        <h4>{ingredient}</h4>
+                                        <h4>{ingredient.name}</h4>
+                                        {ingredient.description.map((line, index) => (
+                                            <p key={index}>{line}</p>
+                                        ))}
                                     </div>
                                 ))}
                             </div>
