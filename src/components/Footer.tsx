@@ -58,7 +58,7 @@ export default function Footer() {
                         title={t.footer.scheduleBtn.label}
                     >
                         {cartItemsTotalAmmount > 0 && <span className="Footer_Badge">{cartItemsTotalAmmount}</span>}
-                        <span className="Footer_Icon material-icons">shopping_cart</span>
+                        <span className="Footer_Icon material-icons">shopping_basket</span>
                     </div>
                     <div className="Footer_Btn Phone_Btn" title={t.footer.telephoneBtn.label}>
                         <Link href="tel:+1234567890">

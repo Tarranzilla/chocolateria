@@ -31,7 +31,7 @@ const productList: Product[] = [
             width: 400,
             height: 400,
         },
-        pageLink: "/caminho/para/a/pagina",
+        pageLink: "/chocolates/ovo-caramelo-amendoim",
     },
     {
         key: "ovo-pistache",
@@ -48,7 +48,7 @@ const productList: Product[] = [
             width: 400,
             height: 400,
         },
-        pageLink: "/caminho/para/a/pagina",
+        pageLink: "/chocolates/ovo-pistache",
     },
     {
         key: "ovo-tropical-minas",
@@ -65,7 +65,7 @@ const productList: Product[] = [
             width: 400,
             height: 400,
         },
-        pageLink: "/caminho/para/a/pagina",
+        pageLink: "/chocolates/ovo-tropical-minas",
     },
     {
         key: "mini-ovo",
@@ -85,7 +85,7 @@ const productList: Product[] = [
             width: 400,
             height: 400,
         },
-        pageLink: "/caminho/para/a/pagina",
+        pageLink: "/chocolates/mini-ovo",
     },
     {
         key: "ovo-cookies-nutella",
@@ -102,7 +102,7 @@ const productList: Product[] = [
             width: 400,
             height: 400,
         },
-        pageLink: "/caminho/para/a/pagina",
+        pageLink: "/chocolates/ovo-cookies-nutella",
     },
     {
         key: "ovo-tropical-maravilha",
@@ -119,7 +119,7 @@ const productList: Product[] = [
             width: 400,
             height: 400,
         },
-        pageLink: "/caminho/para/a/pagina",
+        pageLink: "/chocolates/ovo-tropical-maravilha",
     },
     {
         key: "ovo-tropical-amazonas",
@@ -136,7 +136,7 @@ const productList: Product[] = [
             width: 400,
             height: 400,
         },
-        pageLink: "/caminho/para/a/pagina",
+        pageLink: "/chocolates/ovo-tropical-amazonas",
     },
     {
         key: "ovo-tropical-parana-amazonas",
@@ -156,7 +156,7 @@ const productList: Product[] = [
             width: 400,
             height: 400,
         },
-        pageLink: "/caminho/para/a/pagina",
+        pageLink: "/chocolates/ovo-tropical-parana-amazonas",
     },
     {
         key: "ovo-tropical-parana",
@@ -173,7 +173,7 @@ const productList: Product[] = [
             width: 400,
             height: 400,
         },
-        pageLink: "/caminho/para/a/pagina",
+        pageLink: "/chocolates/ovo-tropical-parana",
     },
     {
         key: "ovo-tropical-rio",
@@ -190,7 +190,7 @@ const productList: Product[] = [
             width: 400,
             height: 400,
         },
-        pageLink: "/caminho/para/a/pagina",
+        pageLink: "/chocolates/ovo-tropical-rio",
     },
     {
         key: "ovo-tropical-sampa",
@@ -207,7 +207,7 @@ const productList: Product[] = [
             width: 400,
             height: 400,
         },
-        pageLink: "/caminho/para/a/pagina",
+        pageLink: "/chocolates/ovo-tropical-sampa",
     },
     {
         key: "tropical-amazonas-barra",
@@ -224,7 +224,7 @@ const productList: Product[] = [
             width: 400,
             height: 400,
         },
-        pageLink: "/caminho/para/a/pagina",
+        pageLink: "/chocolates/tropical-amazonas-barra",
     },
     {
         key: "tropical-rio-barra",
@@ -241,7 +241,7 @@ const productList: Product[] = [
             width: 400,
             height: 400,
         },
-        pageLink: "/caminho/para/a/pagina",
+        pageLink: "/chocolates/tropical-rio-barra",
     },
     {
         key: "tropical-minas-barra",
@@ -258,7 +258,7 @@ const productList: Product[] = [
             width: 400,
             height: 400,
         },
-        pageLink: "/caminho/para/a/pagina",
+        pageLink: "/chocolates/tropical-minas-barra",
     },
     {
         key: "tropical-sampa-barra",
@@ -275,7 +275,7 @@ const productList: Product[] = [
             width: 400,
             height: 400,
         },
-        pageLink: "/caminho/para/a/pagina",
+        pageLink: "/chocolates/tropical-sampa-barra",
     },
     {
         key: "tropical-bahia-barra",
@@ -292,7 +292,7 @@ const productList: Product[] = [
             width: 400,
             height: 400,
         },
-        pageLink: "/caminho/para/a/pagina",
+        pageLink: "/chocolates/tropical-bahia-barra",
     },
     {
         key: "tropical-parana-barra",
@@ -309,7 +309,7 @@ const productList: Product[] = [
             width: 400,
             height: 400,
         },
-        pageLink: "/caminho/para/a/pagina",
+        pageLink: "/chocolates/tropical-parana-barra",
     },
 ];
 

@@ -59,12 +59,14 @@ export default function CardGrid({ content, order }: CardGridProps) {
                                         addToCartAction(item as Product);
                                     }}
                                 >
-                                    Adicionar ao Carrinho
+                                    Adicionar à Cesta
+                                    <span className="material-icons">shopping_basket</span>
                                     {getCartItemAmmount(item.key) > 0 ? ` (${getCartItemAmmount(item.key)})` : ""}
                                 </button>
                             </div>
 
                             <Link className="Card_Btn Card_Btn_More_Info" href={item.pageLink}>
+                                <span className="material-icons">style</span>
                                 Mais Informações
                             </Link>
                         </div>
