@@ -146,7 +146,7 @@ export default function Cart() {
                                         <div key={index} className="Cart_List_Item">
                                             <div className="Cart_Item_Content">
                                                 <div className="Cart_Item_Image_Container">
-                                                    <img className="Cart_Item_Image" src={item.imgSrc} alt={item.title} />
+                                                    <img className="Cart_Item_Image" src={item.imgSrc[0].src} alt={item.title} />
                                                 </div>
                                                 <div className="Cart_Item_Details">
                                                     <h2 className="Cart_Item_Title">{item.title}</h2>

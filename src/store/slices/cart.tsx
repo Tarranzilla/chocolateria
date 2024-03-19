@@ -62,7 +62,7 @@ const cartSlice = createSlice({
                         id: product.key,
                         price: product.price,
                         quantity: 1,
-                        bannerImage: product.imgSrc,
+                        bannerImage: product.imgSrc[0].src,
                         variant,
                     });
                 }
