@@ -1435,6 +1435,7 @@ p {
     gap: var(--large-gap);
     padding-inline: var(--medium-gap);
     padding-bottom: var(--normal-gap);
+    margin-inline: auto;
     height: 3.2rem;
 
     overflow-y: auto;

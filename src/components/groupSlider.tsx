@@ -16,6 +16,8 @@ export default function GroupSlider() {
     const [activeOrder, setActiveOrder] = useState("Default_Grid_Order");
     const [activeProducts, setActiveProducts] = useState(products);
 
+    const [allIsSelected, setAllIsSelected] = useState(false);
+
     const [filterState, setFilterState] = useState("default");
 
     function sortByLowestPrice(a: Product, b: Product): number {
@@ -58,9 +60,10 @@ export default function GroupSlider() {
         <div className="GroupSlider">
             <div className="GroupSlider_Header">
                 <h2
-                    className="GroupSlider_Class"
+                    className={allIsSelected ? "GroupSlider_Class Active_Class" : "GroupSlider_Class"}
                     onClick={() => {
                         setActiveProducts(products);
+                        setAllIsSelected(true);
                     }}
                 >
                     Todos
@@ -69,10 +72,11 @@ export default function GroupSlider() {
                 {productCategories.map((category, index) => (
                     <h2
                         key={index}
-                        className={`GroupSlider_Class ${activeCategory.key === category.key ? "Active_Class" : ""}`}
+                        className={`GroupSlider_Class ${activeCategory.key === category.key && !allIsSelected ? "Active_Class" : ""}`}
                         onClick={() => {
                             setActiveCategory(category);
                             setActiveType(category.types[0]);
+                            setAllIsSelected(false);
                         }}
                     >
                         {category.name}
@@ -81,13 +85,19 @@ export default function GroupSlider() {
             </div>
 
             <div className="GroupSlider_Filter">
-                <div className="Filter_Types">
-                    {activeCategory.types.map((type, index) => (
-                        <div key={index} className={`Filter_Type ${activeType === type ? "Active_Type" : ""}`} onClick={() => setActiveType(type)}>
-                            {type}
-                        </div>
-                    ))}
-                </div>
+                {!allIsSelected && (
+                    <div className="Filter_Types">
+                        {activeCategory.types.map((type, index) => (
+                            <div
+                                key={index}
+                                className={`Filter_Type ${activeType === type ? "Active_Type" : ""}`}
+                                onClick={() => setActiveType(type)}
+                            >
+                                {type}
+                            </div>
+                        ))}
+                    </div>
+                )}
 
                 <div className="Filter_Price_Range">
                     <button className="Filter_Price_Btn" onClick={handleSortByHighestPrice}>
