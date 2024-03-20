@@ -14,14 +14,20 @@ import Navbar from "@/components/Navbar";
 import Cart from "@/components/Cart";
 import Footer from "@/components/Footer";
 
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { initializeAuth, browserSessionPersistence } from "firebase/auth";
+import {
+    initializeAuth,
+    browserSessionPersistence,
+    getAuth,
+    GoogleAuthProvider,
+    signInWithPopup,
+    createUserWithEmailAndPassword,
+} from "firebase/auth";
 import { getFirestore, collection, query, where, doc, getDocs, addDoc, Firestore } from "firebase/firestore";
 import { useEffect } from "react";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+
+import productList from "@/content_lists/product_list";
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -34,12 +40,6 @@ const firebaseConfig = {
     appId: "1:378425065259:web:9b729d86bae46f5cdf0f6e",
     measurementId: "G-1RVSKZH43N",
 };
-
-import productList from "@/content_lists/product_list";
-
-// Initialize Firebase
-
-async function getProducts() {}
 
 async function getProject(db: Firestore) {
     const request = collection(db, "projects");
@@ -58,13 +58,13 @@ async function getProject(db: Firestore) {
         const productsSnapshot = await getDocs(productsCollection);
         const products = productsSnapshot.docs.map((doc) => doc.data());
 
-        console.log("Products:", products);
+        console.log("Products =>", products);
 
         return {
             id: docId,
             data: docData,
             ref: docRef,
-            products: products, // Include products in the returned object
+            products: products,
         };
     });
 }
@@ -91,11 +91,16 @@ export default function App({ Component, pageProps }: AppProps) {
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         const db = getFirestore(app);
+        const auth = getAuth(app);
 
-        const auth = initializeAuth(app, {
-            persistence: browserSessionPersistence,
-            popupRedirectResolver: undefined,
-        });
+        console.log("Firebase App =>", app);
+        console.log("Firebase Analytics =>", analytics);
+        console.log("Firebase Firestore =>", db);
+        console.log("Firebase Auth =>", auth);
+
+        console.log("Firebase app fully initialized");
+
+        console.log("Fetching specific all projects data...");
         getProject(db);
 
         // Add a product

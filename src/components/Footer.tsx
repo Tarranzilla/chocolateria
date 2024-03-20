@@ -30,6 +30,9 @@ export default function Footer() {
         dispatch(toggleCartOpen());
     };
 
+    const isUserPageActive = router.pathname === "/usuario";
+    const btnClassUser = isUserPageActive ? "Footer_Btn Email_Btn active" : "Footer_Btn Email_Btn";
+
     return (
         <div className="Footer">
             <div className="Footer_Content">
@@ -52,6 +55,11 @@ export default function Footer() {
                 <p className="Desktop_Only">© 2024 Tropical Cacau</p>
 
                 <div className="Footer_Actions">
+                    <div className={btnClassUser} title={t.footer.emailBtn.label}>
+                        <Link href="/usuario">
+                            <span className="Footer_Icon material-icons">person_pin</span>
+                        </Link>
+                    </div>
                     <div
                         onClick={toggleCartAction}
                         className={isCartOpen ? "Footer_Btn Footer_Cart_Btn Active" : "Footer_Btn Footer_Cart_Btn"}

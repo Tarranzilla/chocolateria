@@ -1685,6 +1685,11 @@ p {
     cursor: pointer;
 }
 
+.Footer_Btn.active > a > .Footer_Icon {
+    color: white;
+    font-size: 2rem;
+}
+
 .Footer_Badge {
     background-color: #dc3545;
     width: 1.5rem;
@@ -1738,6 +1743,195 @@ p {
 .Lang_Btn:focus-within > .Footer_Icon {
     color: white;
     scale: 1.1;
+}
+
+/* USUÁRIO  */
+
+.User_Page_Title {
+    font-family: var(--special-font);
+    letter-spacing: 0.25rem;
+    font-size: 2rem;
+    padding-bottom: var(--medium-gap);
+    border-bottom: 1px solid var(--text-color);
+    text-align: center;
+}
+
+.User_Login_Container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--medium-gap);
+}
+
+.User_Email_Login {
+    display: flex;
+    flex-direction: column;
+    gap: var(--normal-gap);
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--text-color);
+    padding: var(--normal-gap);
+    border-radius: var(--border-radius);
+}
+
+.User_Login_Input {
+    padding: var(--medium-gap) var(--large-gap);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 500;
+    transition: font-size 0.3s ease, background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--normal-gap);
+    font-size: 1rem;
+    width: 100%;
+    max-width: 24rem;
+}
+
+.User_Login_Btn {
+    padding: var(--medium-gap) var(--medium-gap);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 500;
+    transition: font-size 0.3s ease, background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--normal-gap);
+    font-size: 1rem;
+    width: 100%;
+    max-width: 24rem;
+}
+
+.User_Container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--medium-gap);
+    margin-inline: auto;
+    max-width: 1000px;
+}
+
+.User_Image {
+    border-radius: var(--border-radius);
+    width: 128px;
+    height: 128px;
+    object-fit: cover;
+}
+
+.User_No_Image {
+    font-size: 8rem;
+}
+
+.User_Main_Info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--small-gap);
+}
+
+.User_Adress_Info {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--normal-gap);
+}
+
+.User_Order_Info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--small-gap);
+}
+
+.User_Order_Item,
+.User_Info_Item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--normal-gap);
+    min-width: 10rem;
+    background: var(--text-color);
+    color: var(--bg-color);
+    padding: var(--normal-gap) var(--medium-gap);
+    border-radius: var(--border-radius);
+    flex-grow: 1;
+}
+
+.User_Info_Label {
+    font-family: var(--special-font);
+    letter-spacing: 0.15rem;
+    font-size: 1rem;
+}
+
+.User_Info_Detail {
+    font-size: 0.9rem;
+}
+
+.User_Btn {
+    padding: var(--medium-gap) var(--medium-gap);
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 500;
+    transition: font-size 0.3s ease, background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--normal-gap);
+    font-size: 1rem;
+    width: 100%;
+    max-width: 24rem;
+}
+
+.User_Google_Login_Btn {
+    padding: var(--medium-gap) var(--medium-gap);
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 500;
+    transition: font-size 0.3s ease, background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--normal-gap);
+    font-size: 1rem;
+    width: 100%;
+    max-width: 24rem;
+}
+
+.Order_SeeMore_Btn {
+    padding: var(--small-gap) var(--medium-gap);
+    background-color: rgb(202, 202, 202);
+    color: var(--bg-color);
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 500;
+    transition: font-size 0.3s ease, background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--normal-gap);
+    font-size: 1rem;
+    width: 100%;
+    max-width: 24rem;
 }
 
 /* MEDIA QUERIES */
