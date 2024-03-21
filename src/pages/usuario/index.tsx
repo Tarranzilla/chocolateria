@@ -4,6 +4,9 @@ import { useState, useEffect } from "react";
 
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { getFirestore, doc, setDoc, getDoc, DocumentData, Timestamp } from "firebase/firestore";
+
+import { useFirebase } from "@/components/FirebaseContext";
+
 import Head from "next/head";
 import { useSimpleTranslation } from "@/international/useSimpleTranslation";
 
@@ -36,6 +39,14 @@ type OrderProduct = {
 };
 
 export default function Usuario() {
+    const firebase = useFirebase();
+
+    if (!firebase) {
+        throw new Error("Firebase context is not available");
+    }
+
+    const { auth, firestore, storage } = firebase;
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [user, setUser] = useState<User | null>(null);
@@ -313,7 +324,7 @@ export default function Usuario() {
                                         <input
                                             className="User_Info_Input"
                                             type="text"
-                                            placeholder="Nova Cidade"
+                                            placeholder="Nova Rua"
                                             value={editedAddress.street}
                                             onChange={(e) => handleAddressChange("street", e.target.value)}
                                         />
@@ -339,6 +350,46 @@ export default function Usuario() {
                                         onClick={() => {
                                             setIsAddressEdited(true);
                                             setIsEditing({ ...isEditing, street: true });
+                                        }}
+                                    >
+                                        edit
+                                    </span>
+                                )}
+                            </div>
+
+                            <div className="User_Info_Item">
+                                <div className="Info_Item_Text">
+                                    <p className="User_Info_Label">Número</p>
+                                    {isEditing.number ? (
+                                        <input
+                                            className="User_Info_Input"
+                                            type="text"
+                                            placeholder="Novo Número"
+                                            value={editedAddress.number}
+                                            onChange={(e) => handleAddressChange("number", e.target.value)}
+                                        />
+                                    ) : (
+                                        <p className="User_Info_Detail User_City">
+                                            {editedAddress.number !== address.number ? `${editedAddress.number}*` : address.number}
+                                        </p>
+                                    )}
+                                </div>
+
+                                {isEditing.number ? (
+                                    <span
+                                        className="material-icons"
+                                        onClick={() => {
+                                            setIsEditing({ ...isEditing, number: false });
+                                        }}
+                                    >
+                                        save
+                                    </span>
+                                ) : (
+                                    <span
+                                        className="material-icons"
+                                        onClick={() => {
+                                            setIsAddressEdited(true);
+                                            setIsEditing({ ...isEditing, number: true });
                                         }}
                                     >
                                         edit

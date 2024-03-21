@@ -3,7 +3,7 @@ import Banner from "@/types/Banner";
 const bannerList: Banner[] = [
     {
         key: "banner1",
-        title: "Chocolates feitos com ingredientes orgânicos e sustentáveis",
+        title: "Chocolates Orgânicos e Sustentáveis",
         subtitle: "Experimente já e se apaixone por nossos sabores únicos e inesquecíveis!",
         imgSrc: "/brand_imgs/dalle1.png",
         size: {

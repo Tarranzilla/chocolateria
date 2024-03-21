@@ -369,6 +369,49 @@ p {
 
 .Checkout_Card_OrderNumber_Content {
     text-align: center;
+    font-size: 1rem;
+}
+
+.Checkout_User {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--normal-gap);
+}
+
+.Checkout_User_Info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--small-gap);
+}
+
+.Checkout_User_Adress_Detail {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: var(--small-gap);
+}
+
+.Checkout_User_Info p {
+    font-size: 0.9rem;
+}
+
+.Shipping_Map_Btn {
+    padding: var(--small-gap) var(--medium-gap);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 500;
+    transition: font-size 0.3s ease, background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--normal-gap);
+    font-size: 0.8rem;
+    margin-inline: auto;
 }
 
 .Checkout_Shipping_Options {
@@ -381,6 +424,29 @@ p {
     display: flex;
     align-items: center;
     gap: var(--normal-gap);
+}
+
+.Checkout_Shipping_Option.Disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.Disabled_Shipping_Message {
+    display: flex;
+    align-items: center;
+    gap: var(--normal-gap);
+    font-size: 0.9rem;
+}
+
+.Disabled_Shipping_Text {
+    font-size: 0.9rem;
+    gap: 0.25rem;
+}
+
+.Disabled_Shipping_Link {
+    display: inline;
+    text-decoration: underline;
+    text-underline-offset: 0.15rem;
 }
 
 .Shipping_Icon {
@@ -545,7 +611,7 @@ p {
     justify-content: center;
     background-color: var(--bg-color-faded-50);
     backdrop-filter: blur(5px);
-    z-index: 5;
+    z-index: 6;
     padding: var(--large-gap);
 }
 
@@ -926,7 +992,7 @@ p {
 .Banner_Title {
     z-index: 2;
     font-family: var(--special-font);
-    font-size: clamp(1.4rem, 4vw, 2.8rem);
+    font-size: clamp(2rem, 4vw, 2.8rem);
     font-weight: 800;
     letter-spacing: 0.25rem;
     color: white;
@@ -1641,9 +1707,12 @@ p {
     width: 100%;
     border: none;
     border-radius: 0.5rem;
-    border: 0.5rem solid var(--text-color);
-    outline: 0.5rem solid var(--text-color);
-    outline-offset: -0.5rem;
+    padding: 1rem;
+    background-color: var(--text-color);
+}
+
+#mapDiv {
+    border-radius: var(--normal-gap);
 }
 
 /* FOOTER */

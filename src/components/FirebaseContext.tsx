@@ -1,19 +1,10 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
+
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { FirebaseStorage, getStorage } from "firebase/storage";
-import { ReactNode } from "react";
-
-import {
-    initializeAuth,
-    browserSessionPersistence,
-    Auth,
-    getAuth,
-    GoogleAuthProvider,
-    signInWithPopup,
-    createUserWithEmailAndPassword,
-} from "firebase/auth";
-import { getFirestore, collection, query, where, doc, getDocs, addDoc, Firestore } from "firebase/firestore";
+import { Auth, getAuth, onAuthStateChanged } from "firebase/auth";
+import { getFirestore, Firestore } from "firebase/firestore";
 
 // Your Firebase configuration
 const firebaseConfig = {
@@ -31,9 +22,9 @@ interface FirebaseProviderProps {
 }
 
 interface FirebaseContextValue {
-    auth: Auth;
-    firestore: Firestore;
-    storage: FirebaseStorage;
+    auth: Auth | null;
+    firestore: Firestore | null;
+    storage: FirebaseStorage | null;
 }
 
 // Create a context for Firebase
@@ -43,12 +34,32 @@ const FirebaseContext = createContext<FirebaseContextValue | null>(null);
 export const FirebaseProvider = ({ children }: FirebaseProviderProps) => {
     const [firebaseInitialized, setFirebaseInitialized] = useState(false);
 
+    const [auth, setAuth] = useState<Auth | null>(null);
+    const [firestore, setFirestore] = useState<Firestore | null>(null);
+    const [storage, setStorage] = useState<FirebaseStorage | null>(null);
+
     useEffect(() => {
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         const db = getFirestore(app);
         const auth = getAuth(app);
         const storage = getStorage(app);
+
+        setAuth(getAuth(app));
+
+        onAuthStateChanged(auth, (user) => {
+            console.log("Auth state changed");
+            if (user) {
+                // User is signed in
+                console.log("User signed in: ", user);
+            } else {
+                // User is signed out
+                console.log("User signed out");
+            }
+        });
+
+        setFirestore(getFirestore(app));
+        setStorage(getStorage(app));
 
         console.log("Firebase App =>", app);
         console.log("Firebase Analytics =>", analytics);
@@ -60,10 +71,10 @@ export const FirebaseProvider = ({ children }: FirebaseProviderProps) => {
     }, []);
 
     if (!firebaseInitialized) {
-        return <div>Loading...</div>; // or your custom loading UI
+        return <div>Carregando Firebase...</div>; // or your custom loading UI
     }
 
-    return <FirebaseContext.Provider value={}>{children}</FirebaseContext.Provider>;
+    return <FirebaseContext.Provider value={{ auth, firestore, storage }}>{children}</FirebaseContext.Provider>;
 };
 
 // Create a hook to use Firebase

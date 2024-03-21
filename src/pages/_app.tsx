@@ -8,6 +8,8 @@ import { store } from "@/store/store";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
+import { FirebaseProvider } from "@/components/FirebaseContext";
+
 import Intro from "@/components/Intro";
 import Cookies from "@/components/Cookies";
 import Navbar from "@/components/Navbar";
@@ -112,16 +114,18 @@ export default function App({ Component, pageProps }: AppProps) {
             <Analytics />
             <SpeedInsights />
 
-            <Provider store={store}>
-                <Intro />
-                <Cookies />
-                <Navbar />
-                <Cart />
-                <AnimatePresence mode="wait">
-                    <Component {...pageProps} />
-                </AnimatePresence>
-                <Footer />
-            </Provider>
+            <FirebaseProvider>
+                <Provider store={store}>
+                    <Intro />
+                    <Cookies />
+                    <Navbar />
+                    <Cart />
+                    <AnimatePresence mode="wait">
+                        <Component {...pageProps} />
+                    </AnimatePresence>
+                    <Footer />
+                </Provider>
+            </FirebaseProvider>
         </>
     );
 }

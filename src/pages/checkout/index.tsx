@@ -12,6 +12,10 @@ import Link from "next/link";
 
 import { useSimpleTranslation } from "@/international/useSimpleTranslation";
 
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getFirestore, doc, setDoc, getDoc, DocumentData, Timestamp } from "firebase/firestore";
+import { set } from "firebase/database";
+
 const telephone = "5541999977955";
 
 export default function Checkout() {
@@ -46,6 +50,34 @@ export default function Checkout() {
 
     const handleOptionChange = (option: string) => {
         setShippingOption(option);
+    };
+
+    const [checkoutUser, setCheckoutUser] = useState({
+        name: "Anônimo",
+        email: "Nenhum email registrado",
+        tropicalID: "Tropical ID",
+    });
+
+    const [checkoutAdress, setCheckoutAdress] = useState({
+        street: "Nenhum Logradouro",
+        number: "Nenhum Número",
+        extra: "Nenhum Complemento",
+        city: "Nenhuma Cidade",
+        postalCode: "Nenhum CEP",
+    });
+
+    const [registeredUser, setRegisteredUser] = useState(false);
+
+    // Fetch the user's document from Firestore when the user logs in
+    const fetchUserAdress = async (uid: string) => {
+        const db = getFirestore();
+        const projectUID = "WIlxTvYLd20rFopeFTZT"; // Replace with your project's UID
+        const userDocRef = doc(db, `projects/${projectUID}/users`, uid);
+
+        const userDoc = await getDoc(userDocRef);
+        if (userDoc.exists()) {
+            setCheckoutAdress(userDoc.data().address);
+        }
     };
 
     const [complement, setComplement] = useState("Complemento");
@@ -112,6 +144,29 @@ export default function Checkout() {
     };
 
     useEffect(() => {
+        const auth = getAuth();
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log("User is signed in");
+                setCheckoutUser({
+                    name: user.displayName || "Sem Nome",
+                    email: user.email || "Sem Email",
+                    tropicalID: user.uid,
+                });
+
+                fetchUserAdress(user.uid);
+
+                setRegisteredUser(true);
+            } else {
+                console.log("User is not signed in");
+            }
+        });
+
+        // Cleanup function to unsubscribe from the listener when the component unmounts
+        return () => unsubscribe();
+    }, []);
+
+    useEffect(() => {
         if (cep.length === 8) {
             consultarCep(cep).then((response) => {
                 setStreet(response.logradouro);
@@ -151,6 +206,33 @@ export default function Checkout() {
                     <h2 className="Checkout_Card_OrderNumber">Número do Pedido</h2>
                     <h3 className="Checkout_Card_OrderNumber_Content">{mercadoPagoSlice.preferenceId}</h3>
                 </div>
+
+                <div className="Checkout_Card">
+                    <h2 className="Checkout_Card_OrderNumber">Perfil</h2>
+                    <div className="Checkout_User">
+                        <span className="material-icons User_No_Image">person_pin</span>
+                        <div className="Checkout_User_Info">
+                            <h3 className="Checkout_User_Name">{checkoutUser.name}</h3>
+                            <p className="Checkout_User_Email">{checkoutUser.email}</p>
+
+                            {!registeredUser && <p>Nenhum endereço registrado</p>}
+
+                            {registeredUser && (
+                                <>
+                                    <div className="Checkout_User_Adress_Detail">
+                                        <p className="Checkout_User_Street">{checkoutAdress.street}</p>
+                                        <p className="Checkout_User_Number">{checkoutAdress.number}</p>
+                                        <p className="Checkout_User_Complement">{checkoutAdress.extra}</p>
+                                    </div>
+
+                                    <p className="Checkout_User_City">{checkoutAdress.city}</p>
+                                    <p className="Checkout_User_PostalCode">{checkoutAdress.postalCode}</p>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
                 <div className="Checkout_Card Checkout_Shipping">
                     <h2 className="Checkout_Card_OrderNumber">Como você gostaria de receber o pedido?</h2>
                     <div className="Checkout_Shipping_Options">
@@ -162,12 +244,19 @@ export default function Checkout() {
                                 <p>Retire na loja</p>
                             </div>
 
+                            <a href="https://maps.app.goo.gl/xVtMm7faZSJDcnT57" target="_blank" rel="noopener noreferer" className="Shipping_Map_Btn">
+                                Ver no Mapa
+                            </a>
+
                             <div className="Shipping_Selector_Frame">
                                 {shippingOption === "Retirada" && <span className="material-icons">check_circle</span>}
                             </div>
                         </div>
 
-                        <div className="Checkout_Shipping_Option" onClick={() => handleOptionChange("Entrega")}>
+                        <div
+                            className={registeredUser ? "Checkout_Shipping_Option" : "Checkout_Shipping_Option Disabled"}
+                            onClick={() => handleOptionChange("Entrega")}
+                        >
                             <span className="material-icons Shipping_Icon">local_shipping</span>
 
                             <div className="Shipping_Content">
@@ -180,76 +269,22 @@ export default function Checkout() {
                             </div>
                         </div>
 
+                        {!registeredUser && (
+                            <p className="Disabled_Shipping_Message">
+                                <span className="material-icons">info</span>{" "}
+                                <p className="Disabled_Shipping_Text">
+                                    <Link href="/usuario" className="Disabled_Shipping_Link">
+                                        Faça login ou crie uma conta
+                                    </Link>{" "}
+                                    para habilitar a entrega!
+                                </p>
+                            </p>
+                        )}
+
                         {shippingOption === "Entrega" && (
                             <>
-                                <div className="Shipping_Input_Container">
-                                    <div className="Shipping_Input_Block">
-                                        <div className="Inputs_Wrapper">
-                                            <div className="Checkout_Input_Container Number_Input">
-                                                <div className="Checkout_Input_Label">
-                                                    <span className="material-icons">location_on</span>
-                                                    <label>CEP</label>
-                                                </div>
-                                                <input
-                                                    className="Shipping_Input"
-                                                    type="text"
-                                                    name="street"
-                                                    onChange={handleCepChange}
-                                                    placeholder="CEP"
-                                                    required
-                                                />
-                                            </div>
-
-                                            <div className="Checkout_Input_Container Number_Input">
-                                                <div className="Checkout_Input_Label">
-                                                    <span className="material-icons">location_on</span>
-                                                    <label>Número</label>
-                                                </div>
-
-                                                <input
-                                                    className="Shipping_Input"
-                                                    type="text"
-                                                    name="number"
-                                                    onChange={handleNumberChange}
-                                                    placeholder="Número"
-                                                    required
-                                                />
-                                            </div>
-
-                                            <div className="Checkout_Input_Container Number_Input">
-                                                <div className="Checkout_Input_Label">
-                                                    <span className="material-icons">location_on</span>
-                                                    <label>Complemento</label>
-                                                </div>
-
-                                                <input
-                                                    className="Shipping_Input"
-                                                    type="text"
-                                                    name="complement"
-                                                    onChange={handleComplementChange}
-                                                    placeholder="Complemento"
-                                                    required
-                                                />
-                                            </div>
-
-                                            <button className="Shipping_Calc_Btn" onClick={handleCalcularPrecoPrazo}>
-                                                Calcular Frete
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <div className="Shipping_Input_Block"></div>
-
-                                    {shippingOption === "Entrega" && (
-                                        <div className="Card_Subtopic Shipping_Adress_Result">
-                                            <p className="Shipping_Adress_Result_Item">{`${street}, ${number}, ${complement}`}</p>
-                                            <p className="Shipping_Adress_Result_Item">{`${city}, ${state}`}</p>
-                                        </div>
-                                    )}
-                                </div>
-
                                 <div className="Shipping_Costs Card_Subtopic">
-                                    <h3>Custo da Entrega</h3>
+                                    <h3>Valor da Entrega</h3>
                                     <p>R$ {shippingCost},00</p>
                                 </div>
                             </>
@@ -279,7 +314,7 @@ export default function Checkout() {
                     <div id="wallet_container" className="Wallet">
                         <Wallet
                             initialization={{ preferenceId: mercadoPagoSlice.preferenceId }}
-                            customization={{ texts: { valueProp: "smart_option" } }}
+                            customization={{ texts: { action: "buy", valueProp: "smart_option" } }}
                         />
                     </div>
                 </div>
