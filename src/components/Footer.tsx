@@ -6,7 +6,7 @@ import { useSimpleTranslation } from "@/international/useSimpleTranslation";
 
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/store";
-import { toggleCartOpen } from "@/store/slices/interface";
+import { toggleCartOpen, toggleUserTabOpen } from "@/store/slices/interface";
 
 export default function Footer() {
     const router = useRouter();
@@ -28,6 +28,12 @@ export default function Footer() {
 
     const toggleCartAction = () => {
         dispatch(toggleCartOpen());
+    };
+
+    const isUserTabOpen = useSelector((state: RootState) => state.interface.isUserTabOpen);
+
+    const toggleUserTabAction = () => {
+        dispatch(toggleUserTabOpen());
     };
 
     const isUserPageActive = router.pathname === "/usuario";
@@ -55,10 +61,8 @@ export default function Footer() {
                 <p className="Desktop_Only">© 2024 Tropical Cacau</p>
 
                 <div className="Footer_Actions">
-                    <div className={btnClassUser} title={t.footer.emailBtn.label}>
-                        <Link href="/usuario">
-                            <span className="Footer_Icon material-icons">person_pin</span>
-                        </Link>
+                    <div className={btnClassUser} title={t.footer.emailBtn.label} onClick={toggleUserTabAction}>
+                        <span className={isUserTabOpen ? "Footer_Icon material-icons Active" : "Footer_Icon material-icons"}>person_pin</span>
                     </div>
                     <div
                         onClick={toggleCartAction}

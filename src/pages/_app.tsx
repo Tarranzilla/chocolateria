@@ -15,6 +15,7 @@ import Cookies from "@/components/Cookies";
 import Navbar from "@/components/Navbar";
 import Cart from "@/components/Cart";
 import Footer from "@/components/Footer";
+import UserTab from "@/components/UserTab";
 
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
@@ -119,6 +120,7 @@ export default function App({ Component, pageProps }: AppProps) {
                     <Intro />
                     <Cookies />
                     <Navbar />
+                    <UserTab />
                     <Cart />
                     <AnimatePresence mode="wait">
                         <Component {...pageProps} />

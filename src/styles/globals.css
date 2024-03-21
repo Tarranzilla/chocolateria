@@ -339,6 +339,25 @@ p {
     padding-bottom: calc(var(--Footer-height) + 0.25rem);
     min-height: 100vh;
     margin-inline: auto;
+    width: 100%;
+    max-width: 1000px;
+}
+
+.UserTab {
+    z-index: 5;
+    background-color: var(--bg-color-faded-50);
+    backdrop-filter: blur(5px);
+    top: var(--Navbar-height);
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    gap: var(--large-gap);
+    padding-inline: var(--medium-gap);
+    padding-block: var(--medium-gap);
+    height: var(--Content-height);
+    overflow-y: auto;
+    margin-inline: auto;
+    width: 100%;
     max-width: 1000px;
 }
 
@@ -1662,7 +1681,7 @@ p {
 
 .Contact_Card {
     width: 100%;
-    max-width: 600px;
+    max-width: 450px;
 
     margin-inline: auto;
 
@@ -1721,10 +1740,12 @@ p {
 .Map {
     height: 500px;
     width: 100%;
+    max-width: 450px;
     border: none;
     border-radius: 0.5rem;
     padding: 1rem;
     background-color: var(--text-color);
+    margin-inline: auto;
 }
 
 #mapDiv {
@@ -1764,10 +1785,20 @@ p {
     gap: var(--medium-gap);
 }
 
+.Footer_Btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .Footer_Btn > * {
     text-decoration: none;
     color: var(--text-color);
     cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .Footer_Btn.active > a > .Footer_Icon {
@@ -1814,6 +1845,11 @@ p {
 .Footer_Icon {
     color: var(--text-color);
     transition: font-size 0.3s ease, color 0.3s ease, scale 0.3s ease;
+}
+
+.Footer_Icon.Active {
+    color: white;
+    font-size: 2rem;
 }
 
 .Footer_Icon:focus-within,
