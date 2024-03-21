@@ -7,10 +7,20 @@ import { motion as m, AnimatePresence } from "framer-motion";
 import { useSimpleTranslation } from "@/international/useSimpleTranslation";
 import { useRouter } from "next/router";
 
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/store/store";
+import { toggleMenuOpen } from "@/store/slices/interface";
+
 export default function Navbar() {
+    const dispatch = useDispatch();
+    const isMenuOpen = useSelector((state: RootState) => state.interface.isMenuOpen);
+
+    const toggleMenuAction = () => {
+        dispatch(toggleMenuOpen());
+    };
+
     const router = useRouter();
     const t = useSimpleTranslation();
-    const [menuOpen, setMenuOpen] = useState(false);
 
     const changeLanguage = () => {
         const currentLocale = router.locale;
@@ -42,9 +52,9 @@ export default function Navbar() {
                     <div className="Menu_Container Mobile_Only">
                         <span
                             onClick={() => {
-                                setMenuOpen(!menuOpen);
+                                toggleMenuAction();
                             }}
-                            className="material-icons"
+                            className={isMenuOpen ? "material-icons Menu_Icon Active" : "Menu_Icon material-icons"}
                         >
                             menu_book
                         </span>
@@ -53,7 +63,7 @@ export default function Navbar() {
             </div>
 
             <AnimatePresence>
-                {menuOpen && (
+                {isMenuOpen && (
                     <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="Menu">
                         <div className="Search_Bar">
                             <input className="Search_Bar_Input" type="text" placeholder="Digite aqui o que busca" />
@@ -71,7 +81,7 @@ export default function Navbar() {
                                             className=""
                                             href={link.path}
                                             onClick={() => {
-                                                setMenuOpen(false);
+                                                toggleMenuAction();
                                             }}
                                         >
                                             {link.name}

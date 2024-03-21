@@ -58,30 +58,32 @@ export default function GroupSlider() {
 
     return (
         <div className="GroupSlider">
-            <div className="GroupSlider_Header">
-                <h2
-                    className={allIsSelected ? "GroupSlider_Class Active_Class" : "GroupSlider_Class"}
-                    onClick={() => {
-                        setActiveProducts(products);
-                        setAllIsSelected(true);
-                    }}
-                >
-                    Todos
-                </h2>
-
-                {productCategories.map((category, index) => (
+            <div className="GroupSlider_Header_Wrapper">
+                <div className="GroupSlider_Header">
                     <h2
-                        key={index}
-                        className={`GroupSlider_Class ${activeCategory.key === category.key && !allIsSelected ? "Active_Class" : ""}`}
+                        className={allIsSelected ? "GroupSlider_Class Active_Class" : "GroupSlider_Class"}
                         onClick={() => {
-                            setActiveCategory(category);
-                            setActiveType(category.types[0]);
-                            setAllIsSelected(false);
+                            setActiveProducts(products);
+                            setAllIsSelected(true);
                         }}
                     >
-                        {category.name}
+                        Todos
                     </h2>
-                ))}
+
+                    {productCategories.map((category, index) => (
+                        <h2
+                            key={index}
+                            className={`GroupSlider_Class ${activeCategory.key === category.key && !allIsSelected ? "Active_Class" : ""}`}
+                            onClick={() => {
+                                setActiveCategory(category);
+                                setActiveType(category.types[0]);
+                                setAllIsSelected(false);
+                            }}
+                        >
+                            {category.name}
+                        </h2>
+                    ))}
+                </div>
             </div>
 
             <div className="GroupSlider_Filter">
