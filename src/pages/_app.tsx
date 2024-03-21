@@ -100,8 +100,8 @@ export default function App({ Component, pageProps }: AppProps) {
 
         console.log("Firebase app fully initialized");
 
-        console.log("Fetching specific all projects data...");
-        getProject(db);
+        // console.log("Fetching specific all projects data...");
+        // getProject(db);
 
         // Add a product
         // addProduct(db, "WIlxTvYLd20rFopeFTZT", productList[0]);

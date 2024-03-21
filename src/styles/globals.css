@@ -1435,7 +1435,6 @@ p {
     gap: var(--large-gap);
     padding-inline: var(--medium-gap);
     padding-bottom: var(--normal-gap);
-    margin-inline: auto;
     height: 3.2rem;
 
     overflow-y: auto;
@@ -1868,6 +1867,31 @@ p {
     flex-grow: 1;
 }
 
+.User_Order_Number {
+    font-size: 1.2rem;
+    font-family: var(--text-font);
+}
+
+.User_Order_Status {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: var(--normal-gap);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    padding: var(--normal-gap) var(--medium-gap);
+    border-radius: var(--border-radius);
+    font-size: 0.9rem;
+}
+
+.Info_Item_Text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--small-gap);
+    width: 100%;
+}
+
 .User_Info_Label {
     font-family: var(--special-font);
     letter-spacing: 0.15rem;
@@ -1876,6 +1900,26 @@ p {
 
 .User_Info_Detail {
     font-size: 0.9rem;
+    font-family: var(--text-font);
+}
+
+.User_Info_Input {
+    padding: var(--normal-gap) var(--medium-gap);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 500;
+    transition: font-size 0.3s ease, background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--normal-gap);
+    font-size: 1rem;
+    width: 100%;
+    max-width: 24rem;
 }
 
 .User_Btn {
@@ -1897,6 +1941,12 @@ p {
     max-width: 24rem;
 }
 
+.User_Info_Edit_Control {
+    display: flex;
+    align-items: center;
+    gap: var(--normal-gap);
+}
+
 .User_Google_Login_Btn {
     padding: var(--medium-gap) var(--medium-gap);
     background-color: var(--text-color);
@@ -1914,6 +1964,12 @@ p {
     font-size: 1rem;
     width: 100%;
     max-width: 24rem;
+}
+
+.Order_Item_Text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--small-gap);
 }
 
 .Order_SeeMore_Btn {
