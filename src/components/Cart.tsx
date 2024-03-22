@@ -127,8 +127,8 @@ export default function Cart() {
                     {(generalLoading || paymentLoading) && (
                         <div className="Cart_Loader">
                             <Image className="Intro_Image" src={"/brand_imgs/Icone_TC_512.png"} alt="Logo" width={400} height={400} />
-                            {generalLoading && <p>Carregando ...</p>}
-                            {paymentLoading && <p>Carregando Pagamento ...</p>}
+                            {generalLoading && <p className="Cart_Loader_Text">Carregando ...</p>}
+                            {paymentLoading && <p className="Cart_Loader_Text">Carregando Pedido...</p>}
                         </div>
                     )}
 

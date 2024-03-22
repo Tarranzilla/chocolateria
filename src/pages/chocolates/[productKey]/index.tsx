@@ -112,11 +112,34 @@ export default function ExpertiseDetail({ product }: { product: Product }) {
                     </div>
                     <div className="Product_Page_Image_Container">
                         {product.imgSrc.map((img, index) => (
-                            <Image key={index} className="Product_Page_Image" src={img.src} alt={img.alt} width={img.width} height={img.height} />
+                            <>
+                                <Image key={index} className="Product_Page_Image" src={img.src} alt={img.alt} width={img.width} height={img.height} />
+                                <Image
+                                    key={index + "B"}
+                                    className="Product_Page_Image"
+                                    src={img.src}
+                                    alt={img.alt}
+                                    width={img.width}
+                                    height={img.height}
+                                />
+                            </>
                         ))}
                     </div>
 
                     <p className="Product_Page_Description">{product.description}</p>
+
+                    <div className="Expertise_Page_Footer">
+                        <button
+                            className="Schedule_Btn"
+                            onClick={() => {
+                                addToCartAction(product);
+                            }}
+                        >
+                            Adicionar à Cesta
+                            <span className="material-icons">shopping_basket</span>
+                            {getCartItemAmmount(product.key) > 0 ? ` (${getCartItemAmmount(product.key)})` : ""}
+                        </button>
+                    </div>
 
                     {product.ingredients && (
                         <>
@@ -133,24 +156,6 @@ export default function ExpertiseDetail({ product }: { product: Product }) {
                             </div>
                         </>
                     )}
-
-                    <div className="Expertise_Page_Footer">
-                        <Link className="Schedule_Btn" href={"/#chocolates"}>
-                            <span className="material-icons">storefront</span>
-                            Ir para a Loja
-                        </Link>
-
-                        <button
-                            className="Schedule_Btn"
-                            onClick={() => {
-                                addToCartAction(product);
-                            }}
-                        >
-                            Adicionar à Cesta
-                            <span className="material-icons">shopping_basket</span>
-                            {getCartItemAmmount(product.key) > 0 ? ` (${getCartItemAmmount(product.key)})` : ""}
-                        </button>
-                    </div>
                 </main>
             </m.div>
         </>

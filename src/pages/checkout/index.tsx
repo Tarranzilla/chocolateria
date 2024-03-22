@@ -18,6 +18,15 @@ import { set } from "firebase/database";
 
 const telephone = "5541999977955";
 
+import { CartItem } from "@/store/slices/cart";
+import Product from "@/types/Product";
+
+type TranslatedCartItem = {
+    translatedTitle: string;
+    value: number;
+    quantity: number;
+};
+
 export default function Checkout() {
     const dispatch = useDispatch();
 
@@ -26,6 +35,8 @@ export default function Checkout() {
 
     const t = useSimpleTranslation();
     const availableProducts = t.landingPage.sections.products.productsList;
+
+    const [translatedCartItems, setTranslatedCartItems] = useState<TranslatedCartItem[]>([]);
 
     const mercadoPagoSlice = useSelector((state: RootState) => state.mercadoPago);
     const cartSlice = useSelector((state: RootState) => state.cart);
@@ -80,25 +91,9 @@ export default function Checkout() {
         }
     };
 
-    const [complement, setComplement] = useState("Complemento");
-    const [number, setNumber] = useState("Número");
-    const [street, setStreet] = useState("Logradouro");
-    const [city, setCity] = useState("Cidade");
-    const [state, setState] = useState("Estado");
-
     const [cep, setCep] = useState("");
-
     const [shippingCost, setShippingCost] = useState("0");
-
     const [observation, setObservation] = useState("");
-
-    const handleComplementChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setComplement(event.target.value);
-    };
-
-    const handleNumberChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setNumber(event.target.value);
-    };
 
     const handleCepChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setCep(event.target.value);
@@ -167,22 +162,25 @@ export default function Checkout() {
     }, []);
 
     useEffect(() => {
-        if (cep.length === 8) {
-            consultarCep(cep).then((response) => {
-                setStreet(response.logradouro);
-                setCity(response.localidade);
-                setState(response.uf);
-                setPrecoPrazoRequest((prevState) => ({
-                    ...prevState,
-                    sCepDestino: cep,
-                }));
-            });
-        }
-    }, [cep]);
-
-    useEffect(() => {
         initMercadoPago(`${process.env.NEXT_PUBLIC_MERCADO_PAGO_PUBLIC_KEY}`);
     }, []);
+
+    useEffect(() => {
+        if (cartItems.length > 0) {
+            const translatedItems = cartItems
+                .map((cartItem) => {
+                    const product = availableProducts.find((prod) => prod.key === cartItem.id);
+                    return {
+                        translatedTitle: product?.title || "Produto não encontrado",
+                        value: product?.price || 0,
+                        quantity: cartItem.quantity,
+                    };
+                })
+                .filter((item) => item !== undefined) as TranslatedCartItem[];
+
+            setTranslatedCartItems(translatedItems);
+        }
+    }, [cartItems, availableProducts]);
 
     return (
         <>
@@ -202,9 +200,23 @@ export default function Checkout() {
             </Head>
 
             <main className="Page_Wrapper Checkout_Page_Wrapper">
-                <div className="Checkout_Card">
+                <div className="Checkout_Card ">
                     <h2 className="Checkout_Card_OrderNumber">Número do Pedido</h2>
                     <h3 className="Checkout_Card_OrderNumber_Content">{mercadoPagoSlice.preferenceId}</h3>
+                </div>
+
+                <div className="Checkout_Card ">
+                    <h2 className="Checkout_Card_OrderNumber">Itens</h2>
+
+                    {translatedCartItems.map((item, index) => {
+                        return (
+                            <div className="Checkout_Order_Item" key={index}>
+                                <h3 className="Checkout_Order_Item_Name">{item.translatedTitle}</h3>
+                                <p className="Checkout_Order_Item_Quantity">x {item.quantity}</p>
+                                <p className="Checkout_Order_Item_Price">R$ {item.value.toFixed(2)}</p>
+                            </div>
+                        );
+                    })}
                 </div>
 
                 <div className="Checkout_Card">

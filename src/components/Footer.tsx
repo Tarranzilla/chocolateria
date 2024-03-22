@@ -73,13 +73,18 @@ export default function Footer() {
                         <span className="Footer_Icon material-icons">shopping_basket</span>
                     </div>
                     <div className="Footer_Btn Phone_Btn" title={t.footer.telephoneBtn.label}>
-                        <Link href="tel:+1234567890">
-                            <span className="Footer_Icon material-icons">phone</span>
+                        <Link href="/#chocolates">
+                            <span className="Footer_Icon material-icons">storefront</span>
                         </Link>
                     </div>
                     <div className="Footer_Btn Email_Btn" title={t.footer.emailBtn.label}>
-                        <Link href="mailto:example@example.com">
-                            <span className="Footer_Icon material-icons">email</span>
+                        <Link href="/#">
+                            <span className="Footer_Icon material-icons">home</span>
+                        </Link>
+                    </div>
+                    <div className="Footer_Btn Phone_Btn" title={t.footer.telephoneBtn.label}>
+                        <Link href="tel:+1234567890">
+                            <span className="Footer_Icon material-icons">phone</span>
                         </Link>
                     </div>
                 </div>

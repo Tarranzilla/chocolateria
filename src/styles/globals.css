@@ -402,6 +402,31 @@ p {
     font-size: 1rem;
 }
 
+.Checkout_Order_Item {
+    display: flex;
+    align-items: center;
+    gap: var(--normal-gap);
+}
+
+.Checkout_Order_Item_Name {
+    font-size: 1.2rem;
+    font-family: var(--text-font);
+    font-weight: 800;
+}
+
+.Checkout_Order_Item_Quantity {
+    font-size: 1.2rem;
+    min-width: max-content;
+    margin-left: auto;
+    font-weight: 600;
+}
+
+.Checkout_Order_Item_Price {
+    min-width: 5rem;
+    display: flex;
+    align-items: flex-end;
+}
+
 .Checkout_User {
     display: flex;
     flex-direction: row;
@@ -698,8 +723,9 @@ p {
 }
 
 .Expertise_Page_Wrapper {
-    max-height: 100vh;
     gap: var(--small-gap);
+    overflow-y: auto;
+    padding-bottom: 9rem;
 }
 
 .Section_Title {
@@ -761,6 +787,14 @@ p {
     gap: var(--medium-gap);
 }
 
+.Cart_Loader_Text {
+    font-family: var(--special-font);
+    font-size: 1rem;
+    letter-spacing: 0.05rem;
+    color: var(--text-color);
+    text-align: center;
+}
+
 .Cart_List_Container {
     display: flex;
     flex-direction: column;
@@ -789,7 +823,7 @@ p {
     flex-direction: column;
     gap: var(--normal-gap);
     width: 100%;
-    height: 100%;
+    flex-grow: 1;
     overflow-y: auto;
     padding-block: var(--medium-gap);
     padding-inline: var(--medium-gap);
@@ -971,6 +1005,7 @@ p {
     width: 100%;
     max-width: 22rem;
     height: 2.4rem;
+    margin-bottom: var(--normal-gap);
 }
 
 .Cart_Checkout_Btn.Disabled {
@@ -1387,6 +1422,7 @@ p {
     display: flex;
     gap: var(--normal-gap);
     width: 100%;
+    min-height: 300px;
     height: 300px;
     overflow-x: auto;
     padding-block: var(--normal-gap);
@@ -1443,26 +1479,33 @@ p {
 }
 
 .Expertise_Page_Footer {
+    position: fixed;
+    bottom: var(--Footer-height);
+    left: 0;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: var(--small-gap);
-    margin-top: auto;
+    margin-top: var(--normal-gap);
+    padding: var(--medium-gap);
+    background-image: linear-gradient(to top, var(--bg-color-faded-50), transparent);
 }
 
 .Product_Page_Ingredients_Title {
     font-family: var(--special-font);
     letter-spacing: 0.15rem;
+    margin-bottom: var(--normal-gap);
 }
 
 .Ingredient_List {
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
     border-top: 1px solid var(--text-color);
     border-bottom: 1px solid var(--text-color);
     padding-inline: var(--normal-gap);
     font-family: var(--text-font);
+    flex-grow: 1;
 }
 
 .Ingredient_List::-webkit-scrollbar {
