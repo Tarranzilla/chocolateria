@@ -3,6 +3,9 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import Product from "@/types/Product";
 import productList from "@/content_lists/product_list";
 
+import { TranslatedCartItem } from "@/pages/checkout";
+import { Timestamp } from "firebase/firestore";
+
 export type CartItem = {
     id: string;
     price: number;
@@ -14,6 +17,36 @@ export type CartItem = {
     };
 };
 
+export type CheckoutOrder = {
+    clientRef: string;
+    clientType: string; // anonymous, registered
+    clientName: string;
+    clientAdress: string;
+
+    orderID: string;
+    orderDate: Timestamp;
+    orderType: string; // whatsapp, mercado_pago,
+    shippingOption: string;
+    shippingCost: number;
+
+    observation: string;
+
+    status: {
+        confirmed: boolean;
+
+        waitingPayment: boolean;
+        inProduction: boolean;
+        waitingForRetrieval: boolean;
+        waitingForDelivery: boolean;
+        delivered: boolean;
+
+        cancelled: boolean;
+    };
+
+    orderItems: TranslatedCartItem[];
+    total: number;
+};
+
 type Variant = {
     key: string;
     name: string;
@@ -22,11 +55,13 @@ type Variant = {
 type CartState = {
     cartItems: CartItem[];
     cartTotal: number;
+    checkoutOrder: CheckoutOrder[];
 };
 
 const initialCartState: CartState = {
     cartItems: [],
     cartTotal: 0,
+    checkoutOrder: [],
 };
 
 type AddCartItemAction = PayloadAction<{ cartItemId: string; variant: Variant }>;
@@ -88,8 +123,12 @@ const cartSlice = createSlice({
             state.cartItems = state.cartItems.filter((item) => item.id !== cartItemId || item.variant.key !== variant.key);
             state.cartTotal = state.cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
         },
+
+        setCheckoutOrder: (state, action: PayloadAction<CheckoutOrder[]>) => {
+            state.checkoutOrder = action.payload;
+        },
     },
 });
 
-export const { addCartItem, decrementCartItem, removeCartItem } = cartSlice.actions;
+export const { addCartItem, decrementCartItem, removeCartItem, setCheckoutOrder } = cartSlice.actions;
 export default cartSlice.reducer;

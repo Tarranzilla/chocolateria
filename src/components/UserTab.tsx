@@ -3,7 +3,7 @@ import { getAuth, User, signOut, updateProfile } from "firebase/auth";
 import { useState, useEffect } from "react";
 
 import { getStorage, ref, uploadBytes } from "firebase/storage";
-import { getFirestore, doc, setDoc, getDoc, DocumentData, Timestamp } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc, getDocs, DocumentData, Timestamp, collection, query, where } from "firebase/firestore";
 
 import { useFirebase } from "@/components/FirebaseContext";
 
@@ -13,6 +13,8 @@ import { useSimpleTranslation } from "@/international/useSimpleTranslation";
 import { motion as m, AnimatePresence } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/store";
+
+import type { CheckoutOrder } from "@/store/slices/cart";
 
 type Address = {
     [key: string]: string;
@@ -58,7 +60,7 @@ export default function UserTab() {
     const [user, setUser] = useState<User | null>(null);
 
     const [orderUID_List, setOrderUID_List] = useState<string[]>([]);
-    const [orderList, setOrderList] = useState<Order[]>([]);
+    const [orderList, setOrderList] = useState<CheckoutOrder[]>([]);
 
     const [address, setAddress] = useState<Address>({
         city: "",
@@ -258,19 +260,28 @@ export default function UserTab() {
         }
     };
 
-    useEffect(() => {
-        const fetchOrders = async () => {
-            try {
-                const orders = await Promise.all(orderUID_List.map((uid) => fetchOrderDoc(uid)));
-                const validOrders = orders.filter((order): order is Order => order !== undefined);
-                setOrderList(validOrders);
-            } catch (error) {
-                console.error("Failed to fetch orders:", error);
-            }
-        };
+    const fetchOrdersForUser = async (tropicalID: string): Promise<CheckoutOrder[] | undefined> => {
+        const db = getFirestore();
+        const projectUID = "WIlxTvYLd20rFopeFTZT"; // Replace with your project's UID
+        const ordersCollectionRef = collection(db, `projects/${projectUID}/orders`);
 
-        fetchOrders();
-    }, [orderUID_List]);
+        const q = query(ordersCollectionRef, where("clientRef", "==", tropicalID));
+        const querySnapshot = await getDocs(q);
+
+        const orders: CheckoutOrder[] = [];
+        querySnapshot.forEach((doc) => {
+            const data = doc.data() as CheckoutOrder;
+            if (data) {
+                orders.push(data);
+            }
+        });
+
+        if (orders.length > 0) {
+            setOrderList(orders);
+        }
+
+        return orders;
+    };
 
     const t = useSimpleTranslation();
 
@@ -280,6 +291,7 @@ export default function UserTab() {
             setUser(user);
             if (user) {
                 fetchUserDoc(user.uid);
+                fetchOrdersForUser(user.uid);
             }
         });
 
@@ -531,7 +543,7 @@ export default function UserTab() {
                                         <div className="User_Order_Item" key={index}>
                                             <div className="Order_Item_Text">
                                                 <h3 className="User_Info_Label">Pedido Nº</h3>
-                                                <h3 className="User_Order_Number">#{order.number}</h3>
+                                                <h3 className="User_Order_Number">#{order.orderID}</h3>
 
                                                 <p className="User_Info_Detail User_Order_Date">
                                                     {new Intl.DateTimeFormat("pt-BR", {
@@ -544,12 +556,12 @@ export default function UserTab() {
                                                 </p>
 
                                                 <p className="User_Order_Status">
-                                                    {order.status === "pending" ? "Aguardando Pagamento" : "Concluído"}
+                                                    {order.status.confirmed === true ? "Aguardando Aprovação" : "Concluído"}
                                                 </p>
                                             </div>
 
                                             <p className="User_Order_Price">
-                                                R${order.products.reduce((total, product) => total + product.price * product.quantity, 0)},00
+                                                R${order.orderItems.reduce((total, product) => total + product.value * product.quantity, 0)},00
                                             </p>
 
                                             <span className="material-icons">chevron_right</span>
@@ -603,3 +615,21 @@ export default function UserTab() {
         </>
     );
 }
+
+/*
+
+    useEffect(() => {
+        const fetchOrders = async () => {
+            try {
+                const orders = await Promise.all(orderUID_List.map((uid) => fetchOrderDoc(uid)));
+                const validOrders = orders.filter((order): order is Order => order !== undefined);
+                setOrderList(validOrders);
+            } catch (error) {
+                console.error("Failed to fetch orders:", error);
+            }
+        };
+
+        fetchOrders();
+    }, [orderUID_List]);
+
+*/

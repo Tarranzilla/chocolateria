@@ -21,7 +21,9 @@ const telephone = "5541999977955";
 import { CartItem } from "@/store/slices/cart";
 import Product from "@/types/Product";
 
-type TranslatedCartItem = {
+import type { CheckoutOrder } from "@/store/slices/cart";
+
+export type TranslatedCartItem = {
     translatedTitle: string;
     value: number;
     quantity: number;
@@ -136,6 +138,45 @@ export default function Checkout() {
 
         // Return a WhatsApp Click to Chat URL
         return `https://wa.me/${telephone}?text=${encodedMessage}`;
+    };
+
+    const [checkoutOrder, setCheckoutOrder] = useState<CheckoutOrder>();
+
+    const handleCheckout = () => {
+        const order: CheckoutOrder = {
+            orderID: mercadoPagoSlice.preferenceId,
+            orderItems: translatedCartItems,
+            orderDate: Timestamp.now(),
+            orderType: "whatsapp" || "mercado_pago",
+
+            shippingOption: shippingOption || "Retirada",
+            shippingCost: Number(shippingCost),
+            observation: observation,
+            total: cartTotal,
+
+            clientRef: checkoutUser.tropicalID,
+            clientType: registeredUser ? "registered" : "anonymous",
+            clientName: checkoutUser.name,
+            clientAdress: checkoutAdress.street + ", " + checkoutAdress.number + "( " + checkoutAdress.extra + " )" + " - " + checkoutAdress.city,
+
+            status: {
+                confirmed: false,
+                waitingPayment: true,
+                inProduction: false,
+                waitingForRetrieval: false,
+                waitingForDelivery: false,
+                delivered: false,
+                cancelled: false,
+            },
+        };
+
+        setCheckoutOrder(order);
+
+        const db = getFirestore();
+        const projectUID = "WIlxTvYLd20rFopeFTZT"; // Replace with your project's UID
+        const ordersCollectionRef = doc(db, `projects/${projectUID}/orders`, mercadoPagoSlice.preferenceId);
+
+        setDoc(ordersCollectionRef, order);
     };
 
     useEffect(() => {
@@ -319,7 +360,15 @@ export default function Checkout() {
                     <h2 className="Checkout_Card_OrderNumber">Valor Total</h2>
                     <h3 className="Checkout_Card_Total">R$ {cartSlice.cartTotal},00</h3>
 
-                    <Link className="Checkout_Btn" href={generateWhatsAppURL()} target="_blank" rel="noopener noreferrer">
+                    <Link
+                        className="Checkout_Btn"
+                        href={generateWhatsAppURL()}
+                        onClick={() => {
+                            handleCheckout();
+                        }}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
                         Comprar pelo WhatsApp
                     </Link>
 
