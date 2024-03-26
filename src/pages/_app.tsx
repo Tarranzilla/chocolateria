@@ -90,26 +90,6 @@ async function addProduct(db: Firestore, projectId: string, product: any) {
 }
 
 export default function App({ Component, pageProps }: AppProps) {
-    useEffect(() => {
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-
-        console.log("Firebase App =>", app);
-        console.log("Firebase Analytics =>", analytics);
-        console.log("Firebase Firestore =>", db);
-        console.log("Firebase Auth =>", auth);
-
-        console.log("Firebase app fully initialized");
-
-        // console.log("Fetching specific all projects data...");
-        // getProject(db);
-
-        // Add a product
-        // addProduct(db, "WIlxTvYLd20rFopeFTZT", productList[0]);
-    }, []);
-
     return (
         <>
             <Analytics />

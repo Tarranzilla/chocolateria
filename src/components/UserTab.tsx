@@ -1,20 +1,20 @@
+import { useState, useEffect } from "react";
+import Head from "next/head";
+
 import { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { getAuth, User, signOut, updateProfile } from "firebase/auth";
-import { useState, useEffect } from "react";
-
 import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { getFirestore, doc, setDoc, getDoc, getDocs, DocumentData, Timestamp, collection, query, where } from "firebase/firestore";
-
 import { useFirebase } from "@/components/FirebaseContext";
 
-import Head from "next/head";
 import { useSimpleTranslation } from "@/international/useSimpleTranslation";
 
-import { motion as m, AnimatePresence } from "framer-motion";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/store";
-
 import type { CheckoutOrder } from "@/store/slices/cart";
+import { setOrderNeedsUpdate } from "@/store/slices/user";
+
+import { motion as m, AnimatePresence } from "framer-motion";
 
 type Address = {
     [key: string]: string;
@@ -46,12 +46,11 @@ type OrderProduct = {
 
 export default function UserTab() {
     const firebase = useFirebase();
+    const dispatch = useDispatch();
 
     if (!firebase) {
         throw new Error("Firebase context is not available");
     }
-
-    const { auth, firestore, storage } = firebase;
 
     const isUserTabOpen = useSelector((state: RootState) => state.interface.isUserTabOpen);
 
@@ -59,8 +58,12 @@ export default function UserTab() {
     const [password, setPassword] = useState("");
     const [user, setUser] = useState<User | null>(null);
 
-    const [orderUID_List, setOrderUID_List] = useState<string[]>([]);
     const [orderList, setOrderList] = useState<CheckoutOrder[]>([]);
+    const orderNeedUpdate = useSelector((state: RootState) => state.user.ordersNeedUpdate);
+
+    const orderNeedsNoUpdateAction = () => {
+        dispatch(setOrderNeedsUpdate(false));
+    };
 
     const [address, setAddress] = useState<Address>({
         city: "",
@@ -69,7 +72,7 @@ export default function UserTab() {
         extra: "",
         postalCode: "",
     });
-
+    const [editedAddress, setEditedAddress] = useState(address);
     const [isEditing, setIsEditing] = useState({
         city: false,
         street: false,
@@ -77,15 +80,10 @@ export default function UserTab() {
         extra: false,
         postalCode: false,
     });
-
-    const [editedAddress, setEditedAddress] = useState(address);
-    const [isAddressEdited, setIsAddressEdited] = useState(false);
-
     const isSomeAddressEdited = Object.entries(editedAddress).some(([key, value]) => address[key] !== value);
 
     const handleAddressChange = (field: string, value: string) => {
         setEditedAddress({ ...editedAddress, [field]: value });
-        setIsAddressEdited(true);
     };
 
     const updateAddress = async () => {
@@ -104,7 +102,6 @@ export default function UserTab() {
 
         // Then set the new address and exit edit mode
         setAddress(editedAddress);
-        setIsAddressEdited(false);
     };
 
     const discardChanges = () => {
@@ -116,15 +113,6 @@ export default function UserTab() {
             postalCode: false,
         });
         setEditedAddress(address);
-        setIsAddressEdited(false);
-    };
-
-    const [image, setImage] = useState<File | null>(null);
-
-    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files && e.target.files[0]) {
-            setImage(e.target.files[0]);
-        }
     };
 
     const signIn = async () => {
@@ -233,11 +221,10 @@ export default function UserTab() {
         if (userDoc.exists()) {
             setAddress(userDoc.data().address);
             setEditedAddress(userDoc.data().address);
-
-            setOrderUID_List(userDoc.data().orders);
         }
     };
 
+    // Fetch the order document from Firestore with the given order UID
     const fetchOrderDoc = async (orderUID: string): Promise<Order | undefined> => {
         const db = getFirestore();
         const projectUID = "WIlxTvYLd20rFopeFTZT"; // Replace with your project's UID
@@ -260,6 +247,7 @@ export default function UserTab() {
         }
     };
 
+    // Fetch all orders for the given user UID
     const fetchOrdersForUser = async (tropicalID: string): Promise<CheckoutOrder[] | undefined> => {
         const db = getFirestore();
         const projectUID = "WIlxTvYLd20rFopeFTZT"; // Replace with your project's UID
@@ -298,6 +286,14 @@ export default function UserTab() {
         // Cleanup subscription on unmount
         return () => unsubscribe();
     }, []);
+
+    useEffect(() => {
+        if (user && orderNeedUpdate === true) {
+            console.log("Fetching new orders for user:", user.uid);
+            fetchOrdersForUser(user.uid);
+            orderNeedsNoUpdateAction();
+        }
+    }, [user, orderNeedUpdate]);
 
     return (
         <>
@@ -352,7 +348,6 @@ export default function UserTab() {
                                         <span
                                             className="material-icons"
                                             onClick={() => {
-                                                setIsAddressEdited(true);
                                                 setIsEditing({ ...isEditing, street: true });
                                             }}
                                         >
@@ -392,7 +387,6 @@ export default function UserTab() {
                                         <span
                                             className="material-icons"
                                             onClick={() => {
-                                                setIsAddressEdited(true);
                                                 setIsEditing({ ...isEditing, number: true });
                                             }}
                                         >
@@ -432,7 +426,6 @@ export default function UserTab() {
                                         <span
                                             className="material-icons"
                                             onClick={() => {
-                                                setIsAddressEdited(true);
                                                 setIsEditing({ ...isEditing, extra: true });
                                             }}
                                         >
@@ -472,7 +465,6 @@ export default function UserTab() {
                                         <span
                                             className="material-icons"
                                             onClick={() => {
-                                                setIsAddressEdited(true);
                                                 setIsEditing({ ...isEditing, city: true });
                                             }}
                                         >
@@ -514,7 +506,6 @@ export default function UserTab() {
                                         <span
                                             className="material-icons"
                                             onClick={() => {
-                                                setIsAddressEdited(true);
                                                 setIsEditing({ ...isEditing, postalCode: true });
                                             }}
                                         >
@@ -556,7 +547,19 @@ export default function UserTab() {
                                                 </p>
 
                                                 <p className="User_Order_Status">
-                                                    {order.status.confirmed === true ? "Aguardando Aprovação" : "Concluído"}
+                                                    {order.status.confirmed === false && "Aguardando Aprovação"}
+                                                    {order.status.confirmed === true &&
+                                                        order.status.waitingPayment === true &&
+                                                        "Aguardando Pagamento"}
+                                                    {order.status.confirmed === true && order.status.inProduction === true && "Em Produção"}
+                                                    {order.status.confirmed === true &&
+                                                        order.status.waitingForRetrieval === true &&
+                                                        "Aguardando Retirada"}
+                                                    {order.status.confirmed === true &&
+                                                        order.status.waitingForDelivery === true &&
+                                                        "Aguardando Entrega"}
+                                                    {order.status.confirmed === true && order.status.delivered === true && "Entregue"}
+                                                    {order.status.confirmed === true && order.status.cancelled === true && "Cancelado"}
                                                 </p>
                                             </div>
 
@@ -617,6 +620,14 @@ export default function UserTab() {
 }
 
 /*
+
+    const [image, setImage] = useState<File | null>(null);
+
+    const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            setImage(e.target.files[0]);
+        }
+    };
 
     useEffect(() => {
         const fetchOrders = async () => {

@@ -123,12 +123,15 @@ const cartSlice = createSlice({
             state.cartItems = state.cartItems.filter((item) => item.id !== cartItemId || item.variant.key !== variant.key);
             state.cartTotal = state.cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
         },
-
+        clearCart: (state) => {
+            state.cartItems = [];
+            state.cartTotal = 0;
+        },
         setCheckoutOrder: (state, action: PayloadAction<CheckoutOrder[]>) => {
             state.checkoutOrder = action.payload;
         },
     },
 });
 
-export const { addCartItem, decrementCartItem, removeCartItem, setCheckoutOrder } = cartSlice.actions;
+export const { addCartItem, decrementCartItem, removeCartItem, setCheckoutOrder, clearCart } = cartSlice.actions;
 export default cartSlice.reducer;

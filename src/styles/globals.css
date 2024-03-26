@@ -1519,6 +1519,14 @@ p {
     transition: background-color 0.15s ease;
 }
 
+.Ingredient > h4 {
+    font-size: 1.2rem;
+}
+
+.Ingredient > p {
+    font-size: 0.9rem;
+}
+
 .Ingredient_List > .Ingredient:last-child {
     border-bottom: none;
 }
@@ -2043,7 +2051,7 @@ p {
 }
 
 .User_Order_Number {
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-family: var(--text-font);
 }
 

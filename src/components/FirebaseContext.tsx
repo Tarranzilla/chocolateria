@@ -6,6 +6,8 @@ import { FirebaseStorage, getStorage } from "firebase/storage";
 import { Auth, getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, Firestore } from "firebase/firestore";
 
+import { initMercadoPago } from "@mercadopago/sdk-react";
+
 // Your Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyDeiia7aGI9U1c-IYIUEgaIlh2fvXyIJ8g",
@@ -39,6 +41,8 @@ export const FirebaseProvider = ({ children }: FirebaseProviderProps) => {
     const [storage, setStorage] = useState<FirebaseStorage | null>(null);
 
     useEffect(() => {
+        initMercadoPago(`${process.env.NEXT_PUBLIC_MERCADO_PAGO_PUBLIC_KEY}`);
+
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         const db = getFirestore(app);
