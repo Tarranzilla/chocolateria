@@ -402,18 +402,21 @@ p {
     font-size: 1rem;
 }
 
+.User_Order_Product,
 .Checkout_Order_Item {
     display: flex;
     align-items: center;
     gap: var(--normal-gap);
 }
 
+.User_Order_Product_Title,
 .Checkout_Order_Item_Name {
     font-size: 1.2rem;
     font-family: var(--text-font);
     font-weight: 800;
 }
 
+.User_Order_Product_Qtty,
 .Checkout_Order_Item_Quantity {
     font-size: 1.2rem;
     min-width: max-content;
@@ -421,6 +424,7 @@ p {
     font-weight: 600;
 }
 
+.User_Order_Product_Price,
 .Checkout_Order_Item_Price {
     min-width: 5rem;
     display: flex;
@@ -481,6 +485,8 @@ p {
     gap: var(--normal-gap);
 }
 
+.Checkout_Btn.Disabled,
+.Wallet.Disabled,
 .Checkout_Shipping_Option.Disabled {
     opacity: 0.5;
     pointer-events: none;
@@ -2035,6 +2041,50 @@ p {
     gap: var(--small-gap);
 }
 
+.User_Order_Product {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--normal-gap);
+    padding: var(--small-gap);
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    border-radius: var(--border-radius);
+}
+
+.User_Order_Shipping_Option {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: var(--normal-gap);
+    padding: var(--small-gap);
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    border-radius: var(--border-radius);
+    width: 100%;
+}
+
+.User_Order_Shipping_Option_Title {
+    font-size: 1rem;
+    font-family: var(--text-font);
+    display: flex;
+    min-width: max-content;
+}
+
+.User_Order_Shipping_Option_Type {
+    font-size: 1rem;
+    font-family: var(--text-font);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--normal-gap);
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    border-radius: var(--border-radius);
+    padding: var(--small-gap) var(--medium-gap);
+    width: 100%;
+}
+
 .User_Order_Item,
 .User_Info_Item {
     display: flex;
@@ -2050,9 +2100,19 @@ p {
     flex-grow: 1;
 }
 
+.User_Order_Item {
+    flex-direction: column;
+}
+
 .User_Order_Number {
     font-size: 1rem;
     font-family: var(--text-font);
+}
+
+.User_Order_Price {
+    display: flex;
+    gap: var(--small-gap);
+    margin-block: var(--normal-gap);
 }
 
 .User_Order_Status {
@@ -2065,7 +2125,20 @@ p {
     color: var(--text-color);
     padding: var(--normal-gap) var(--medium-gap);
     border-radius: var(--border-radius);
-    font-size: 0.9rem;
+    font-size: 1rem;
+    font-family: var(--text-font);
+}
+
+.Order_Expand_Btn {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    font-size: 2rem;
+    transition: transform 0.3s ease;
+}
+
+.Order_Expand_Btn.Active {
+    transform: rotate(180deg);
 }
 
 .Info_Item_Text {
@@ -2153,6 +2226,7 @@ p {
     display: flex;
     flex-direction: column;
     gap: var(--small-gap);
+    width: 100%;
 }
 
 .Order_SeeMore_Btn {

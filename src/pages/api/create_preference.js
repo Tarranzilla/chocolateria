@@ -11,13 +11,18 @@ export default function handler(req, res) {
             quantity: item.quantity,
         }));
 
-        console.log(cartItems);
+        // console.log(cartItems);
         const preference = new Preference(client);
 
         preference
             .create({
                 body: {
                     items: cartItems,
+                    back_urls: {
+                        success: "http://localhost:3000/checkout_success",
+                        failure: "http://localhost:3000/checkout_failure",
+                        pending: "http://localhost:3000/checkout_pending",
+                    },
                 },
             })
             .then(function (response) {

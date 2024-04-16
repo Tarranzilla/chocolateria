@@ -192,6 +192,8 @@ export default function Checkout() {
                 console.log("User is signed in");
             } else {
                 console.log("User is not signed in");
+                setCheckoutUser({ name: "Anônimo", email: "Nenhum email registrado", tropicalID: "Tropical ID" });
+                setRegisteredUser(false);
             }
         });
 
@@ -264,15 +266,18 @@ export default function Checkout() {
                         <div className="Checkout_Card ">
                             <h2 className="Checkout_Card_OrderNumber">Itens</h2>
 
-                            {translatedCartItems.map((item, index) => {
-                                return (
-                                    <div className="Checkout_Order_Item" key={index}>
-                                        <h3 className="Checkout_Order_Item_Name">{item.translatedTitle}</h3>
-                                        <p className="Checkout_Order_Item_Quantity">x {item.quantity}</p>
-                                        <p className="Checkout_Order_Item_Price">R$ {item.value.toFixed(2)}</p>
-                                    </div>
-                                );
-                            })}
+                            {cartItems.length > 0 &&
+                                translatedCartItems.map((item, index) => {
+                                    return (
+                                        <div className="Checkout_Order_Item" key={index}>
+                                            <h3 className="Checkout_Order_Item_Name">{item.translatedTitle}</h3>
+                                            <p className="Checkout_Order_Item_Quantity">x {item.quantity}</p>
+                                            <p className="Checkout_Order_Item_Price">R$ {item.value.toFixed(2)}</p>
+                                        </div>
+                                    );
+                                })}
+
+                            {cartItems.length === 0 && <p className="Empty_Cart_Message">Seu carrinho está vazio!</p>}
                         </div>
 
                         <div className="Checkout_Card">
@@ -381,7 +386,7 @@ export default function Checkout() {
                             <h3 className="Checkout_Card_Total">R$ {cartSlice.cartTotal},00</h3>
 
                             <Link
-                                className="Checkout_Btn"
+                                className={cartItems.length > 0 ? "Checkout_Btn" : "Checkout_Btn Disabled"}
                                 href={generateWhatsAppURL()}
                                 onClick={() => {
                                     handleCheckout("whatsapp");
@@ -392,7 +397,7 @@ export default function Checkout() {
                                 Comprar pelo WhatsApp
                             </Link>
 
-                            <div id="wallet_container" className="Wallet">
+                            <div id="wallet_container" className={cartItems.length > 0 ? "Wallet" : "Wallet Disabled"}>
                                 <Wallet
                                     initialization={{ preferenceId: mercadoPagoSlice.preferenceId }}
                                     customization={{ texts: { action: "buy", valueProp: "smart_option" } }}
