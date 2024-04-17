@@ -90,10 +90,12 @@ export default function Navbar() {
                                 })}
                         </div>
 
+                        {/*
                         <div className="Footer_Btn Lang_Btn" title={t.footer.langBtn?.label} onClick={changeLanguage}>
                             <span className="Footer_Icon material-icons">language</span>
                             <p>{t.footer.langBtn?.label}</p>
                         </div>
+                        */}
                     </m.div>
                 )}
             </AnimatePresence>

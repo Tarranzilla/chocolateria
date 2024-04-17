@@ -21,10 +21,13 @@ export default function Menu() {
                     <span className="material-icons">search</span>
                 </button>
             </div>
-
+            {/*
+            
             <div className="Footer_Btn Lang_Btn" title={t.footer.langBtn?.label} onClick={changeLanguage}>
                 <span className="Footer_Icon material-icons">language</span>
             </div>
+
+            */}
 
             <div className="Menu_Nav">
                 {t.menu.links &&

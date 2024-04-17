@@ -368,7 +368,7 @@ p {
     margin-block: var(--Navbar-height);
     padding-block: 0;
     gap: var(--normal-gap);
-    min-height: unset;
+    min-height: 100vh;
 }
 
 .Checkout_Card {
@@ -739,7 +739,6 @@ p {
     font-weight: bold;
     color: var(--text-color);
     font-family: var(--special-font);
-    font-size: 2rem;
     letter-spacing: 0.25rem;
     border-bottom: 1px solid var(--text-color);
     padding: var(--medium-gap) 0;
@@ -772,8 +771,6 @@ p {
     font-size: 2rem;
     letter-spacing: 0.25rem;
     color: var(--text-color);
-    border-top: 1px solid var(--text-color);
-    padding-top: var(--medium-gap);
 }
 
 .Cart_Loader {
@@ -797,8 +794,11 @@ p {
     font-family: var(--special-font);
     font-size: 1rem;
     letter-spacing: 0.05rem;
-    color: var(--text-color);
+    color: var(--bg-color);
     text-align: center;
+    background-color: var(--text-color);
+    padding: var(--normal-gap) var(--large-gap);
+    border-radius: var(--border-radius);
 }
 
 .Cart_List_Container {
@@ -1210,12 +1210,80 @@ p {
 
 /* SOBRE */
 
+#quem-somos {
+    display: flex;
+    flex-direction: column;
+    gap: var(--medium-gap);
+}
+
 .About_Container {
     display: flex;
     flex-direction: column;
     gap: var(--medium-gap);
     max-width: 1000px;
-    margin-inline: auto;
+}
+
+.About_Container_Special {
+    background-color: var(--text-color);
+    border-radius: var(--border-radius);
+    padding: var(--medium-gap);
+}
+
+.About_Container_Header {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+
+    transition: scale 0.3s ease-in-out;
+}
+
+.About_Container_Header:hover,
+.About_Container_Header:focus-within {
+    scale: 1.05;
+}
+
+.About_Expand_Btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: transform 0.3s ease;
+    color: var(--bg-color);
+}
+
+.About_Expand_Btn.Active {
+    transform: rotate(180deg);
+}
+
+.About_Container_UpTitle {
+    font-size: 0.8rem;
+
+    font-weight: bold;
+    color: var(--bg-color);
+    font-family: var(--special-font);
+    letter-spacing: 0.25rem;
+    text-align: center;
+    text-transform: uppercase;
+
+    letter-spacing: 8px;
+}
+
+.About_Container_Title {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: var(--bg-color);
+    font-family: var(--special-font);
+
+    border-bottom: 1px solid var(--bg-color);
+    padding-block: var(--small-gap) var(--medium-gap);
+    text-align: center;
+}
+
+.About_Container_Text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--normal-gap);
+    color: var(--bg-color);
 }
 
 .Team_Container {
@@ -1799,7 +1867,7 @@ p {
     width: 100%;
     max-width: 450px;
     border: none;
-    border-radius: 0.5rem;
+    border-radius: var(--border-radius);
     padding: 1rem;
     background-color: var(--text-color);
     margin-inline: auto;
