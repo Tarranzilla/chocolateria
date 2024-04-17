@@ -140,31 +140,53 @@ const OrderItem: React.FC<OrderItemProps> = ({ order, index }) => {
                 expand_more
             </span>
 
-            {isExpanded && (
-                <>
-                    <div className="User_Order_Product_List">
-                        {order.orderItems.map((product, index) => {
-                            return (
-                                <div key={index} className="User_Order_Product">
-                                    <p className="User_Order_Product_Title">{product.translatedTitle}</p>
-                                    <p className="User_Order_Product_Qtty">{product.quantity}x</p>
-                                    <p className="User_Order_Product_Price">R${product.value},00</p>
+            <AnimatePresence>
+                {isExpanded && (
+                    <>
+                        <m.div
+                            initial={{ height: 0 }}
+                            animate={{ height: "auto" }}
+                            exit={{ height: 0 }}
+                            transition={{ duration: 0.2, ease: [0.43, 0.13, 0.23, 0.96], when: "beforeChildren" }}
+                            className="User_Order_Extra_Info"
+                        >
+                            <m.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.2, ease: [0.43, 0.13, 0.23, 0.96] }}
+                                className="User_Order_Product_List"
+                            >
+                                {order.orderItems.map((product, index) => {
+                                    return (
+                                        <div key={index} className="User_Order_Product">
+                                            <p className="User_Order_Product_Title">{product.translatedTitle}</p>
+                                            <p className="User_Order_Product_Qtty">{product.quantity}x</p>
+                                            <p className="User_Order_Product_Price">R${product.value},00</p>
+                                        </div>
+                                    );
+                                })}
+                            </m.div>
+
+                            <m.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.2, ease: [0.43, 0.13, 0.23, 0.96] }}
+                                className="User_Order_Shipping_Option"
+                            >
+                                <h4 className="User_Order_Shipping_Option_Title">Método de Entrega:</h4>
+                                <div className="User_Order_Shipping_Option_Type">
+                                    {order.shippingOption === "Entrega" && <span className="material-icons">local_shipping</span>}
+
+                                    {order.shippingOption === "Retirada" && <span className="material-icons">store</span>}
+                                    {order.shippingOption}
                                 </div>
-                            );
-                        })}
-                    </div>
-
-                    <div className="User_Order_Shipping_Option">
-                        <h4 className="User_Order_Shipping_Option_Title">Método de Entrega:</h4>
-                        <div className="User_Order_Shipping_Option_Type">
-                            {order.shippingOption === "Entrega" && <span className="material-icons">local_shipping</span>}
-
-                            {order.shippingOption === "Retirada" && <span className="material-icons">store</span>}
-                            {order.shippingOption}
-                        </div>
-                    </div>
-                </>
-            )}
+                            </m.div>
+                        </m.div>
+                    </>
+                )}
+            </AnimatePresence>
         </div>
     );
 };

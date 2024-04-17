@@ -11,8 +11,21 @@ import { use, useState } from "react";
 
 import { motion as m, AnimatePresence } from "framer-motion";
 
+const businessTelephone = "5541999977955";
+
+const generateWhatsAppURL = () => {
+    let message = "Olá, eu gostaria de fazer parte do Clube Tropical!";
+
+    // Encode the message in a URL
+    const encodedMessage = encodeURIComponent(message);
+
+    // Return a WhatsApp Click to Chat URL
+    return `https://wa.me/${businessTelephone}?text=${encodedMessage}`;
+};
+
 const AboutContent = [
     {
+        bannerImgSrc: "/about_imgs/historia_cacau.jpg",
         title: "A História do Cacau",
         paragraphs: [
             "O Cacau, uma planta nativa da região amazônica, é uma das culturas mais importantes e populares no mundo, tendo uma história antiga e fascinante que inclui diversas lendas e mitos.",
@@ -28,6 +41,7 @@ const AboutContent = [
     },
 
     {
+        bannerImgSrc: "/about_imgs/cacau_brasil.jpg",
         title: "O Cacau no Brasil",
         paragraphs: [
             "O cacau tem uma longa história no Brasil, remontando a milhares de anos, quando as civilizações indígenas já o consumiam. No entanto, foi somente durante o século XVIII que a cultura do cacau ganhou impulso significativo no país. Em meados do século XIX, a Bahia se tornou o principal estado produtor de cacau, graças às condições climáticas favoráveis e ao solo rico da região cacaueira.",
@@ -39,6 +53,7 @@ const AboutContent = [
     },
 
     {
+        bannerImgSrc: "/about_imgs/propriedades_cacau.jpg",
         title: "Propriedades do Cacau",
         paragraphs: [
             "O cacau, especialmente em sua forma não processada, oferece várias propriedades benéficas para o corpo humano, graças à presença de compostos naturais.",
@@ -53,6 +68,7 @@ const AboutContent = [
     },
 
     {
+        bannerImgSrc: "/about_imgs/producao_cacau.jpg",
         title: "Produção do Cacau",
         paragraphs: [
             "O ciclo sazonal da plantação e do crescimento do cacau segue um padrão bem definido, com quatro principais etapas:",
@@ -71,6 +87,7 @@ const AboutContent = [
 ];
 
 type AboutContainerProps = {
+    bannerImgSrc: string;
     title: string;
     paragraphs: string[];
 };
@@ -82,6 +99,18 @@ function AboutContainer(AboutContainerProps: AboutContainerProps) {
 
     return (
         <div className="About_Container About_Container_Special">
+            <Image
+                className="About_Container_Image"
+                src={AboutContainerProps.bannerImgSrc}
+                alt={AboutContainerProps.title}
+                width={800}
+                height={400}
+                layout="responsive"
+                onClick={() => {
+                    setIsExpanded(!isExpanded);
+                }}
+            />
+
             <div
                 className="About_Container_Header"
                 onClick={() => {
@@ -150,7 +179,7 @@ export default function Home() {
                         </div>
 
                         {AboutContent.map((content, index) => (
-                            <AboutContainer key={index} title={content.title} paragraphs={content.paragraphs} />
+                            <AboutContainer key={index} title={content.title} paragraphs={content.paragraphs} bannerImgSrc={content.bannerImgSrc} />
                         ))}
                     </section>
                     <section id="chocolates" key={"chocolates"}>
@@ -161,6 +190,23 @@ export default function Home() {
                             <GroupSlider />
                         </div>
                     </section>
+
+                    <section id="clube-tropical" className="Club_Section" key={"clube-tropical"}>
+                        <h2 className="Section_Title">Clube Tropical</h2>
+
+                        <p>Que tal ter uma seleção de chocolates deliciosos chegando todo mês na sua casa?</p>
+
+                        <p>
+                            Membros do Clube Tropical recebem todo mês uma caixa com 4 chocolates especiais, feitos com cacau de origem única - E
+                            também possuem acesso a descontos de 10% em todos os outros produtos.
+                        </p>
+
+                        <Link className="Subcription_Btn" href={generateWhatsAppURL()} target="_blank" rel="noopener noreferrer">
+                            Quero Participar
+                            <span className="material-icons">loyalty</span>
+                        </Link>
+                    </section>
+
                     <section id="contato" key={"contato"}>
                         <div className="Contact_Container">
                             <h2 className="Section_Title" key={t.landingPage.sections.contact.title}>

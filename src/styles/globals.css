@@ -409,6 +409,12 @@ p {
     gap: var(--normal-gap);
 }
 
+.User_Order_Extra_Info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--normal-gap);
+}
+
 .User_Order_Product_Title,
 .Checkout_Order_Item_Name {
     font-size: 1.2rem;
@@ -1227,6 +1233,7 @@ p {
     background-color: var(--text-color);
     border-radius: var(--border-radius);
     padding: var(--medium-gap);
+    gap: 0;
 }
 
 .About_Container_Header {
@@ -1235,6 +1242,11 @@ p {
     cursor: pointer;
 
     transition: scale 0.3s ease-in-out;
+}
+
+.About_Container_Image {
+    border-radius: var(--border-radius);
+    filter: sepia(0.5) saturate(1.5);
 }
 
 .About_Container_Header:hover,
@@ -1249,6 +1261,7 @@ p {
 
     transition: transform 0.3s ease;
     color: var(--bg-color);
+    margin-block: var(--normal-gap);
 }
 
 .About_Expand_Btn.Active {
@@ -1256,6 +1269,7 @@ p {
 }
 
 .About_Container_UpTitle {
+    margin-top: var(--medium-gap);
     font-size: 0.8rem;
 
     font-weight: bold;
@@ -1784,6 +1798,38 @@ p {
     background-color: white;
 }
 
+/* ASSINATURA - CLUBE TROPICAL */
+
+.Club_Section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--medium-gap);
+    margin-inline: auto;
+    max-width: 1000px;
+}
+
+.Subcription_Btn {
+    padding: var(--medium-gap) var(--large-gap);
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    border-radius: var(--border-radius);
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: font-size 0.3s ease, background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--normal-gap);
+    font-size: 1rem;
+    width: 100%;
+    max-width: 16rem;
+    height: 3.2rem;
+    margin-inline: auto;
+    margin-top: var(--normal-gap);
+    font-weight: 600;
+}
+
 /* CONTATO */
 
 #contact {
@@ -1830,7 +1876,7 @@ p {
 }
 
 .Contact_CallToAction {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
 }
 
 .Contact_Layout_Container {
@@ -2170,6 +2216,7 @@ p {
 
 .User_Order_Item {
     flex-direction: column;
+    gap: 0;
 }
 
 .User_Order_Number {
