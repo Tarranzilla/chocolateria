@@ -2377,6 +2377,41 @@ p {
     max-width: 24rem;
 }
 
+/* PAINEL DE CONTROLE */
+
+.CP_Orders_List {
+    display: flex;
+    flex-direction: column;
+    gap: var(--medium-gap);
+    margin-block: var(--medium-gap);
+}
+
+.CP_Orders_Title {
+    font-family: var(--special-font);
+    letter-spacing: 0.25rem;
+    margin-block: var(--medium-gap);
+}
+
+.CP_Order_Status_Control {
+    justify-content: space-between;
+}
+
+.CP_Order_Status_Selector {
+    background-color: var(--text-color);
+    padding: var(--small-gap) var(--medium-gap);
+    border-radius: var(--border-radius);
+    font-family: var(--text-font);
+    font-size: 1rem;
+    color: var(--bg-color);
+    border: none;
+}
+
+.CP_Order_Status_Btn {
+    background-color: transparent;
+    color: var(--text-color);
+    border: none;
+}
+
 /* MEDIA QUERIES */
 
 @media (max-width: 850px) {

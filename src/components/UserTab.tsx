@@ -56,12 +56,12 @@ type OrderProduct = {
     quantity: number;
 };
 
-type OrderItemProps = {
+export type OrderItemProps = {
     order: CheckoutOrder;
     index: number;
 };
 
-const OrderItem: React.FC<OrderItemProps> = ({ order, index }) => {
+export const OrderItem: React.FC<OrderItemProps> = ({ order, index }) => {
     const [isExpanded, setIsExpanded] = useState(false);
 
     return (
