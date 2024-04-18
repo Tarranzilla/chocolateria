@@ -43,6 +43,8 @@ export type TranslatedCartItem = {
 export default function Checkout() {
     const dispatch = useDispatch();
 
+    const [mpWalletLoaded, setMpWalletLoaded] = useState(false);
+
     const closeCartAction = () => {
         dispatch(setCartOpen(false));
     };
@@ -351,9 +353,9 @@ export default function Checkout() {
                                     <div className="Disabled_Shipping_Message">
                                         <span className="material-icons">info</span>{" "}
                                         <p className="Disabled_Shipping_Text">
-                                            <Link href="/usuario" className="Disabled_Shipping_Link">
+                                            <button className="Disabled_Shipping_Link" onClick={openUserTabAction}>
                                                 Faça login ou crie uma conta
-                                            </Link>{" "}
+                                            </button>{" "}
                                             para habilitar a entrega!
                                         </p>
                                     </div>
@@ -362,8 +364,17 @@ export default function Checkout() {
                                 {shippingOption === "Entrega" && (
                                     <>
                                         <div className="Shipping_Costs Card_Subtopic">
-                                            <h3>Valor da Entrega</h3>
-                                            <p>R$ {shippingCost},00</p>
+                                            <h4 className="Shipping_Detail_Info_Title">
+                                                <span className="material-icons">info</span> Valor da Entrega
+                                            </h4>
+                                            <p className="Shipping_Detail_Info">Os custos de entrega variam dependendo de sua localização.</p>
+                                            <p className="Shipping_Detail_Info">
+                                                Para entregas em Curitiba e Região Metropolitana a média é de 15,00 a 30,00 reais. Já para entregas
+                                                interestaduais e internacionais estes valores podem ser mais elevados.
+                                            </p>
+                                            <p className="Shipping_Detail_Info">
+                                                Após a finalização da compra entraremos em contato para lhe repassar o valor e combinar a data.
+                                            </p>
                                         </div>
                                     </>
                                 )}

@@ -491,6 +491,16 @@ p {
     gap: var(--normal-gap);
 }
 
+.Shipping_Detail_Info_Title {
+    display: flex;
+    align-items: center;
+    gap: var(--small-gap);
+}
+
+.Shipping_Detail_Info {
+    font-size: 0.9rem;
+}
+
 .Checkout_Btn.Disabled,
 .Wallet.Disabled,
 .Checkout_Shipping_Option.Disabled {
@@ -514,6 +524,9 @@ p {
     display: inline;
     text-decoration: underline;
     text-underline-offset: 0.15rem;
+    background-color: transparent;
+    border: none;
+    color: var(--bg-color);
 }
 
 .Shipping_Icon {
@@ -1722,7 +1735,7 @@ p {
     overflow-y: hidden;
 
     align-items: center;
-    padding-inline: var(--normal-gap);
+    padding-inline: 1.5rem;
     padding-block: var(--normal-gap);
     padding-bottom: 1rem;
 }
@@ -1747,7 +1760,7 @@ p {
 
     background-color: var(--text-color);
     color: var(--bg-color);
-    padding: var(--small-gap) var(--normal-gap);
+    padding: var(--small-gap) var(--medium-gap);
     border-radius: var(--border-radius);
 }
 

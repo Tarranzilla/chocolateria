@@ -19,9 +19,9 @@ export default function handler(req, res) {
                 body: {
                     items: cartItems,
                     back_urls: {
-                        success: "http://localhost:3000/checkout_success",
-                        failure: "http://localhost:3000/checkout_failure",
-                        pending: "http://localhost:3000/checkout_pending",
+                        success: "http://localhost:667/checkout_mp_success",
+                        failure: "http://localhost:667/checkout_mp_failure",
+                        pending: "http://localhost:667/checkout_mp_pending",
                     },
                 },
             })

@@ -6,7 +6,7 @@ import { useSimpleTranslation } from "@/international/useSimpleTranslation";
 
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/store";
-import { toggleCartOpen, toggleUserTabOpen } from "@/store/slices/interface";
+import { toggleCartOpen, toggleUserTabOpen, setUserTabOpen, setCartOpen, closeMenu } from "@/store/slices/interface";
 
 export default function Footer() {
     const router = useRouter();
@@ -30,10 +30,22 @@ export default function Footer() {
         dispatch(toggleCartOpen());
     };
 
+    const closeCartAction = () => {
+        dispatch(setCartOpen(false));
+    };
+
     const isUserTabOpen = useSelector((state: RootState) => state.interface.isUserTabOpen);
 
     const toggleUserTabAction = () => {
         dispatch(toggleUserTabOpen());
+    };
+
+    const closeUserTabAction = () => {
+        dispatch(setUserTabOpen(false));
+    };
+
+    const closeMenuAction = () => {
+        dispatch(closeMenu());
     };
 
     const isUserPageActive = router.pathname === "/usuario";
@@ -61,11 +73,23 @@ export default function Footer() {
                 <p className="Desktop_Only">© 2024 Tropical Cacau</p>
 
                 <div className="Footer_Actions">
-                    <div className={btnClassUser} title={t.footer.emailBtn.label} onClick={toggleUserTabAction}>
+                    <div
+                        className={btnClassUser}
+                        title={t.footer.emailBtn.label}
+                        onClick={() => {
+                            toggleUserTabAction();
+                            closeCartAction();
+                            closeMenuAction();
+                        }}
+                    >
                         <span className={isUserTabOpen ? "Footer_Icon material-icons Active" : "Footer_Icon material-icons"}>person_pin</span>
                     </div>
                     <div
-                        onClick={toggleCartAction}
+                        onClick={() => {
+                            toggleCartAction();
+                            closeUserTabAction();
+                            closeMenuAction();
+                        }}
                         className={isCartOpen ? "Footer_Btn Footer_Cart_Btn Active" : "Footer_Btn Footer_Cart_Btn"}
                         title={t.footer.scheduleBtn.label}
                     >
@@ -73,12 +97,26 @@ export default function Footer() {
                         <span className="Footer_Icon material-icons">shopping_basket</span>
                     </div>
                     <div className="Footer_Btn Phone_Btn" title={t.footer.telephoneBtn.label}>
-                        <Link href="/#chocolates">
+                        <Link
+                            href="/#chocolates"
+                            onClick={() => {
+                                closeCartAction();
+                                closeUserTabAction();
+                                closeMenuAction();
+                            }}
+                        >
                             <span className="Footer_Icon material-icons">storefront</span>
                         </Link>
                     </div>
                     <div className="Footer_Btn Email_Btn" title={t.footer.emailBtn.label}>
-                        <Link href="/#">
+                        <Link
+                            href="/#"
+                            onClick={() => {
+                                closeCartAction();
+                                closeUserTabAction();
+                                closeMenuAction();
+                            }}
+                        >
                             <span className="Footer_Icon material-icons">home</span>
                         </Link>
                     </div>

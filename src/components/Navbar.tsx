@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/store";
-import { toggleMenuOpen } from "@/store/slices/interface";
+import { toggleMenuOpen, setUserTabOpen, setCartOpen } from "@/store/slices/interface";
 
 export default function Navbar() {
     const dispatch = useDispatch();
@@ -17,6 +17,14 @@ export default function Navbar() {
 
     const toggleMenuAction = () => {
         dispatch(toggleMenuOpen());
+    };
+
+    const closeUserTabAction = () => {
+        dispatch(setUserTabOpen(false));
+    };
+
+    const closeCartAction = () => {
+        dispatch(setCartOpen(false));
     };
 
     const router = useRouter();
@@ -53,6 +61,8 @@ export default function Navbar() {
                         <span
                             onClick={() => {
                                 toggleMenuAction();
+                                closeCartAction();
+                                closeUserTabAction();
                             }}
                             className={isMenuOpen ? "material-icons Menu_Icon Active" : "Menu_Icon material-icons"}
                         >
