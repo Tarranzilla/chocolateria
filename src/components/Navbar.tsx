@@ -41,9 +41,9 @@ export default function Navbar() {
         <>
             <div className="Navbar">
                 <div className="Navbar_Content">
-                    <div className="Logo_Container">
+                    <Link href={"/#"} className="Logo_Container">
                         <Image className="Logo" src="/brand_imgs/Icone_TC_Alt_256.png" alt="Logo" width={100} height={100} />
-                    </div>
+                    </Link>
                     <h1 className="Logo_Type">tropical cacau</h1>
 
                     <div className="Navbar_Links Desktop_Only">

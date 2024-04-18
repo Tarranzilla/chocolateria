@@ -1819,6 +1819,7 @@ p {
     gap: var(--medium-gap);
     margin-inline: auto;
     max-width: 1000px;
+    text-align: center;
 }
 
 .Subcription_Btn {

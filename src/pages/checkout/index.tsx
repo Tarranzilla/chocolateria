@@ -172,6 +172,14 @@ export default function Checkout() {
 
         message += `\nTotal = ${cartTotal.toFixed(2)}`;
 
+        // Add shipping option and observation to the message
+        message += `\n\nOpção de envio: ${shippingOption}`;
+        if (shippingOption === "Entrega") {
+            const checkoutAddressString = `Logradouro: ${checkoutAdress.street}, Número: ${checkoutAdress.number}, Complemento: ${checkoutAdress.extra}, Cidade: ${checkoutAdress.city}, CEP: ${checkoutAdress.postalCode}`;
+            message += `\nEndereço de entrega: ${checkoutAddressString}`;
+        }
+        message += `\n\nObservação: ${observation}`;
+
         // Encode the message in a URL
         const encodedMessage = encodeURIComponent(message);
 

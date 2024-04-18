@@ -175,7 +175,7 @@ const OrderItem: React.FC<OrderItemProps> = ({ order, index }) => {
                                 transition={{ duration: 0.2, ease: [0.43, 0.13, 0.23, 0.96] }}
                                 className="User_Order_Shipping_Option"
                             >
-                                <h4 className="User_Order_Shipping_Option_Title">Método de Entrega:</h4>
+                                <h4 className="User_Order_Shipping_Option_Title">Método de Recebimento:</h4>
                                 <div className="User_Order_Shipping_Option_Type">
                                     {order.shippingOption === "Entrega" && <span className="material-icons">local_shipping</span>}
 
