@@ -32,6 +32,9 @@ import { useEffect } from "react";
 
 import productList from "@/content_lists/product_list";
 
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/store";
+
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -89,6 +92,22 @@ async function addProduct(db: Firestore, projectId: string, product: any) {
     }
 }
 
+function OverflowController() {
+    const isMenuOpen = useSelector((state: RootState) => state.interface.isMenuOpen);
+    const isUserTabOpen = useSelector((state: RootState) => state.interface.isUserTabOpen);
+    const isCartOpen = useSelector((state: RootState) => state.interface.isCartOpen);
+
+    useEffect(() => {
+        if (isMenuOpen || isUserTabOpen || isCartOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "auto";
+        }
+    }, [isMenuOpen, isUserTabOpen, isCartOpen]);
+
+    return null;
+}
+
 export default function App({ Component, pageProps }: AppProps) {
     return (
         <>
@@ -97,6 +116,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
             <FirebaseProvider>
                 <Provider store={store}>
+                    <OverflowController />
                     <Intro />
                     <Cookies />
                     <Navbar />
