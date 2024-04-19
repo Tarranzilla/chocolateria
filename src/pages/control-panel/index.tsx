@@ -30,6 +30,100 @@ const OrderItem: React.FC<OrderItemProps> = ({ order, index }) => {
     const [editedOrderStatus, setEditedOrderStatus] = useState("");
     const [orderStatusIsExpanded, setOrderStatusIsExpanded] = useState(false);
 
+    const updateOrderStatus = async (orderID: string, newStatus: string) => {
+        const db = getFirestore();
+        const projectUID = "WIlxTvYLd20rFopeFTZT"; // Replace with your project's UID
+        const orderDocRef = doc(db, `projects/${projectUID}/orders`, orderID);
+
+        let statusUpdate;
+
+        switch (newStatus) {
+            case "Aguardando Aprovação":
+                statusUpdate = {
+                    confirmed: true,
+                    waitingPayment: false,
+                    inProduction: false,
+                    waitingForRetrieval: false,
+                    waitingForDelivery: false,
+                    delivered: false,
+                    cancelled: false,
+                };
+                break;
+            case "Aguardando Pagamento":
+                statusUpdate = {
+                    confirmed: false,
+                    waitingPayment: true,
+                    inProduction: false,
+                    waitingForRetrieval: false,
+                    waitingForDelivery: false,
+                    delivered: false,
+                    cancelled: false,
+                };
+                break;
+            case "Em Produção":
+                statusUpdate = {
+                    confirmed: false,
+                    waitingPayment: false,
+                    inProduction: true,
+                    waitingForRetrieval: false,
+                    waitingForDelivery: false,
+                    delivered: false,
+                    cancelled: false,
+                };
+                break;
+            case "Aguardando Retirada":
+                statusUpdate = {
+                    confirmed: false,
+                    waitingPayment: false,
+                    inProduction: false,
+                    waitingForRetrieval: true,
+                    waitingForDelivery: false,
+                    delivered: false,
+                    cancelled: false,
+                };
+                break;
+            case "Aguardando Entrega":
+                statusUpdate = {
+                    confirmed: false,
+                    waitingPayment: false,
+                    inProduction: false,
+                    waitingForRetrieval: false,
+                    waitingForDelivery: true,
+                    delivered: false,
+                    cancelled: false,
+                };
+                break;
+            case "Entregue":
+                statusUpdate = {
+                    confirmed: false,
+                    waitingPayment: false,
+                    inProduction: false,
+                    waitingForRetrieval: false,
+                    waitingForDelivery: false,
+                    delivered: true,
+                    cancelled: false,
+                };
+                break;
+            case "Cancelado":
+                statusUpdate = {
+                    confirmed: false,
+                    waitingPayment: false,
+                    inProduction: false,
+                    waitingForRetrieval: false,
+                    waitingForDelivery: false,
+                    delivered: false,
+                    cancelled: true,
+                };
+                break;
+            default:
+                console.error(`Invalid status: ${newStatus}`);
+                return;
+        }
+
+        await setDoc(orderDocRef, { status: statusUpdate }, { merge: true });
+        console.log(`Order status updated to: ${statusUpdate}`);
+    };
+
     return (
         <div className="User_Order_Item" key={index}>
             <div className="Order_Item_Text">
@@ -68,38 +162,38 @@ const OrderItem: React.FC<OrderItemProps> = ({ order, index }) => {
 
                 {!orderStatusIsExpanded && editedOrderStatus === "" && (
                     <p className="User_Order_Status CP_Order_Status">
-                        {order.status.confirmed === false && (
+                        {order.status.confirmed === true && (
                             <>
                                 <span className="material-icons">hourglass_bottom</span>
                                 Aguardando Aprovação
                             </>
                         )}
-                        {order.status.confirmed === true && order.status.waitingPayment === true && (
+                        {order.status.waitingPayment === true && (
                             <>
                                 <span className="material-icons">request_quote</span> Aguardando Pagamento
                             </>
                         )}
-                        {order.status.confirmed === true && order.status.inProduction === true && (
+                        {order.status.inProduction === true && (
                             <>
                                 <span className="material-icons">category</span> Em Produção
                             </>
                         )}
-                        {order.status.confirmed === true && order.status.waitingForRetrieval === true && (
+                        {order.status.waitingForRetrieval === true && (
                             <>
                                 <span className="material-icons">store</span> Aguardando Retirada
                             </>
                         )}
-                        {order.status.confirmed === true && order.status.waitingForDelivery === true && (
+                        {order.status.waitingForDelivery === true && (
                             <>
                                 <span className="material-icons">conveyor_belt</span> Aguardando Entrega
                             </>
                         )}
-                        {order.status.confirmed === true && order.status.delivered === true && (
+                        {order.status.delivered === true && (
                             <>
                                 <span className="material-icons">markunread_mailbox</span> Entregue
                             </>
                         )}
-                        {order.status.confirmed === true && order.status.cancelled === true && (
+                        {order.status.cancelled === true && (
                             <>
                                 <span className="material-icons">do_not_disturb</span> Cancelado
                             </>
@@ -173,6 +267,7 @@ const OrderItem: React.FC<OrderItemProps> = ({ order, index }) => {
                             onClick={() => {
                                 setEditedOrderStatus(selectedStatus);
                                 setOrderStatusIsExpanded(false);
+                                updateOrderStatus(order.orderID, selectedStatus);
                             }}
                         >
                             save
@@ -208,6 +303,7 @@ const OrderItem: React.FC<OrderItemProps> = ({ order, index }) => {
                                 exit={{ opacity: 0 }}
                                 transition={{ duration: 0.2, ease: [0.43, 0.13, 0.23, 0.96] }}
                                 className="User_Order_Product_List"
+                                key={"product-list"}
                             >
                                 {order.orderItems.map((product, index) => {
                                     return (
@@ -226,6 +322,7 @@ const OrderItem: React.FC<OrderItemProps> = ({ order, index }) => {
                                 exit={{ opacity: 0 }}
                                 transition={{ duration: 0.2, ease: [0.43, 0.13, 0.23, 0.96] }}
                                 className="User_Order_Shipping_Option"
+                                key={"shipping-option"}
                             >
                                 <h4 className="User_Order_Shipping_Option_Title">Método de Recebimento:</h4>
                                 <div className="User_Order_Shipping_Option_Type">
@@ -307,7 +404,7 @@ export default function ControlPanel() {
                     <h1 className="User_Page_Title CP_Orders_Title">Pedidos</h1>
                     <div className="CP_Orders_List">
                         {sortedOrders.map((order, index) => (
-                            <OrderItem order={order} index={index} />
+                            <OrderItem order={order} index={index} key={index} />
                         ))}
                     </div>
                 </div>
