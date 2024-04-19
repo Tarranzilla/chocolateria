@@ -251,7 +251,6 @@ export default function Checkout() {
                         <div className="Checkout_Card Order_Placed_Card">
                             <h2 className="Checkout_Card_OrderNumber">Pedido Realizado!</h2>
                             <h3 className="Checkout_Card_OrderNumber_Content">Seu pedido foi registrado com sucesso!</h3>
-                            <p className="">Você receberá um email com as informações do pedido em breve.</p>
 
                             <p className="">
                                 <strong>Para confirmar o seu pedido é necessário entrar em contato com nossa equipe pelo whatsapp!</strong>
@@ -259,6 +258,8 @@ export default function Checkout() {
                             <p className="">
                                 Você pode acompanhar o andamento deste e de outros pedidos pela <strong>Aba do Cliente</strong>
                             </p>
+
+                            <p className="">Você também receberá um email com as informações do pedido após a confirmação e o pagamento.</p>
                         </div>
 
                         <button className="Checkout_Return_Btn" onClick={openUserTabAction}>

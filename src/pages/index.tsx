@@ -10,6 +10,7 @@ import { useSimpleTranslation } from "@/international/useSimpleTranslation";
 import { use, useState } from "react";
 
 import { motion as m, AnimatePresence } from "framer-motion";
+import InstaFeed from "@/components/InstaFeed";
 
 const businessTelephone = "5541999977955";
 
@@ -182,6 +183,10 @@ export default function Home() {
                             <AboutContainer key={index} title={content.title} paragraphs={content.paragraphs} bannerImgSrc={content.bannerImgSrc} />
                         ))}
                     </section>
+                    <section id="Instagram-News">
+                        <h2 className="Section_Title">Nossas Publicações</h2>
+                        <InstaFeed />
+                    </section>
                     <section id="chocolates" key={"chocolates"}>
                         <div className="Services_Container">
                             <h2 className="Section_Title" key={t.landingPage.sections.expertise.title}>
@@ -192,11 +197,11 @@ export default function Home() {
                     </section>
 
                     <section id="clube-tropical" className="Club_Section" key={"clube-tropical"}>
-                        <h2 className="Section_Title">Clube Tropical</h2>
+                        <h2 className="Section_Title Club_Title">Clube Tropical</h2>
 
-                        <p>Que tal ter uma seleção de chocolates deliciosos chegando todo mês na sua casa?</p>
+                        <p className="Club_Text">Que tal ter uma seleção de chocolates deliciosos chegando todo mês na sua casa?</p>
 
-                        <p>
+                        <p className="Club_Text">
                             Membros do Clube Tropical recebem todo mês uma caixa com 4 chocolates especiais, feitos com cacau de origem única - E
                             também possuem acesso a descontos de 10% em todos os outros produtos.
                         </p>
@@ -224,7 +229,7 @@ export default function Home() {
                                     <div className="Contact_Layout_Container">
                                         <div className="Telephone Contact_Layout_Item" key={"contato_telefone"}>
                                             <h3 className="Contact_Layout_Item_Title">{t.landingPage.sections.contact.telephone.title}</h3>
-                                            <p>(41) 999 999 999</p>
+                                            <p>+55 (41) 987 754 906</p>
                                         </div>
 
                                         <div className="Working_Hours Contact_Layout_Item" key={"contato_email"}>

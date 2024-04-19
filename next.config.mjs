@@ -6,6 +6,9 @@ const nextConfig = {
         locales: ["en", "pt-BR"],
         defaultLocale: "pt-BR",
     },
+    images: {
+        domains: ["scontent.cdninstagram.com"],
+    },
 };
 
 export default nextConfig;
