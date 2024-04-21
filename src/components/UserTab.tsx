@@ -14,6 +14,8 @@ import { RootState } from "@/store/store";
 import type { CheckoutOrder } from "@/store/slices/cart";
 import { setOrderNeedsUpdate } from "@/store/slices/user";
 
+import Link from "next/link";
+
 import { motion as m, AnimatePresence } from "framer-motion";
 
 const businessTelephone = "5541999977955";
@@ -204,6 +206,8 @@ export default function UserTab() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [user, setUser] = useState<User | null>(null);
+    const [telephone, setTelephone] = useState<string>("");
+    const [isAdmin, setIsAdmin] = useState(false);
 
     const [orderList, setOrderList] = useState<CheckoutOrder[]>([]);
     const orderNeedUpdate = useSelector((state: RootState) => state.user.ordersNeedUpdate);
@@ -374,6 +378,13 @@ export default function UserTab() {
         if (userDoc.exists()) {
             setAddress(userDoc.data().address);
             setEditedAddress(userDoc.data().address);
+            setTelephone(userDoc.data().telephone);
+
+            if (userDoc.data().isAdmin) {
+                setIsAdmin(true);
+            } else {
+                setIsAdmin(false);
+            }
         }
     };
 
@@ -465,10 +476,18 @@ export default function UserTab() {
                                         <p className="User_Info_Detail User_Name">{user.displayName || "Nenhum Nome"}</p>
                                         <p className="User_Info_Label">Email</p>
                                         <p className="User_Info_Detail User_Email">{user.email}</p>
-                                        <p className="User_Info_Label">Tropical ID</p>
-                                        <p className="User_Info_Detail User_ID">{user.uid}</p>
+                                        <p className="User_Info_Label">Telefone</p>
+                                        <p className="User_Info_Detail User_ID">{telephone}</p>
                                     </div>
                                 </div>
+
+                                {isAdmin && (
+                                    <div className="User_Info_Item Control_Panel_Link">
+                                        <Link href="/control-panel">
+                                            <h3>Abrir Painel de Controle</h3> <span className="material-icons">tune</span>
+                                        </Link>
+                                    </div>
+                                )}
                                 <h2 className="User_Adress_Title User_Page_Title">Endereço</h2>
                                 <div className="User_Adress_Info">
                                     <div className="User_Info_Item">

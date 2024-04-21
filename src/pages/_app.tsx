@@ -116,7 +116,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
             <FirebaseProvider>
                 <Provider store={store}>
-                    <OverflowController />
+                    {/* <OverflowController /> */}
                     <Intro />
                     <Cookies />
                     <Navbar />

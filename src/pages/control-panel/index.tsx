@@ -2,6 +2,9 @@ import { getStorage, ref, uploadBytes } from "firebase/storage";
 import { getFirestore, doc, setDoc, getDoc, getDocs, DocumentData, Timestamp, collection, query, where } from "firebase/firestore";
 import { useFirebase } from "@/components/FirebaseContext";
 
+import { signInWithPopup, GoogleAuthProvider, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import { getAuth, User, signOut, updateProfile } from "firebase/auth";
+
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/store";
 import type { CheckoutOrder } from "@/store/slices/cart";
@@ -11,6 +14,42 @@ import { useEffect, useState } from "react";
 import { OrderItemProps } from "@/components/UserTab";
 
 import { AnimatePresence, motion as m } from "framer-motion";
+import { set } from "firebase/database";
+
+type UserType = {
+    address: {
+        street: string;
+        postalCode: string;
+        city: string;
+        number: string;
+        extra: string;
+    };
+    telephone: string;
+    authUID: string;
+    email: string;
+    isAdmin: boolean;
+    isOwner: boolean;
+    isMember: boolean;
+    name: string;
+};
+
+type ProductType = {
+    availableForSale: boolean;
+    category: string;
+    description: string[];
+    imgSrc: any[]; // Replace with the actual type
+    ingredients: any[]; // Replace with the actual type
+    isPromoted: boolean;
+    key: string;
+    pageLink: string;
+    price: number;
+    showInStore: boolean;
+    stockQtty: number;
+    subtitle: string;
+    title: string;
+    type: string;
+    weight: string;
+};
 
 const businessTelephone = "5541999977955";
 
@@ -24,7 +63,7 @@ const generateWhatsAppURL = (orderNumber: string) => {
     return `https://wa.me/${businessTelephone}?text=${encodedMessage}`;
 };
 
-const OrderItem: React.FC<OrderItemProps> = ({ order, index }) => {
+const CP_OrderItem: React.FC<OrderItemProps> = ({ order, index }) => {
     const [isExpanded, setIsExpanded] = useState(false);
     const [selectedStatus, setSelectedStatus] = useState("");
     const [editedOrderStatus, setEditedOrderStatus] = useState("");
@@ -341,8 +380,35 @@ const OrderItem: React.FC<OrderItemProps> = ({ order, index }) => {
 };
 
 export default function ControlPanel() {
+    const [user, setUser] = useState<User | null>(null);
+    const [isAdmin, setIsAdmin] = useState(false);
+
+    const [productsList, setProductsList] = useState<ProductType[]>([]);
+
+    const [usersList, setUsersList] = useState<UserType[]>([]);
+
     const [orderList, setOrderList] = useState<CheckoutOrder[]>([]);
     const sortedOrders = orderList.sort((a, b) => b.orderDate.toMillis() - a.orderDate.toMillis());
+
+    // Fetch the user's document from Firestore when the user logs in
+    const fetchUserDoc = async (uid: string) => {
+        const db = getFirestore();
+        const projectUID = "WIlxTvYLd20rFopeFTZT"; // Replace with your project's UID
+        const userDocRef = doc(db, `projects/${projectUID}/users`, uid);
+
+        const userDoc = await getDoc(userDocRef);
+        if (userDoc.exists()) {
+            console.log("User document data:", userDoc.data());
+
+            if (userDoc.data().isAdmin === true) {
+                console.log("User is an admin");
+                setIsAdmin(true);
+            } else {
+                console.log("User is not an admin");
+                setIsAdmin(false);
+            }
+        }
+    };
 
     // Fetch all orders for the given user UID
     const fetchOrdersForUser = async (tropicalID: string): Promise<CheckoutOrder[] | undefined> => {
@@ -391,43 +457,149 @@ export default function ControlPanel() {
         return orders;
     };
 
+    const fetchAllUsers = async (): Promise<UserType[] | undefined> => {
+        const db = getFirestore();
+        const projectUID = "WIlxTvYLd20rFopeFTZT"; // Replace with your project's UID
+        const usersCollectionRef = collection(db, `projects/${projectUID}/users`);
+
+        const querySnapshot = await getDocs(usersCollectionRef);
+
+        const users: UserType[] = [];
+
+        querySnapshot.forEach((doc) => {
+            const data = doc.data() as UserType;
+            if (data) {
+                users.push(data);
+            }
+        });
+
+        setUsersList(users);
+        console.log("Users list:", users);
+
+        return users;
+    };
+
+    const fetchAllProducts = async () => {
+        const db = getFirestore();
+        const projectUID = "WIlxTvYLd20rFopeFTZT"; // Replace with your project's UID
+        const productsCollectionRef = collection(db, `projects/${projectUID}/products`);
+
+        const querySnapshot = await getDocs(productsCollectionRef);
+
+        const products: ProductType[] = [];
+
+        querySnapshot.forEach((doc) => {
+            const data = doc.data() as ProductType;
+            if (data) {
+                products.push(data);
+            }
+        });
+
+        setProductsList(products);
+        console.log("Products list:", products);
+        return products;
+    };
+
+    useEffect(() => {
+        const auth = getAuth();
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            setUser(user);
+            if (user) {
+                fetchUserDoc(user.uid);
+                fetchOrdersForUser(user.uid);
+            } else {
+                // User is unsubscribed or not logged in
+                setIsAdmin(false);
+            }
+        });
+
+        // Cleanup subscription on unmount
+        return () => unsubscribe();
+    }, []);
+
     useEffect(() => {
         // Fetch all orders
         fetchAllOrders();
+        fetchAllUsers();
+        fetchAllProducts();
     }, []);
 
     return (
         <main className="Page_Wrapper">
             <div className="Control_Pannel_Container">
                 <h1 className="User_Page_Title">Painel de Controle</h1>
-                <div className="CP_Orders">
-                    <h1 className="User_Page_Title CP_Orders_Title">Pedidos</h1>
-                    <div className="CP_Orders_List">
-                        {sortedOrders.map((order, index) => (
-                            <OrderItem order={order} index={index} key={index} />
-                        ))}
-                    </div>
-                </div>
 
-                <div className="CP_Products">
-                    <h2>Produtos</h2>
-                    <div className="CP_Products_List">
-                        <div className="CP_Product">
-                            <h3 className="CP_Product_Name">Produto 1</h3>
-                            <p className="CP_Product_Price">R$ 100,00</p>
-                            <button className="CP_Product_Edit">Editar</button>
+                {!isAdmin && <h2>Apenas Administradores têm acesso à estas funcionalidades.</h2>}
+
+                {isAdmin && (
+                    <>
+                        <div className="CP_Orders">
+                            <h1 className="User_Page_Title CP_Orders_Title">Pedidos</h1>
+                            <div className="CP_Orders_List">
+                                {sortedOrders.map((order, index) => (
+                                    <CP_OrderItem order={order} index={index} key={index} />
+                                ))}
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div className="CP_Customers">
-                    <h2>Clientes</h2>
-                    <div className="CP_Customers_List">
-                        <div className="CP_Customer">
-                            <h3 className="CP_Customer_Name">Cliente 1</h3>
-                            <p className="CP_Customer_Email">joaotarran@gmail.com</p>
+
+                        <div className="CP_Products">
+                            <h1 className="User_Page_Title CP_Orders_Title">Produtos</h1>
+                            <div className="CP_Products_List">
+                                {productsList.map((product, index) => (
+                                    <div className="CP_Product" key={product.title}>
+                                        <img src={product.imgSrc[0].src} alt={product.title} className="CP_Product_Img" />
+                                        <div className="CP_Product_Info">
+                                            <h3 className="CP_Product_Name">{product.title}</h3>
+                                            <p className="CP_Product_Price">R$ {product.price},00</p>
+                                            <button className="CP_Product_Edit">
+                                                Editar <span className="material-icons CP_Product_Edit_Icon">edit</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
-                    </div>
-                </div>
+                        <div className="CP_Customers">
+                            <h1 className="User_Page_Title CP_Orders_Title">Clientes</h1>
+                            <div className="CP_Customers_List">
+                                {usersList.map((user, index) => (
+                                    <div className="CP_Customer" key={user.name + index}>
+                                        <span className="material-icons User_No_Image">person_pin</span>
+
+                                        <div className="CP_Customer_Info">
+                                            <h3 className="CP_Customer_Name">{user.name}</h3>
+                                            <p className="CP_Customer_Email">{user.telephone}</p>
+                                            <p className="CP_Customer_Email">{user.email}</p>
+                                            {user.isAdmin && (
+                                                <p className="CP_Customer_Admin">
+                                                    {" "}
+                                                    <span className="material-icons CP_Customer_Admin_Status_Icon">star</span>Admin
+                                                </p>
+                                            )}
+                                            {user.isOwner && (
+                                                <p className="CP_Customer_Admin">
+                                                    <span className="material-icons CP_Customer_Admin_Status_Icon">gavel</span>Proprietário
+                                                </p>
+                                            )}
+                                            {!user.isAdmin && !user.isOwner && (
+                                                <p className="CP_Customer_Admin">
+                                                    {" "}
+                                                    <span className="material-icons">emoji_emotions</span>Cliente
+                                                </p>
+                                            )}
+                                            {user.isMember && (
+                                                <p className="CP_Customer_Admin">
+                                                    {" "}
+                                                    <span className="material-icons CP_Customer_Admin_Status_Icon">loyalty</span>Assinante
+                                                </p>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </>
+                )}
             </div>
         </main>
     );

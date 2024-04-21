@@ -2175,13 +2175,34 @@ p {
 
 .User_Image {
     border-radius: var(--border-radius);
-    width: 128px;
-    height: 128px;
+    width: 192px;
+    height: 192px;
     object-fit: cover;
 }
 
 .User_No_Image {
     font-size: 8rem;
+}
+
+.Control_Panel_Link {
+    text-align: center;
+    padding: var(--medium-gap) var(--medium-gap) !important;
+    justify-content: center !important;
+    font-family: var(--special-font);
+    transition: scale 0.3s ease, background-color 0.3s ease;
+}
+
+.Control_Panel_Link:hover,
+.Control_Panel_Link:focus-within {
+    scale: 1.025;
+    background-color: white;
+}
+
+.Control_Panel_Link > a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--normal-gap);
 }
 
 .User_Main_Info {
@@ -2358,7 +2379,7 @@ p {
     gap: var(--normal-gap);
     font-size: 1rem;
     width: 100%;
-    max-width: 24rem;
+    max-width: 30rem;
 }
 
 .User_Info_Edit_Control {
@@ -2409,16 +2430,15 @@ p {
     gap: var(--normal-gap);
     font-size: 1rem;
     width: 100%;
-    max-width: 24rem;
+    max-width: 30rem;
 }
 
 /* PAINEL DE CONTROLE */
 
 .CP_Orders_List {
-    display: flex;
-    flex-direction: column;
-    gap: var(--medium-gap);
-    margin-block: var(--medium-gap);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px; /* adjust this value as needed for spacing between grid items */
 }
 
 .CP_Orders_Title {
@@ -2447,6 +2467,108 @@ p {
     border: none;
 }
 
+.CP_Products_List {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px; /* adjust this value as needed for spacing between grid items */
+}
+
+.CP_Customers_List {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px; /* adjust this value as needed for spacing between grid items */
+}
+
+.CP_Product {
+    display: flex;
+    background-color: var(--text-color);
+    border-radius: var(--border-radius);
+}
+
+.CP_Customer {
+    display: flex;
+    align-items: center;
+    border-radius: var(--border-radius);
+}
+
+.CP_Product_Img {
+    width: 144px;
+    height: 144px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+    flex-shrink: 0;
+}
+
+.CP_Product_Info {
+    color: var(--bg-color);
+    display: flex;
+    flex-direction: column;
+    gap: var(--small-gap);
+    padding: var(--normal-gap);
+    width: 100%;
+}
+
+.CP_Customer_Info {
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    gap: var(--small-gap);
+    padding: var(--normal-gap);
+    width: 100%;
+}
+
+.CP_Product_Edit {
+    display: flex;
+    gap: var(--normal-gap);
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--bg-color);
+    color: var(--text-color);
+
+    border: none;
+    border-radius: var(--border-radius);
+
+    margin-top: auto;
+    margin-left: auto;
+
+    padding: var(--normal-gap) var(--medium-gap);
+
+    cursor: pointer;
+
+    transition: scale 0.3s ease, background-color 0.3s ease;
+}
+
+.CP_Customer_Admin {
+    display: flex;
+    gap: var(--normal-gap);
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--text-color);
+    color: var(--bg-color);
+
+    border: none;
+    border-radius: var(--border-radius);
+
+    padding: var(--small-gap) var(--medium-gap);
+
+    cursor: pointer;
+
+    transition: scale 0.3s ease, background-color 0.3s ease;
+}
+
+.CP_Product_Edit:focus-within,
+.CP_Product_Edit:hover {
+    scale: 1.05;
+    background-color: white;
+    color: var(--bg-color);
+}
+
+.CP_Product_Edit_Icon {
+    font-size: 1rem;
+}
+
 /* MEDIA QUERIES */
 
 @media (max-width: 850px) {
@@ -2460,6 +2582,13 @@ p {
 
     .Logo_Type {
         font-size: 1.6rem;
+    }
+
+    .UserTab {
+        max-width: unset;
+
+        height: 100vh;
+        max-height: var(--Content-height);
     }
 
     .Menu_Container {
