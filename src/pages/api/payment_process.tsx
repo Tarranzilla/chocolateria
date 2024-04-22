@@ -74,7 +74,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     res.status(200).json({ success: true });
                 } else {
                     // A assinatura é inválida
-                    res.status(401).json({ error: "Unauthorized" });
+                    res.status(401).json({ error: `Invalid Signature | ${secret}` });
                 }
             } else {
                 // handle the case where secret is undefined
