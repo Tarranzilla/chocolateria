@@ -12,6 +12,9 @@ export default function Footer() {
     const router = useRouter();
     const dispatch = useDispatch();
 
+    const isControlPanelOpen = useSelector((state: RootState) => state.interface.isControlPanelOpen);
+    const isAdmin = useSelector((state: RootState) => state.user.userIsAdmin);
+
     const t = useSimpleTranslation();
 
     const changeLanguage = () => {
@@ -96,6 +99,7 @@ export default function Footer() {
                         {cartItemsTotalAmmount > 0 && <span className="Footer_Badge">{cartItemsTotalAmmount}</span>}
                         <span className="Footer_Icon material-icons">shopping_basket</span>
                     </div>
+
                     <div className="Footer_Btn Phone_Btn" title={t.footer.telephoneBtn.label}>
                         <Link
                             href="/#chocolates"
@@ -120,11 +124,28 @@ export default function Footer() {
                             <span className="Footer_Icon material-icons">home</span>
                         </Link>
                     </div>
-                    <div className="Footer_Btn Phone_Btn" title={t.footer.telephoneBtn.label}>
-                        <Link href="tel:+1234567890">
-                            <span className="Footer_Icon material-icons">phone</span>
-                        </Link>
-                    </div>
+
+                    {isAdmin && (
+                        <div className="Footer_Btn Phone_Btn" title="Abrir Painel de Controle">
+                            <Link
+                                onClick={() => {
+                                    closeCartAction();
+                                    closeUserTabAction();
+                                    closeMenuAction();
+                                }}
+                                href="/control-panel"
+                            >
+                                <span className={isControlPanelOpen ? "Footer_Icon material-icons Active" : "Footer_Icon material-icons"}>tune</span>
+                            </Link>
+                        </div>
+                    )}
+                    {!isAdmin && (
+                        <div className="Footer_Btn Phone_Btn" title={t.footer.telephoneBtn.label}>
+                            <Link href="tel:+1234567890">
+                                <span className="Footer_Icon material-icons">phone</span>
+                            </Link>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>

@@ -4,9 +4,12 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { FirebaseStorage, getStorage } from "firebase/storage";
 import { Auth, getAuth, onAuthStateChanged } from "firebase/auth";
-import { getFirestore, Firestore } from "firebase/firestore";
+import { Firestore, getFirestore, doc, setDoc, getDoc, getDocs, DocumentData, Timestamp, collection, query, where } from "firebase/firestore";
 
 import { initMercadoPago } from "@mercadopago/sdk-react";
+
+import { setUserIsAdmin } from "@/store/slices/user";
+import { useDispatch } from "react-redux";
 
 // Your Firebase configuration
 const firebaseConfig = {
@@ -34,11 +37,39 @@ const FirebaseContext = createContext<FirebaseContextValue | null>(null);
 
 // Create a provider for Firebase
 export const FirebaseProvider = ({ children }: FirebaseProviderProps) => {
+    const dispatch = useDispatch();
+
     const [firebaseInitialized, setFirebaseInitialized] = useState(false);
 
     const [auth, setAuth] = useState<Auth | null>(null);
     const [firestore, setFirestore] = useState<Firestore | null>(null);
     const [storage, setStorage] = useState<FirebaseStorage | null>(null);
+
+    // Fetch the user's document from Firestore when the user logs in
+    const fetchUserDoc = async (uid: string) => {
+        const db = getFirestore();
+        const projectUID = "WIlxTvYLd20rFopeFTZT"; // Replace with your project's UID
+        const userDocRef = doc(db, `projects/${projectUID}/users`, uid);
+
+        const userDoc = await getDoc(userDocRef);
+        if (userDoc.exists()) {
+            console.log("User document data:", userDoc.data());
+
+            if (userDoc.data().isAdmin === true) {
+                console.log("User is an admin");
+                setUserIsAdminAction(true);
+            } else {
+                console.log("User is not an admin");
+                setUserIsAdminAction(false);
+            }
+        } else {
+            setUserIsAdminAction(false);
+        }
+    };
+
+    const setUserIsAdminAction = (isAdmin: boolean) => {
+        dispatch(setUserIsAdmin(isAdmin));
+    };
 
     useEffect(() => {
         initMercadoPago(`${process.env.NEXT_PUBLIC_MERCADO_PAGO_PUBLIC_KEY}`);
@@ -56,9 +87,11 @@ export const FirebaseProvider = ({ children }: FirebaseProviderProps) => {
             if (user) {
                 // User is signed in
                 console.log("User signed in: ", user);
+                fetchUserDoc(user.uid);
             } else {
                 // User is signed out
                 console.log("User signed out");
+                setUserIsAdminAction(false);
             }
         });
 

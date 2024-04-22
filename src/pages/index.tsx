@@ -175,16 +175,19 @@ export default function Home() {
                                 {t.landingPage.sections.about.title}
                             </h1>
                             {t.landingPage.sections.about.paragraphs.map((paragraph, index) => (
-                                <p key={index}>{paragraph}</p>
+                                <p className={"About_Main_Description_P"} key={index}>
+                                    {paragraph}
+                                </p>
                             ))}
                         </div>
 
+                        <h2 className="Section_Title Club_Title">O Universo do Cacau</h2>
                         {AboutContent.map((content, index) => (
                             <AboutContainer key={index} title={content.title} paragraphs={content.paragraphs} bannerImgSrc={content.bannerImgSrc} />
                         ))}
                     </section>
                     <section id="Instagram-News">
-                        <h2 className="Section_Title">Nossas Publicações</h2>
+                        <h2 className="Section_Title">Publicações nas Redes</h2>
                         <InstaFeed />
                     </section>
                     <section id="chocolates" key={"chocolates"}>

@@ -17,6 +17,7 @@ type InterfaceState = {
     isCartOpen: boolean;
     isCartHelperOpen: boolean;
     isUserTabOpen: boolean;
+    isControlPanelOpen: boolean;
 };
 
 // Estado inicial da interface
@@ -36,6 +37,7 @@ const initialInterfaceState: InterfaceState = {
     isCartOpen: false,
     isCartHelperOpen: false,
     isUserTabOpen: false,
+    isControlPanelOpen: false,
 };
 
 // Define o slice da interface
@@ -94,6 +96,10 @@ const InterfaceSlice = createSlice({
         setUserTabOpen: (state, action: PayloadAction<boolean>) => {
             state.isUserTabOpen = action.payload;
         },
+
+        setControlPanelOpen: (state, action: PayloadAction<boolean>) => {
+            state.isControlPanelOpen = action.payload;
+        },
     },
 });
 
@@ -116,6 +122,7 @@ export const {
     setCartHelperOpen,
     toggleUserTabOpen,
     setUserTabOpen,
+    setControlPanelOpen,
 } = InterfaceSlice.actions;
 
 export default InterfaceSlice.reducer;

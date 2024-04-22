@@ -8,6 +8,7 @@ import { getAuth, User, signOut, updateProfile } from "firebase/auth";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/store";
 import type { CheckoutOrder } from "@/store/slices/cart";
+import { setUserTabOpen, setControlPanelOpen } from "@/store/slices/interface";
 
 import { useEffect, useState } from "react";
 
@@ -78,6 +79,17 @@ const CP_OrderItem: React.FC<OrderItemProps> = ({ order, index }) => {
 
         switch (newStatus) {
             case "Aguardando Aprovação":
+                statusUpdate = {
+                    confirmed: false,
+                    waitingPayment: false,
+                    inProduction: false,
+                    waitingForRetrieval: false,
+                    waitingForDelivery: false,
+                    delivered: false,
+                    cancelled: false,
+                };
+                break;
+            case "Confirmado":
                 statusUpdate = {
                     confirmed: true,
                     waitingPayment: false,
@@ -201,10 +213,16 @@ const CP_OrderItem: React.FC<OrderItemProps> = ({ order, index }) => {
 
                 {!orderStatusIsExpanded && editedOrderStatus === "" && (
                     <p className="User_Order_Status CP_Order_Status">
-                        {order.status.confirmed === true && (
+                        {Object.values(order.status).every((status) => status === false) && (
                             <>
                                 <span className="material-icons">hourglass_bottom</span>
                                 Aguardando Aprovação
+                            </>
+                        )}
+                        {order.status.confirmed === true && (
+                            <>
+                                <span className="material-icons">hourglass_bottom</span>
+                                Confirmado
                             </>
                         )}
                         {order.status.waitingPayment === true && (
@@ -246,6 +264,12 @@ const CP_OrderItem: React.FC<OrderItemProps> = ({ order, index }) => {
                             <>
                                 <span className="material-icons">hourglass_bottom</span>
                                 Aguardando Aprovação
+                            </>
+                        )}
+                        {editedOrderStatus === "Confirmado" && (
+                            <>
+                                <span className="material-icons">hourglass_bottom</span>
+                                Confirmado
                             </>
                         )}
                         {editedOrderStatus === "Aguardando Pagamento" && (
@@ -294,6 +318,7 @@ const CP_OrderItem: React.FC<OrderItemProps> = ({ order, index }) => {
                         <select className="CP_Order_Status_Selector" value={selectedStatus} onChange={(e) => setSelectedStatus(e.target.value)}>
                             <option value="">Selecione um novo status</option>
                             <option value="Aguardando Aprovação">Aguardando Aprovação</option>
+                            <option value="Confirmado">Confirmado</option>
                             <option value="Aguardando Pagamento">Aguardando Pagamento</option>
                             <option value="Em Produção">Em Produção</option>
                             <option value="Aguardando Retirada">Aguardando Retirada</option>
@@ -380,6 +405,17 @@ const CP_OrderItem: React.FC<OrderItemProps> = ({ order, index }) => {
 };
 
 export default function ControlPanel() {
+    const distpatch = useDispatch();
+    const isUserTabOpen = useSelector((state: RootState) => state.interface.isUserTabOpen);
+
+    const setUserTabOpenAction = (isOpen: boolean) => {
+        distpatch(setUserTabOpen(isOpen));
+    };
+
+    const setControlPanelOpenAction = (isOpen: boolean) => {
+        distpatch(setControlPanelOpen(isOpen));
+    };
+
     const [user, setUser] = useState<User | null>(null);
     const [isAdmin, setIsAdmin] = useState(false);
 
@@ -524,12 +560,23 @@ export default function ControlPanel() {
         fetchAllProducts();
     }, []);
 
+    useEffect(() => {
+        if (isUserTabOpen) {
+            setUserTabOpenAction(false);
+            setControlPanelOpenAction(true);
+        }
+
+        return () => {
+            setControlPanelOpenAction(false);
+        };
+    }, []);
+
     return (
         <main className="Page_Wrapper">
             <div className="Control_Pannel_Container">
                 <h1 className="User_Page_Title">Painel de Controle</h1>
 
-                {!isAdmin && <h2>Apenas Administradores têm acesso à estas funcionalidades.</h2>}
+                {!isAdmin && <h2 className="CP_Not_Admin_Msg">Apenas Administradores têm acesso à estas funcionalidades.</h2>}
 
                 {isAdmin && (
                     <>

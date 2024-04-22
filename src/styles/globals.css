@@ -777,7 +777,7 @@ p {
 
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     gap: var(--medium-gap);
     padding: var(--medium-gap);
@@ -824,7 +824,6 @@ p {
     display: flex;
     flex-direction: column;
     gap: var(--medium-gap);
-    height: 100%;
     max-height: 75%;
     width: 100%;
     max-width: calc(1000px - 2 * var(--medium-gap));
@@ -1233,6 +1232,11 @@ p {
     display: flex;
     flex-direction: column;
     gap: var(--medium-gap);
+}
+
+.About_Main_Description_P {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    text-align: center;
 }
 
 .About_Container {
@@ -2435,6 +2439,19 @@ p {
 
 /* PAINEL DE CONTROLE */
 
+.Control_Pannel_Container {
+    min-height: var(--Content-height);
+    display: flex;
+    flex-direction: column;
+    font-family: var(--special-font);
+    font-size: 0.8rem;
+}
+
+.CP_Not_Admin_Msg {
+    text-align: center;
+    margin-block: auto;
+}
+
 .CP_Orders_List {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -2589,6 +2606,11 @@ p {
 
         height: 100vh;
         max-height: var(--Content-height);
+    }
+
+    .User_Image {
+        width: 128px;
+        height: 128px;
     }
 
     .Menu_Container {

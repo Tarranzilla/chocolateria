@@ -92,38 +92,44 @@ export const OrderItem: React.FC<OrderItemProps> = ({ order, index }) => {
                 </div>
 
                 <p className="User_Order_Status">
-                    {order.status.confirmed === false && (
+                    {Object.values(order.status).every((status) => status === false) && (
                         <>
                             <span className="material-icons">hourglass_bottom</span>
                             Aguardando Aprovação
                         </>
                     )}
-                    {order.status.confirmed === true && order.status.waitingPayment === true && (
+                    {order.status.confirmed === true && (
+                        <>
+                            <span className="material-icons">hourglass_bottom</span>
+                            Confirmado
+                        </>
+                    )}
+                    {order.status.waitingPayment === true && (
                         <>
                             <span className="material-icons">request_quote</span> Aguardando Pagamento
                         </>
                     )}
-                    {order.status.confirmed === true && order.status.inProduction === true && (
+                    {order.status.inProduction === true && (
                         <>
                             <span className="material-icons">category</span> Em Produção
                         </>
                     )}
-                    {order.status.confirmed === true && order.status.waitingForRetrieval === true && (
+                    {order.status.waitingForRetrieval === true && (
                         <>
                             <span className="material-icons">store</span> Aguardando Retirada
                         </>
                     )}
-                    {order.status.confirmed === true && order.status.waitingForDelivery === true && (
+                    {order.status.waitingForDelivery === true && (
                         <>
                             <span className="material-icons">conveyor_belt</span> Aguardando Entrega
                         </>
                     )}
-                    {order.status.confirmed === true && order.status.delivered === true && (
+                    {order.status.delivered === true && (
                         <>
                             <span className="material-icons">markunread_mailbox</span> Entregue
                         </>
                     )}
-                    {order.status.confirmed === true && order.status.cancelled === true && (
+                    {order.status.cancelled === true && (
                         <>
                             <span className="material-icons">do_not_disturb</span> Cancelado
                         </>
@@ -299,6 +305,11 @@ export default function UserTab() {
                             authUID: result.user.uid,
                             email: result.user.email,
                             name: result.user.displayName,
+                            isAdmin: false,
+                            isMember: false,
+                            isOwner: false,
+                            telephone: "",
+                            avatarURL: result.user.photoURL ? result.user.photoURL : "",
                         },
                         { merge: true }
                     );

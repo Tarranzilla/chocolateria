@@ -113,9 +113,8 @@ export default function App({ Component, pageProps }: AppProps) {
         <>
             <Analytics />
             <SpeedInsights />
-
-            <FirebaseProvider>
-                <Provider store={store}>
+            <Provider store={store}>
+                <FirebaseProvider>
                     {/* <OverflowController /> */}
                     <Intro />
                     <Cookies />
@@ -126,8 +125,8 @@ export default function App({ Component, pageProps }: AppProps) {
                         <Component {...pageProps} />
                     </AnimatePresence>
                     <Footer />
-                </Provider>
-            </FirebaseProvider>
+                </FirebaseProvider>
+            </Provider>
         </>
     );
 }

@@ -108,12 +108,12 @@ const portugueseWebStructure: WebStructure = {
                 key: "quem-somos",
                 title: "A Chocolateria",
                 paragraphs: [
-                    "A Tropical Cacau é uma Chocolateria Brasileira criada pela nutricionista, chocolate-maker e chocolatier Letícia Guedes.",
-                    "Letícia é formada em nutrição pela Universidade Tuiuti e possui especialização como chocolate maker e chocolatier pela Escola de Chocolateria Castelli.",
-                    "Após anos de experiência como nutricionista, decidiu se aprofundar na confeitaria e fundar a Tropical Cacau, uma chocolateria que tem como objetivo oferecer experiências únicas e saborosas para seus clientes.",
-                    "Desde o cacau cuidadosamente selecionado, até a produção artesanal em nossa própria fábrica em Curitiba, cada etapa do processo é feita com paixão e responsabilidade.",
-                    "Pois buscamos oferecer ao mundo o melhor do chocolate brasileiro por meio de uma cadeia produtiva justa e sustentável - Que seja capaz de valorizar o trabalho das pessoas envolvidas e promover desenvolvimento econômico e social.",
-                    "Gostou da idéia? Então junte-se a nós nesta jornada em busca do verdadeiro sabor do Cacau!",
+                    "A Tropical Cacau é uma Chocolateria criada por Letícia Guedes - Nutricionista pela Universidade Tuiuti, Especialista na Produção de Chocolates e Chocolatier pela Escola de Chocolateria Castelli.",
+                    "Após anos de experiência atuando como nutricionista, Letícia decidiu se aprofundar na confeitaria e fundar a Tropical Cacau, uma chocolateria que tem como objetivo oferecer experiências únicas e saborosas para seus clientes.",
+                    "Desde o cacau cuidadosamente selecionado, até a produção artesanal em nossa própria fábrica na região de Curitiba - Cada etapa do processo é feita com paixão e responsabilidade.",
+                    "Buscamos oferecer ao mundo o melhor do chocolate brasileiro por meio de uma cadeia produtiva justa e sustentável - Que seja capaz de valorizar o trabalho das pessoas envolvidas e promover desenvolvimento econômico e social.",
+                    "Gostou da idéia?",
+                    "Então junte-se a nós nesta jornada em busca do verdadeiro sabor do Cacau!",
                 ],
             },
 

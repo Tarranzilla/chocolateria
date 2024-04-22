@@ -18,11 +18,13 @@ export type User = {
 type UserState = {
     currentUser: User | null;
     ordersNeedUpdate: boolean;
+    userIsAdmin: boolean;
 };
 
 const initialState: UserState = {
     currentUser: null,
     ordersNeedUpdate: false,
+    userIsAdmin: false,
 };
 
 type SetCurrentUserAction = PayloadAction<User>;
@@ -38,8 +40,11 @@ const userSlice = createSlice({
         setOrderNeedsUpdate: (state, action: UpdateOrdersAction) => {
             state.ordersNeedUpdate = action.payload;
         },
+        setUserIsAdmin: (state, action: PayloadAction<boolean>) => {
+            state.userIsAdmin = action.payload;
+        },
     },
 });
 
-export const { setCurrentUser, setOrderNeedsUpdate } = userSlice.actions;
+export const { setCurrentUser, setOrderNeedsUpdate, setUserIsAdmin } = userSlice.actions;
 export default userSlice.reducer;

@@ -129,7 +129,7 @@ export default function Checkout() {
             clientAdress: checkoutAdress.street + ", " + checkoutAdress.number + "( " + checkoutAdress.extra + " )" + " - " + checkoutAdress.city,
 
             status: {
-                confirmed: false,
+                confirmed: true,
                 waitingPayment: false,
                 inProduction: false,
                 waitingForRetrieval: false,
