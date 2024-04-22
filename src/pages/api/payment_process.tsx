@@ -1,23 +1,22 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import crypto from "crypto";
-import admin from "firebase-admin";
-import { getFirestore, doc, setDoc } from "firebase/firestore";
+import admin, { ServiceAccount } from "firebase-admin";
 
 // Inicialize o Firebase Admin SDK com as credenciais do seu projeto
 // Certifique-se de configurar as variáveis de ambiente ou o arquivo de configuração do Firebase antes disso.
 
-const firebaseConfig = {
-    apiKey: "AIzaSyDeiia7aGI9U1c-IYIUEgaIlh2fvXyIJ8g",
-    authDomain: "pragmatas-dev.firebaseapp.com",
-    projectId: "pragmatas-dev",
-    storageBucket: "pragmatas-dev.appspot.com",
-    messagingSenderId: "378425065259",
-    appId: "1:378425065259:web:9b729d86bae46f5cdf0f6e",
-    measurementId: "G-1RVSKZH43N",
+if (!process.env.FIREBASE_PRIVATE_KEY) {
+    throw new Error("The FIREBASE_PRIVATE_KEY environment variable is not defined");
+}
+
+const serviceAccount: admin.ServiceAccount = {
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    privateKey: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, "\n"),
 };
 
 admin.initializeApp({
-    credential: admin.credential.cert(firebaseConfig),
+    credential: admin.credential.cert(serviceAccount),
     databaseURL: "https://pragmatas-dev.firebaseio.com",
 });
 
