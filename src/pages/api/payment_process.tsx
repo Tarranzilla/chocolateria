@@ -56,7 +56,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             */
 
-            const signatureTemplate = `id:${body.data.id};request-id:${headers["x-request-id"]};ts:${tsValue}`;
+            const signatureTemplate = `id:${body.data.id};ts:${tsValue};request-id:${headers["x-request-id"]};`;
             console.log("signatureTemplate:", signatureTemplate);
 
             if (typeof secret === "string") {
@@ -65,7 +65,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 console.log("signature:", signature);
 
                 // Comparar a chave gerada com a chave extraída do cabeçalho
-                if (signature === generatedSignature) {
+                if (signatureValue === generatedSignature) {
                     // A assinatura é válida, agora você pode processar os dados e salvá-los no Firebase
                     const firestore = admin.firestore();
                     const projectUID = "WIlxTvYLd20rFopeFTZT"; // Replace with your project's UID
