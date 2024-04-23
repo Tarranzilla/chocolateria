@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
+import { StatusScreen } from "@mercadopago/sdk-react";
+
 import { getFirestore, doc, setDoc, getDoc, getDocs, DocumentData, Timestamp, collection, query, where } from "firebase/firestore";
 
 type Order = {
@@ -114,6 +116,9 @@ export default function CheckoutMpSuccess() {
                 <p>processing_mode: {router.query.processing_mode}</p>
                 <p>merchant_account_id: {router.query.merchant_account_id}</p>
             </div>
+
+            <StatusScreen initialization={{ paymentId: router.query.payment_id as string }} />
+
             <Link href="/">Voltar à Pagina Inicial</Link>
         </main>
     );
