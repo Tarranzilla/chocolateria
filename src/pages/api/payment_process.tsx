@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import crypto from "crypto";
 import admin, { ServiceAccount } from "firebase-admin";
+import axios from "axios";
 
 // Inicialize o Firebase Admin SDK com as credenciais do seu projeto
 // Certifique-se de configurar as variáveis de ambiente ou o arquivo de configuração do Firebase antes disso.
@@ -8,6 +9,8 @@ import admin, { ServiceAccount } from "firebase-admin";
 if (!process.env.FIREBASE_PRIVATE_KEY) {
     throw new Error("The FIREBASE_PRIVATE_KEY environment variable is not defined");
 }
+
+const MP_PUBLIC_KEY = process.env.MERCADO_PAGO_PUBLIC_KEY;
 
 const serviceAccount: admin.ServiceAccount = {
     projectId: process.env.FIREBASE_PROJECT_ID,
@@ -34,10 +37,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             api_version: "v1",
             data: {"id":"123456"},
             date_created: "2021-11-01T02:02:02Z",
-            id: "123456",                                 // UserID de vendedor
+            id: "123456",                                 // UserID da notificação
             live_mode: false,
             type: "payment",                              // Tipo de notificação
-            user_id: 201803820
+            user_id: 201803820                            // UserID de vendedor
 
         }
 
@@ -71,26 +74,45 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     const orderUID = body.data.id;
                     const ordersCollectionRef = firestore.collection(`projects/${projectUID}/orders`);
 
+                    /*
+                    
+                    Depois de dar um retorno à notificação e confirmar o seu recebimento, você obterá as informações completas do recurso 
+                    notificado acessando o endpoint correspondente da API:
+
+                    payment - https://api.mercadopago.com/v1/payments/[ID]
+
+                    */
+
                     switch (body.type) {
                         case "payment":
                             // Handle payment notification
+                            const payment_id = body.data.id;
                             const payment_info = body.data;
                             const action = body.action;
                             const action_id = body.id;
                             const action_date = body.date_created;
-                            const user_id = body.user_id;
+                            const vendor_id = body.user_id;
 
                             const paymentData = {
+                                payment_id: payment_id,
                                 payment_info: payment_info,
                                 action: action,
                                 action_id: action_id,
                                 action_date: action_date,
-                                user_id: user_id,
+                                vendor_id: vendor_id,
                             };
 
                             const orderData = {
                                 mp_data: paymentData,
                             };
+
+                            const fullPaymentInfo = await axios.get(`https://api.mercadopago.com/v1/payments/${payment_id}`, {
+                                headers: {
+                                    Authorization: `Bearer ${MP_PUBLIC_KEY}`,
+                                },
+                            });
+
+                            console.log("Full Payment Info Data:", fullPaymentInfo.data);
 
                             await ordersCollectionRef.doc(orderUID).set(orderData, { merge: false });
                             break;
