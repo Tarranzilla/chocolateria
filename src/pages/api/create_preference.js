@@ -3,7 +3,7 @@ import { MercadoPagoConfig, Preference } from "mercadopago";
 // Adicione as credenciais
 const client = new MercadoPagoConfig({ accessToken: "TEST-5866109528270009-031110-5662bc4f630f78b04519adecead1b55b-201803820" });
 
-export default function handler(req, res) {
+export default function preferenceHandler(req, res) {
     if (req.method === "POST") {
         let cartItems = req.body.map((item) => ({
             title: item.id,

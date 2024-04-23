@@ -18,9 +18,12 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getFirestore, doc, setDoc, getDoc, DocumentData, Timestamp } from "firebase/firestore";
 import { set } from "firebase/database";
 
+import { PreferenceOnInitialization } from "@mercadopago/sdk-react/bricks/wallet/types";
+
 import Product from "@/types/Product";
 import { CartItem } from "@/store/slices/cart";
 import type { CheckoutOrder } from "@/store/slices/cart";
+import mercado_pago from "@/store/slices/mercado_pago";
 
 const telephone = "5541999977955";
 const cepOrigem = "80030470";
@@ -154,6 +157,66 @@ export default function Checkout() {
         clearCartAction();
     };
 
+    const onSubmitTest = async () => {
+        // callback called when clicking on Wallet Brick
+        // this is possible because Brick is a button
+    };
+
+    // Gerar a Preferência do Mercado Pago
+    const handleMercadoClick = async () => {
+        console.log("Mercado Pago Clicked");
+
+        if (cartItems.length < 1) {
+            console.log("No items in cart, no purchase will happen.");
+            return;
+        }
+
+        // setPaymentLoading(true);
+        return new Promise((resolve, reject) => {
+            fetch(`${process.env.NEXT_PUBLIC_MERCADO_PAGO_CREATE_PREFERENCE_API_URL}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(cartItems),
+            })
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.text();
+                })
+                .then((data) => {
+                    if (data) {
+                        const preference = JSON.parse(data);
+                        console.log("Mercado Pago Preference Created");
+                        console.log("preferencia: ", preference);
+                        handleCheckout("mercado_pago");
+                        resolve(preference.id);
+                    }
+                })
+                .catch((error) => {
+                    console.error(error);
+                    reject();
+                })
+                .finally(() => {
+                    console.log("end of promise");
+                });
+        });
+    };
+
+    const handleCheckoutWithPromise = (method: string): Promise<unknown> => {
+        return new Promise((resolve, reject) => {
+            if (method === "whatsapp") {
+                resolve(handleCheckout("whatsapp"));
+            } else if (method === "mercadoPago") {
+                resolve(handleCheckout("mercadoPago"));
+            } else {
+                reject("Invalid method");
+            }
+        });
+    };
+
     const generateWhatsAppURL = () => {
         let message = "Olá, tenho interesse em adquirir os seguintes itens:\n\n";
 
@@ -208,7 +271,10 @@ export default function Checkout() {
         });
 
         // Cleanup function to unsubscribe from the listener when the component unmounts
-        return () => unsubscribe();
+        return () => {
+            unsubscribe();
+            // window.walletBrickController.unmount()
+        };
     }, []);
 
     useEffect(() => {
@@ -419,8 +485,10 @@ export default function Checkout() {
 
                             <div id="wallet_container" className={cartItems.length > 0 ? "Wallet" : "Wallet Disabled"}>
                                 <Wallet
-                                    initialization={{ preferenceId: mercadoPagoSlice.preferenceId }}
+                                    initialization={{ redirectMode: "modal" }}
                                     customization={{ texts: { action: "buy", valueProp: "smart_option" } }}
+                                    onSubmit={handleMercadoClick}
+                                    onError={(error) => console.error("Wallet error", error)}
                                 />
                             </div>
                         </div>
