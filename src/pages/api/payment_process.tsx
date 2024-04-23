@@ -34,10 +34,29 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             console.log("ts:", ts);
             console.log("signature:", signature);
 
+            const tsValue = ts.split("=")[1];
+            const signatureValue = signature.split("=")[1];
+
+            console.log("tsValue:", tsValue);
+            console.log("signatureValue:", signatureValue);
+
             // Criar um template com os dados recebidos na notificação
             // id:[data.id_url];request-id:[x-request-id_header];ts:[ts_header];
 
-            const signatureTemplate = `id:${body.data.id};request-id:${headers["x-request-id"]};ts:${ts}`;
+            /*
+            Vercel Console Log
+
+            ts: ts=1713885135727
+            signature: v1=22a84e355e624848ab56060757a51dda194e4911fe811fa636dcab04bf2f1578
+            signatureTemplate: id:123456;request-id:3ccaaa30-b543-4336-bb62-53a801eff92f;ts:ts=1713885135727
+            generatedSignature: bb3052e7c5a716f02ccf403b7b8bd60c1aa7ff91024541b35a042e7ac79f2177
+            signature: v1=22a84e355e624848ab56060757a51dda194e4911fe811fa636dcab04bf2f1578
+
+            Nasty Bug, Invalid Signature Maybe
+
+            */
+
+            const signatureTemplate = `id:${body.data.id};request-id:${headers["x-request-id"]};ts:${tsValue}`;
             console.log("signatureTemplate:", signatureTemplate);
 
             if (typeof secret === "string") {
