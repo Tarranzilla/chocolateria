@@ -56,7 +56,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
             */
 
-            const signatureTemplate = `id:${body.data.id};ts:${tsValue};request-id:${headers["x-request-id"]};`;
+            // const signatureTemplate = `id:${body.data.id};request-id:${headers["x-request-id"]};ts:${tsValue}`; // Original
+            const signatureTemplate = `id:${body.data.id};request-id:${headers["x-request-id"]};ts:${tsValue};`; // Modificado
             console.log("signatureTemplate:", signatureTemplate);
 
             if (typeof secret === "string") {
