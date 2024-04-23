@@ -26,6 +26,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method === "POST") {
         const { body, headers } = req;
 
+        /* Exemplo de corpo (body) de uma notificação recebida do Mercado Pago
+
+        {
+
+            action: "payment.update",                     // Tipo de notificação recebida, indicando se se trata da atualização de um recurso ou da criação de um novo
+            api_version: "v1",
+            data: {"id":"123456"},
+            date_created: "2021-11-01T02:02:02Z",
+            id: "123456",                                 // UserID de vendedor
+            live_mode: false,
+            type: "payment",                              // Tipo de notificação
+            user_id: 201803820
+
+        }
+
+        */
+
         if (typeof headers["x-signature"] === "string") {
             // Exemplo do conteúdo enviado no header x-signature
             // ts=1704908010,v1=618c85345248dd820d5fd456117c2ab2ef8eda45a0282ff693eac24131a5e839
@@ -37,33 +54,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const tsValue = ts.split("=")[1];
             const signatureValue = signature.split("=")[1];
 
-            console.log("tsValue:", tsValue);
-            console.log("signatureValue:", signatureValue);
-
             // Criar um template com os dados recebidos na notificação
             // id:[data.id_url];request-id:[x-request-id_header];ts:[ts_header];
 
-            /*
-            Vercel Console Log
-
-            ts: ts=1713885135727
-            signature: v1=22a84e355e624848ab56060757a51dda194e4911fe811fa636dcab04bf2f1578
-            signatureTemplate: id:123456;request-id:3ccaaa30-b543-4336-bb62-53a801eff92f;ts:ts=1713885135727
-            generatedSignature: bb3052e7c5a716f02ccf403b7b8bd60c1aa7ff91024541b35a042e7ac79f2177
-            signature: v1=22a84e355e624848ab56060757a51dda194e4911fe811fa636dcab04bf2f1578
-
-            Nasty Bug, Invalid Signature Maybe
-
-            */
-
-            // const signatureTemplate = `id:${body.data.id};request-id:${headers["x-request-id"]};ts:${tsValue}`; // Original
-            const signatureTemplate = `id:${body.data.id};request-id:${headers["x-request-id"]};ts:${tsValue};`; // Modificado
+            const signatureTemplate = `id:${body.data.id};request-id:${headers["x-request-id"]};ts:${tsValue};`;
             console.log("signatureTemplate:", signatureTemplate);
 
             if (typeof secret === "string") {
                 const generatedSignature = crypto.createHmac("sha256", secret).update(signatureTemplate).digest("hex");
-                console.log("generatedSignature:", generatedSignature);
-                console.log("signature:", signature);
 
                 // Comparar a chave gerada com a chave extraída do cabeçalho
                 if (signatureValue === generatedSignature) {
@@ -76,13 +74,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     switch (body.type) {
                         case "payment":
                             // Handle payment notification
-                            const payment = body.data;
+                            const payment_info = body.data;
+                            const action = body.action;
+                            const action_id = body.id;
+                            const action_date = body.date_created;
+                            const user_id = body.user_id;
 
-                            const orderData = {
-                                mp_data: payment,
+                            const paymentData = {
+                                payment_info: payment_info,
+                                action: action,
+                                action_id: action_id,
+                                action_date: action_date,
+                                user_id: user_id,
                             };
 
-                            await ordersCollectionRef.doc(orderUID).set(orderData, { merge: true });
+                            const orderData = {
+                                mp_data: paymentData,
+                            };
+
+                            await ordersCollectionRef.doc(orderUID).set(orderData, { merge: false });
                             break;
                         case "plan":
                             // Handle plan notification
@@ -104,7 +114,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     res.status(200).json({ success: true });
                 } else {
                     // A assinatura é inválida
-                    console.log("Nasty Bug, Invalid Signature Maybe");
+                    console.log("Nasty Bug, Invalid Signature");
                     res.status(500).json({ error: `Invalid Signature | ${secret}` });
                 }
             } else {
