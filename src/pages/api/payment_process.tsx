@@ -27,13 +27,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const { body, headers } = req;
 
         if (typeof headers["x-signature"] === "string") {
+            // Exemplo do conteúdo enviado no header x-signature
+            // ts=1704908010,v1=618c85345248dd820d5fd456117c2ab2ef8eda45a0282ff693eac24131a5e839
+
             const [ts, signature] = headers["x-signature"].split(",");
+            console.log("ts:", ts);
+            console.log("signature:", signature);
 
             // Criar um template com os dados recebidos na notificação
-            const signatureTemplate = `id:${body.data.id_url};request-id:${headers["x-request-id"]};ts:${ts}`;
+            // id:[data.id_url];request-id:[x-request-id_header];ts:[ts_header];
+
+            const signatureTemplate = `id:${body.data.id};request-id:${headers["x-request-id"]};ts:${ts}`;
+            console.log("signatureTemplate:", signatureTemplate);
 
             if (typeof secret === "string") {
                 const generatedSignature = crypto.createHmac("sha256", secret).update(signatureTemplate).digest("hex");
+                console.log("generatedSignature:", generatedSignature);
+                console.log("signature:", signature);
 
                 // Comparar a chave gerada com a chave extraída do cabeçalho
                 if (signature === generatedSignature) {
@@ -74,10 +84,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     res.status(200).json({ success: true });
                 } else {
                     // A assinatura é inválida
+                    console.log("Nasty Bug, Invalid Signature Maybe");
                     res.status(500).json({ error: `Invalid Signature | ${secret}` });
                 }
             } else {
                 // handle the case where secret is undefined
+                console.log("Nasty Bug, Undefined Secret");
                 res.status(500).json({ error: "Internal Server Error - Undefined secret" });
             }
         } else {
