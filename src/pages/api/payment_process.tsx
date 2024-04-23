@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import crypto from "crypto";
 import admin, { ServiceAccount } from "firebase-admin";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 // Inicialize o Firebase Admin SDK com as credenciais do seu projeto
 // Certifique-se de configurar as variáveis de ambiente ou o arquivo de configuração do Firebase antes disso.
@@ -106,13 +106,28 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                                 mp_data: paymentData,
                             };
 
-                            const fullPaymentInfo = await axios.get(`https://api.mercadopago.com/v1/payments/${payment_id}`, {
-                                headers: {
-                                    Authorization: `Bearer ${MP_ACCESS_TOKEN}`,
-                                },
-                            });
+                            try {
+                                const fullPaymentInfo = await axios.get(`https://api.mercadopago.com/v1/payments/${payment_id}`, {
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                        Authorization: `Bearer ${MP_ACCESS_TOKEN}`,
+                                    },
+                                });
 
-                            console.log("Full Payment Info Data:", fullPaymentInfo.data);
+                                if (fullPaymentInfo.data) {
+                                    console.log(fullPaymentInfo.data);
+                                }
+
+                                // Rest of your code...
+                            } catch (error) {
+                                const axiosError = error as AxiosError; // Type assertion here
+
+                                if (axiosError.response && axiosError.response.status === 404) {
+                                    console.error("Payment not found:", payment_id);
+                                } else {
+                                    console.error("An error occurred:", axiosError);
+                                }
+                            }
 
                             await ordersCollectionRef.doc(orderUID).set(orderData, { merge: false });
                             break;
