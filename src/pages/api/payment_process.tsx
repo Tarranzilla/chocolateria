@@ -10,7 +10,7 @@ if (!process.env.FIREBASE_PRIVATE_KEY) {
     throw new Error("The FIREBASE_PRIVATE_KEY environment variable is not defined");
 }
 
-const MP_PUBLIC_KEY = process.env.MERCADO_PAGO_PUBLIC_KEY;
+const MP_ACCESS_TOKEN = process.env.MERCADO_PAGO_ACESS_TOKEN;
 
 const serviceAccount: admin.ServiceAccount = {
     projectId: process.env.FIREBASE_PROJECT_ID,
@@ -108,7 +108,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
                             const fullPaymentInfo = await axios.get(`https://api.mercadopago.com/v1/payments/${payment_id}`, {
                                 headers: {
-                                    Authorization: `Bearer ${MP_PUBLIC_KEY}`,
+                                    Authorization: `Bearer ${MP_ACCESS_TOKEN}`,
                                 },
                             });
 
