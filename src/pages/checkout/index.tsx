@@ -132,7 +132,7 @@ export default function Checkout() {
         }
 
         const order: CheckoutOrder = {
-            orderID: validPreferenceID,
+            orderID: customReference,
             customReference: customReference,
             orderItems: translatedCartItems,
             orderDate: Timestamp.now(),

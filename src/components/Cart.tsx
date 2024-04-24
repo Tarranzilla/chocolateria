@@ -54,34 +54,10 @@ export default function Cart() {
         }
 
         setPaymentLoading(true);
-
-        fetch(`${process.env.NEXT_PUBLIC_MERCADO_PAGO_CREATE_PREFERENCE_API_URL}`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(cartItems),
-        })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                return response.text();
-            })
-            .then((data) => {
-                if (data) {
-                    const preference = JSON.parse(data);
-                    setPreferenceIdAction(preference.id);
-                }
-            })
-            .catch((error) => {
-                console.error(error);
-            })
-            .finally(() => {
-                closeCartAction();
-                setPaymentLoading(false);
-                router.push("/checkout");
-            });
+        setPreferenceIdAction("FAKE PREFERENCE");
+        closeCartAction();
+        setPaymentLoading(false);
+        router.push("/checkout");
     };
 
     const generateWhatsAppURL = () => {
