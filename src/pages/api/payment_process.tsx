@@ -120,7 +120,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                                     const orderUID = fullPaymentInfo.data.external_reference;
                                     console.log("Order UID | EXTERNAL REFERENCE:", orderUID);
 
-                                    await ordersCollectionRef.doc(orderUID).set(orderData, { merge: false });
+                                    await ordersCollectionRef.doc(orderUID).set(orderData, { merge: true });
                                 }
 
                                 // Rest of your code...
