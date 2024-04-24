@@ -26,8 +26,8 @@ function generateOrderID() {
     const ordersCollectionRef = firestore.collection(`projects/${projectUID}/orders`);
     const ordersCount = ordersCollectionRef.count();
 
-    console.log("ordersCount:", ordersCount.query.count);
-    console.log("ordersCount query.count:", ordersCount.query.count);
+    console.log("ordersCount:", ordersCount.query.count());
+    console.log("ordersCount query.count:", ordersCount.query.count());
 }
 
 // Adicione as credenciais
