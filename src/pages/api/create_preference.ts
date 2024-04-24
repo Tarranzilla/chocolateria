@@ -20,15 +20,15 @@ admin.initializeApp({
     databaseURL: "https://pragmatas-dev.firebaseio.com",
 });
 
-function generateOrderID() {
+async function generateOrderID() {
     const firestore = admin.firestore();
     const projectUID = "WIlxTvYLd20rFopeFTZT"; // Replace with your project's UID
     const ordersCollectionRef = firestore.collection(`projects/${projectUID}/orders`);
-    const ordersCount = ordersCollectionRef.count();
+
+    const snapshot = await ordersCollectionRef.get();
+    const ordersCount = snapshot.size;
 
     console.log("ordersCount:", ordersCount);
-    console.log("ordersCount query:", ordersCount.query.count());
-    console.log("ordersCount query.count:", ordersCount.query.count());
 }
 
 // Adicione as credenciais
