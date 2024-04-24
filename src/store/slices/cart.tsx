@@ -24,6 +24,7 @@ export type CheckoutOrder = {
     clientAdress: string;
 
     orderID: string;
+    customReference?: string;
     orderDate: Timestamp;
     orderType: string; // whatsapp, mercado_pago,
     shippingOption: string;

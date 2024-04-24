@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import admin, { ServiceAccount } from "firebase-admin";
 import axios, { AxiosError } from "axios";
+import { v4 as uuidv4 } from "uuid";
 
 if (!process.env.FIREBASE_PRIVATE_KEY) {
     throw new Error("The FIREBASE_PRIVATE_KEY environment variable is not defined");
@@ -20,15 +21,24 @@ admin.initializeApp({
     databaseURL: "https://pragmatas-dev.firebaseio.com",
 });
 
-async function generateOrderID() {
+// Função para gerar um ID de pedido - Leitura Intensa, talvez devemos apenas gerar um UUID
+function generateOrderID() {
+    let customOrderID = uuidv4();
+    console.log(customOrderID);
+    return customOrderID;
+}
+
+async function incrementCounter() {
     const firestore = admin.firestore();
-    const projectUID = "WIlxTvYLd20rFopeFTZT"; // Replace with your project's UID
-    const ordersCollectionRef = firestore.collection(`projects/${projectUID}/orders`);
+    const projectUID = "WIlxTvYLd20rFopeFTZT";
+    const counterRef = firestore.doc(`projects/${projectUID}/metadata/counter`);
 
-    const snapshot = await ordersCollectionRef.get();
-    const ordersCount = snapshot.size;
+    await firestore.runTransaction(async (transaction) => {
+        const counterDoc = await transaction.get(counterRef);
+        const newCount = (counterDoc.data()?.count ?? 0) + 1;
 
-    console.log("ordersCount:", ordersCount);
+        transaction.update(counterRef, { count: newCount });
+    });
 }
 
 // Adicione as credenciais
@@ -44,8 +54,7 @@ export default function preferenceHandler(req: NextApiRequest, res: NextApiRespo
 
         // console.log(cartItems);
         const preference = new Preference(client);
-
-        generateOrderID();
+        const customID = generateOrderID();
 
         preference
             .create({
@@ -56,7 +65,7 @@ export default function preferenceHandler(req: NextApiRequest, res: NextApiRespo
                         failure: "https://chocolateria.vercel.app/checkout_mp_failure",
                         pending: "https://chocolateria.vercel.app/checkout_mp_pending",
                     },
-                    external_reference: "pagamento_teste",
+                    external_reference: customID,
                 },
             })
             .then(function (response) {
@@ -64,6 +73,7 @@ export default function preferenceHandler(req: NextApiRequest, res: NextApiRespo
                 console.log("full response:", response);
                 res.json({
                     id: response.id,
+                    custom_reference: customID,
                 });
             })
             .catch(function (error) {

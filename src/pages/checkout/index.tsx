@@ -114,7 +114,7 @@ export default function Checkout() {
         dispatch(setOrderNeedsUpdate(true));
     };
 
-    const handleCheckout = (orderType: string, preferenceID?: string) => {
+    const handleCheckout = (orderType: string, preferenceID?: string, custom_reference?: string) => {
         let validPreferenceID;
 
         if (preferenceID) {
@@ -123,8 +123,17 @@ export default function Checkout() {
             validPreferenceID = mercadoPagoSlice.preferenceId;
         }
 
+        let customReference;
+
+        if (custom_reference) {
+            customReference = custom_reference;
+        } else {
+            customReference = validPreferenceID;
+        }
+
         const order: CheckoutOrder = {
             orderID: validPreferenceID,
+            customReference: customReference,
             orderItems: translatedCartItems,
             orderDate: Timestamp.now(),
             orderType: orderType,
@@ -154,7 +163,7 @@ export default function Checkout() {
 
         const db = getFirestore();
         const projectUID = "WIlxTvYLd20rFopeFTZT"; // Replace with your project's UID
-        const ordersCollectionRef = doc(db, `projects/${projectUID}/orders`, validPreferenceID);
+        const ordersCollectionRef = doc(db, `projects/${projectUID}/orders`, customReference);
 
         setDoc(ordersCollectionRef, order);
 
@@ -199,6 +208,9 @@ export default function Checkout() {
                         const preference = JSON.parse(data);
                         console.log("Mercado Pago Preference Created");
                         console.log("preferencia: ", preference);
+                        console.log("preferencia.id: ", preference.id);
+                        console.log("preferencia.external_reference: ", preference.external_reference);
+
                         handleCheckout("mercado_pago", preference.id);
                         resolve(preference.id);
                     }
