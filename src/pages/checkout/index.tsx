@@ -209,9 +209,9 @@ export default function Checkout() {
                         console.log("Mercado Pago Preference Created");
                         console.log("preferencia: ", preference);
                         console.log("preferencia.id: ", preference.id);
-                        console.log("preferencia.external_reference: ", preference.external_reference);
+                        console.log("preferencia.external_reference: ", preference.custom_reference);
 
-                        handleCheckout("mercado_pago", preference.id, preference.external_reference);
+                        handleCheckout("mercado_pago", preference.id, preference.custom_reference);
                         resolve(preference.id);
                     }
                 })
