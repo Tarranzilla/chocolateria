@@ -211,7 +211,7 @@ export default function Checkout() {
                         console.log("preferencia.id: ", preference.id);
                         console.log("preferencia.external_reference: ", preference.external_reference);
 
-                        handleCheckout("mercado_pago", preference.id);
+                        handleCheckout("mercado_pago", preference.id, preference.external_reference);
                         resolve(preference.id);
                     }
                 })
