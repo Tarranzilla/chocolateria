@@ -114,9 +114,17 @@ export default function Checkout() {
         dispatch(setOrderNeedsUpdate(true));
     };
 
-    const handleCheckout = (orderType: string) => {
+    const handleCheckout = (orderType: string, preferenceID?: string) => {
+        let validPreferenceID;
+
+        if (preferenceID) {
+            validPreferenceID = preferenceID;
+        } else {
+            validPreferenceID = mercadoPagoSlice.preferenceId;
+        }
+
         const order: CheckoutOrder = {
-            orderID: mercadoPagoSlice.preferenceId,
+            orderID: validPreferenceID,
             orderItems: translatedCartItems,
             orderDate: Timestamp.now(),
             orderType: orderType,
@@ -146,7 +154,7 @@ export default function Checkout() {
 
         const db = getFirestore();
         const projectUID = "WIlxTvYLd20rFopeFTZT"; // Replace with your project's UID
-        const ordersCollectionRef = doc(db, `projects/${projectUID}/orders`, mercadoPagoSlice.preferenceId);
+        const ordersCollectionRef = doc(db, `projects/${projectUID}/orders`, validPreferenceID);
 
         setDoc(ordersCollectionRef, order);
 
@@ -191,7 +199,7 @@ export default function Checkout() {
                         const preference = JSON.parse(data);
                         console.log("Mercado Pago Preference Created");
                         console.log("preferencia: ", preference);
-                        handleCheckout("mercado_pago");
+                        handleCheckout("mercado_pago", preference.id);
                         resolve(preference.id);
                     }
                 })
@@ -202,18 +210,6 @@ export default function Checkout() {
                 .finally(() => {
                     console.log("end of promise");
                 });
-        });
-    };
-
-    const handleCheckoutWithPromise = (method: string): Promise<unknown> => {
-        return new Promise((resolve, reject) => {
-            if (method === "whatsapp") {
-                resolve(handleCheckout("whatsapp"));
-            } else if (method === "mercadoPago") {
-                resolve(handleCheckout("mercadoPago"));
-            } else {
-                reject("Invalid method");
-            }
         });
     };
 

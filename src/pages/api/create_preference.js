@@ -23,10 +23,12 @@ export default function preferenceHandler(req, res) {
                         failure: "https://chocolateria.vercel.app/checkout_mp_failure",
                         pending: "https://chocolateria.vercel.app/checkout_mp_pending",
                     },
+                    external_reference: "pagamento_teste",
                 },
             })
             .then(function (response) {
                 console.log(response.id);
+                console.log("full response:", response);
                 res.json({
                     id: response.id,
                 });
