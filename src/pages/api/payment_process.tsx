@@ -71,7 +71,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     // A assinatura é válida, agora você pode processar os dados e salvá-los no Firebase
                     const firestore = admin.firestore();
                     const projectUID = "WIlxTvYLd20rFopeFTZT"; // Replace with your project's UID
-                    const orderUID = body.data.id;
                     const ordersCollectionRef = firestore.collection(`projects/${projectUID}/orders`);
 
                     /*
@@ -102,10 +101,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                                 vendor_id: vendor_id,
                             };
 
-                            const orderData = {
-                                mp_data: paymentData,
-                            };
-
                             try {
                                 const fullPaymentInfo = await axios.get(`https://api.mercadopago.com/v1/payments/${payment_id}`, {
                                     headers: {
@@ -116,6 +111,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
                                 if (fullPaymentInfo.data) {
                                     console.log(fullPaymentInfo.data);
+
+                                    const orderData = {
+                                        mp_payment_status: paymentData,
+                                        full_mp_payment_info: fullPaymentInfo.data,
+                                    };
+
+                                    const orderUID = fullPaymentInfo.data.external_reference;
+                                    console.log("Order UID | EXTERNAL REFERENCE:", orderUID);
+
+                                    await ordersCollectionRef.doc(orderUID).set(orderData, { merge: false });
                                 }
 
                                 // Rest of your code...
@@ -128,8 +133,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                                     console.error("An error occurred:", axiosError);
                                 }
                             }
-
-                            await ordersCollectionRef.doc(orderUID).set(orderData, { merge: false });
                             break;
                         case "plan":
                             // Handle plan notification
