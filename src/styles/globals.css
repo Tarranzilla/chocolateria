@@ -419,6 +419,7 @@ p {
     outline-offset: -1px;
 
     flex-shrink: 0;
+    overflow: hidden;
 }
 
 .Section_Title {
@@ -430,12 +431,13 @@ p {
     align-items: center;
     justify-content: center;
 
+    background-color: var(--text-color);
+    color: var(--bg-color);
     font-size: 1.8rem;
     font-weight: bold;
-    color: var(--text-color);
     font-family: var(--special-font);
     letter-spacing: 0.25rem;
-    border-bottom: 1px solid var(--text-color);
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
 }
 
 .Section_Horizontal_Content {
@@ -497,7 +499,8 @@ p {
 
 .Scrollable_Item_Content_Wrapper > img {
     width: 100%;
-    max-height: 480px;
+    flex: 1;
+    max-height: 75%;
     object-fit: cover;
     border-radius: var(--border-radius);
     cursor: pointer;
@@ -1639,7 +1642,8 @@ p {
 }
 
 .Card_Img {
-    height: 240px;
+    height: 25vh;
+    max-height: 280px;
     width: 100%;
     object-fit: cover;
 
@@ -1963,7 +1967,7 @@ p {
     gap: var(--medium-gap);
     margin-bottom: 0.5rem;
     flex-wrap: wrap;
-    min-height: 2.4rem;
+    min-height: 3rem;
 }
 
 .Filter_Types {
@@ -1985,6 +1989,8 @@ p {
     display: flex;
     align-items: center;
     justify-content: center;
+
+    height: 2rem;
 
     cursor: pointer;
     transition: scale 0.3s ease, color 0.3s ease;
@@ -2069,26 +2075,50 @@ p {
     max-width: 640px;
 }
 
+.Main_Club_Text {
+    font-size: 1.6rem;
+    font-weight: 800;
+}
+
 .Subcription_Btn {
-    padding: var(--medium-gap) var(--large-gap);
-    background-color: var(--text-color);
-    color: var(--bg-color);
-    border-radius: var(--border-radius);
-    border: none;
-    cursor: pointer;
-    text-decoration: none;
-    transition: font-size 0.3s ease, background-color 0.3s ease;
+    width: 100%;
+    max-width: 16rem;
+    height: 3.2rem;
+
     display: flex;
     align-items: center;
     justify-content: center;
     gap: var(--normal-gap);
-    font-size: 1rem;
-    width: 100%;
-    max-width: 16rem;
-    height: 3.2rem;
+
     margin-inline: auto;
     margin-top: var(--normal-gap);
+    padding: var(--medium-gap) var(--large-gap);
+
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    border-radius: var(--border-radius);
+    border: none;
+    text-decoration: none;
+    cursor: pointer;
+
+    font-size: 1rem;
     font-weight: 600;
+
+    transition: font-size 0.3s ease, background-color 0.3s ease, scale 0.3s ease;
+}
+
+.Subcription_Btn:hover,
+.Subcription_Btn:focus-within {
+    font-size: 1.1rem;
+    background-color: white;
+    scale: 1.05;
+}
+
+.Clube_Tropical_Section_Img {
+    flex: 1;
+    width: 100%;
+    object-fit: cover;
+    border-radius: var(--border-radius);
 }
 
 /* NOVIDADES - FEED INSTAGRAM */

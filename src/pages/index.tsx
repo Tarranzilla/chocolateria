@@ -243,10 +243,10 @@ export default function Home() {
                     <section id="clube-tropical" className="Page_Section LP_Section Club_Section" key={"clube-tropical"}>
                         <h2 className="Section_Title Club_Title">Clube Tropical</h2>
 
-                        <p className="Club_Text">Que tal ter uma seleção de chocolates deliciosos chegando todo mês na sua casa?</p>
+                        <p className="Club_Text Main_Club_Text">Que tal ter uma seleção de chocolates deliciosos chegando todo mês na sua casa?</p>
 
                         <p className="Club_Text">
-                            Membros do Clube Tropical recebem todo mês uma caixa com 4 chocolates especiais, feitos com cacau de origem única - E
+                            Membros do Clube Tropical recebem mensalmente uma caixa com 6 chocolates especiais, feitos com cacau de origem única - E
                             também possuem acesso a descontos de 10% em todos os outros produtos.
                         </p>
 
@@ -254,6 +254,14 @@ export default function Home() {
                             Quero Participar
                             <span className="material-icons">loyalty</span>
                         </Link>
+
+                        <Image
+                            className={"Clube_Tropical_Section_Img"}
+                            src={"/brand_imgs/Clube_Tropical_002.png"}
+                            width={1000}
+                            height={800}
+                            alt="Clube Tropical"
+                        />
                     </section>
                     <section id="contato" className="Page_Section LP_Section" key={"contato"}>
                         <h2 className="Section_Title" key={t.landingPage.sections.contact.title}>
