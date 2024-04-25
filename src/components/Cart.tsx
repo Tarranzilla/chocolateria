@@ -89,9 +89,9 @@ export default function Cart() {
         <AnimatePresence>
             {isCartOpen && (
                 <m.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
+                    initial={{ x: 1000 }}
+                    animate={{ x: 0 }}
+                    exit={{ x: 1000 }}
                     transition={{ duration: 0.5 }}
                     key={"Shopping_Cart"}
                     className="Shopping_Cart"
@@ -108,74 +108,68 @@ export default function Cart() {
                         </div>
                     )}
 
-                    <div className="Cart_List_Container">
-                        {cartItems.length < 1 && (
-                            <div className="Empty_Cart_Message">
-                                <p>Seu carrinho está vazio no momento, adicione itens da loja para poder realizar pedidos!</p>
-                            </div>
-                        )}
+                    {cartItems.length < 1 && (
+                        <div className="Empty_Cart_Message">
+                            <p>Seu carrinho está vazio no momento, adicione itens da loja para poder realizar pedidos!</p>
+                        </div>
+                    )}
 
-                        {translatedCartItems.length > 0 && (
-                            <div className="Cart_List">
-                                {translatedCartItems.map((item, index) => {
-                                    return (
-                                        <div key={index} className="Cart_List_Item">
-                                            <div className="Cart_Item_Content">
-                                                <div className="Cart_Item_Image_Container">
-                                                    <img className="Cart_Item_Image" src={item.imgSrc[0].src} alt={item.title} />
-                                                </div>
-                                                <div className="Cart_Item_Details">
-                                                    <h2 className="Cart_Item_Title">{item.title}</h2>
-                                                    <p className="Cart_Item_Price">R$ {item.price},00</p>
-                                                    <p className="Cart_Item_Weight">{item.weight}</p>
-                                                </div>
+                    {translatedCartItems.length > 0 && (
+                        <div className="Cart_List">
+                            {translatedCartItems.map((item, index) => {
+                                return (
+                                    <div key={index} className="Cart_List_Item">
+                                        <div className="Cart_Item_Content">
+                                            <div className="Cart_Item_Image_Container">
+                                                <img className="Cart_Item_Image" src={item.imgSrc[0].src} alt={item.title} />
                                             </div>
-                                            <div className="Cart_Item_Actions">
+                                            <div className="Cart_Item_Details">
+                                                <h2 className="Cart_Item_Title">{item.title}</h2>
+                                                <p className="Cart_Item_Price">R$ {item.price},00</p>
+                                                <p className="Cart_Item_Weight">{item.weight}</p>
+                                            </div>
+                                        </div>
+                                        <div className="Cart_Item_Actions">
+                                            <button
+                                                className="Cart_Item_Action_Btn"
+                                                onClick={() =>
+                                                    dispatch(removeCartItem({ cartItemId: item.key, variant: { key: "default", name: "default" } }))
+                                                }
+                                            >
+                                                <span className="material-icons">clear</span>
+                                                Remover
+                                            </button>
+
+                                            <div className="Cart_Item_Actions_Counter">
                                                 <button
-                                                    className="Cart_Item_Action_Btn"
+                                                    className="Cart_Item_Action_Btn Cart_Item_Action_Circle_Btn"
                                                     onClick={() =>
                                                         dispatch(
-                                                            removeCartItem({ cartItemId: item.key, variant: { key: "default", name: "default" } })
+                                                            decrementCartItem({
+                                                                cartItemId: item.key,
+                                                                variant: { key: "default", name: "default" },
+                                                            })
                                                         )
                                                     }
                                                 >
-                                                    <span className="material-icons">clear</span>
-                                                    Remover
+                                                    -
                                                 </button>
-
-                                                <div className="Cart_Item_Actions_Counter">
-                                                    <button
-                                                        className="Cart_Item_Action_Btn Cart_Item_Action_Circle_Btn"
-                                                        onClick={() =>
-                                                            dispatch(
-                                                                decrementCartItem({
-                                                                    cartItemId: item.key,
-                                                                    variant: { key: "default", name: "default" },
-                                                                })
-                                                            )
-                                                        }
-                                                    >
-                                                        -
-                                                    </button>
-                                                    <span className="Cart_Item_Quantity">{cartItems[index].quantity}</span>
-                                                    <button
-                                                        className="Cart_Item_Action_Btn Cart_Item_Action_Circle_Btn"
-                                                        onClick={() =>
-                                                            dispatch(
-                                                                addCartItem({ cartItemId: item.key, variant: { key: "default", name: "default" } })
-                                                            )
-                                                        }
-                                                    >
-                                                        +
-                                                    </button>
-                                                </div>
+                                                <span className="Cart_Item_Quantity">{cartItems[index].quantity}</span>
+                                                <button
+                                                    className="Cart_Item_Action_Btn Cart_Item_Action_Circle_Btn"
+                                                    onClick={() =>
+                                                        dispatch(addCartItem({ cartItemId: item.key, variant: { key: "default", name: "default" } }))
+                                                    }
+                                                >
+                                                    +
+                                                </button>
                                             </div>
                                         </div>
-                                    );
-                                })}
-                            </div>
-                        )}
-                    </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
 
                     <div className="Cart_List_Footer">
                         <div className="Cart_Total_Container">

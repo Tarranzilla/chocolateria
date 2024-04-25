@@ -81,7 +81,7 @@ export default function Footer() {
                         title={t.footer.emailBtn.label}
                         onClick={() => {
                             toggleUserTabAction();
-                            closeCartAction();
+                            // closeCartAction();
                             closeMenuAction();
                         }}
                     >
@@ -90,7 +90,7 @@ export default function Footer() {
                     <div
                         onClick={() => {
                             toggleCartAction();
-                            closeUserTabAction();
+                            // closeUserTabAction();
                             closeMenuAction();
                         }}
                         className={isCartOpen ? "Footer_Btn Footer_Cart_Btn Active" : "Footer_Btn Footer_Cart_Btn"}

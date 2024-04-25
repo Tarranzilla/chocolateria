@@ -21,6 +21,8 @@
 
     --bg-color-faded-50: #6f2f11c2;
 
+    --sidebar-bg-color: #aaaaaa81;
+
     --dark-text-color: #c7ab0f;
 
     --btn-color: #007bff;
@@ -575,21 +577,27 @@ p {
 
 .UserTab {
     z-index: 5;
-    background-color: var(--bg-color-faded-50);
-    backdrop-filter: blur(5px);
-    top: var(--Navbar-height);
+    width: 100%;
+    max-width: 460px;
+    height: var(--Content-height);
+
     position: fixed;
+    top: var(--Navbar-height);
+
     display: flex;
     flex-direction: column;
     gap: var(--large-gap);
+
     padding-inline: var(--medium-gap);
     padding-block: var(--medium-gap);
-    padding-top: 0;
-    height: var(--Content-height);
+
     overflow-y: auto;
     margin-inline: auto;
-    width: 100%;
-    max-width: 460px;
+
+    background-color: var(--sidebar-bg-color);
+    backdrop-filter: blur(5px);
+
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
 }
 
 /* ============ CHECKOUT ============ */
@@ -967,22 +975,29 @@ p {
     left: 0;
     width: 100%;
     height: var(--Content-height);
-    background-color: var(--bg-color-faded-50);
+    background-color: var(--sidebar-bg-color);
     backdrop-filter: blur(5px);
     z-index: 5;
 
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
-    gap: var(--medium-gap);
+    gap: 0;
     padding: var(--medium-gap);
 
-    border-radius: var(--medium-gap);
+    border-radius: var(--medium-gap) 0 0 var(--medium-gap);
+}
+
+.Cart_Header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .Cart_Title {
-    height: 6rem;
+    height: 5rem;
 
     display: flex;
     align-items: center;
@@ -992,6 +1007,9 @@ p {
     font-size: 2rem;
     letter-spacing: 0.25rem;
     color: var(--text-color);
+
+    border-bottom: 1px solid var(--text-color);
+    width: 100%;
 }
 
 .Cart_Loader {
@@ -1026,7 +1044,7 @@ p {
     display: flex;
     flex-direction: column;
     gap: var(--medium-gap);
-    max-height: 75%;
+    flex: 1;
     width: 100%;
     max-width: calc(1000px - 2 * var(--medium-gap));
 }
@@ -1049,11 +1067,10 @@ p {
     flex-direction: column;
     gap: var(--normal-gap);
     width: 100%;
-    flex-grow: 1;
+    flex: 1;
     overflow-y: auto;
     padding-block: var(--medium-gap);
     padding-inline: var(--medium-gap);
-    border-top: 1px solid var(--text-color);
     border-bottom: 1px solid var(--text-color);
 }
 
@@ -1168,6 +1185,7 @@ p {
     align-items: center;
     gap: var(--medium-gap);
     width: 100%;
+    margin-top: var(--medium-gap);
 }
 
 .Cart_Total_Container {
@@ -1201,7 +1219,7 @@ p {
     text-decoration: none;
     font-weight: 500;
     font-family: var(--text-font);
-    transition: font-size 0.3s ease, background-color 0.3s ease;
+
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1212,6 +1230,8 @@ p {
     max-width: 22rem;
     height: 2.4rem;
     margin-bottom: var(--normal-gap);
+
+    transition: font-size 0.3s ease, background-color 0.3s ease, scale 0.3s ease;
 }
 
 .Cart_Checkout_Btn.Disabled {
@@ -1221,8 +1241,9 @@ p {
 
 .Cart_Checkout_Btn:focus-within,
 .Cart_Checkout_Btn:hover {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     background-color: white;
+    scale: 1.05;
 }
 
 .Cart_Checkout_Btn.Disabled:focus-within,
@@ -1284,26 +1305,33 @@ p {
 }
 
 .Banner_Action_Btn {
-    margin-top: var(--normal-gap);
     z-index: 2;
+
+    height: 3rem;
+
+    display: flex;
+    align-items: center;
+    gap: var(--normal-gap);
+
+    margin-top: var(--normal-gap);
     padding: var(--medium-gap) var(--large-gap);
+
     background-color: var(--text-color);
     color: var(--bg-color);
     border-radius: var(--border-radius);
     border: none;
     cursor: pointer;
     text-decoration: none;
-    font-weight: 500;
-    transition: scale 0.3s ease, background-color 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: var(--normal-gap);
+    font-weight: 600;
+
+    transition: scale 0.3s ease, background-color 0.3s ease, font-size 0.3s ease;
 }
 
 .Banner_Action_Btn:focus-within,
 .Banner_Action_Btn:hover {
     scale: 1.05;
     background-color: white;
+    font-size: 1.2rem;
 }
 
 .ImageSlider_Btn {
@@ -2169,7 +2197,7 @@ p {
 }
 
 .Contact_Card {
-    width: 40%;
+    width: 50%;
 
     display: flex;
     flex-direction: column;
@@ -2359,15 +2387,25 @@ p {
 
 /* USUÁRIO  */
 
+.UserTab_Content_Wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--medium-gap);
+    padding-inline: var(--medium-gap);
+    width: 100%;
+
+    overflow-y: auto;
+}
+
 .User_Page_Title {
-    height: 6rem;
+    height: 5rem;
 
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
 
-    padding-bottom: var(--medium-gap);
+    padding-block: var(--medium-gap);
     border-bottom: 1px solid var(--text-color);
 
     font-family: var(--special-font);
@@ -2983,17 +3021,6 @@ p {
         left: unset;
         width: 460px;
         height: var(--Content-height);
-        background-color: var(--bg-color-faded-50);
-        backdrop-filter: blur(5px);
         z-index: 5;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        align-items: center;
-        gap: var(--medium-gap);
-        padding: var(--medium-gap);
-
-        border-radius: var(--medium-gap);
     }
 }

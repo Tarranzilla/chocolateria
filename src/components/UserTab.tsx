@@ -474,305 +474,309 @@ export default function UserTab() {
         <>
             <AnimatePresence>
                 {isUserTabOpen && (
-                    <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} className="UserTab">
-                        <h1 className="User_Page_Title">Perfil</h1>
-                        {user ? (
-                            <>
-                                <div className="User_Container">
-                                    {user.photoURL && user.displayName && <img className="User_Image" src={user.photoURL} alt={user.displayName} />}
-                                    {!user.photoURL && <span className="material-icons User_No_Image">person_pin</span>}
-
-                                    <div className="User_Main_Info">
-                                        <p className="User_Info_Label">Nome</p>
-                                        <p className="User_Info_Detail User_Name">{user.displayName || "Nenhum Nome"}</p>
-                                        <p className="User_Info_Label">Email</p>
-                                        <p className="User_Info_Detail User_Email">{user.email}</p>
-                                        <p className="User_Info_Label">Telefone</p>
-                                        <p className="User_Info_Detail User_ID">{telephone}</p>
-                                    </div>
-                                </div>
-
-                                {isAdmin && (
-                                    <div className="User_Info_Item Control_Panel_Link">
-                                        <Link href="/control-panel">
-                                            <h3>Abrir Painel de Controle</h3> <span className="material-icons">tune</span>
-                                        </Link>
-                                    </div>
-                                )}
-                                <h2 className="User_Adress_Title User_Page_Title">Endereço</h2>
-                                <div className="User_Adress_Info">
-                                    <div className="User_Info_Item">
-                                        <div className="Info_Item_Text">
-                                            <p className="User_Info_Label">Rua</p>
-                                            {isEditing.street ? (
-                                                <input
-                                                    className="User_Info_Input"
-                                                    type="text"
-                                                    placeholder="Nova Rua"
-                                                    value={editedAddress.street}
-                                                    onChange={(e) => handleAddressChange("street", e.target.value)}
-                                                />
-                                            ) : (
-                                                <p className="User_Info_Detail User_City">
-                                                    {editedAddress.street !== address.street ? `${editedAddress.street}*` : address.street}
-                                                </p>
-                                            )}
-                                        </div>
-
-                                        {isEditing.street ? (
-                                            <span
-                                                className="material-icons"
-                                                onClick={() => {
-                                                    setIsEditing({ ...isEditing, street: false });
-                                                }}
-                                            >
-                                                save
-                                            </span>
-                                        ) : (
-                                            <span
-                                                className="material-icons"
-                                                onClick={() => {
-                                                    setIsEditing({ ...isEditing, street: true });
-                                                }}
-                                            >
-                                                edit
-                                            </span>
+                    <m.div initial={{ x: -1000 }} animate={{ x: 0 }} exit={{ x: -1000 }} transition={{ duration: 0.5 }} className="UserTab">
+                        <div className="UserTab_Content_Wrapper">
+                            <h1 className="User_Page_Title">Perfil</h1>
+                            {user ? (
+                                <>
+                                    <div className="User_Container">
+                                        {user.photoURL && user.displayName && (
+                                            <img className="User_Image" src={user.photoURL} alt={user.displayName} />
                                         )}
-                                    </div>
+                                        {!user.photoURL && <span className="material-icons User_No_Image">person_pin</span>}
 
-                                    <div className="User_Info_Item">
-                                        <div className="Info_Item_Text">
-                                            <p className="User_Info_Label">Número</p>
-                                            {isEditing.number ? (
-                                                <input
-                                                    className="User_Info_Input"
-                                                    type="text"
-                                                    placeholder="Novo Número"
-                                                    value={editedAddress.number}
-                                                    onChange={(e) => handleAddressChange("number", e.target.value)}
-                                                />
-                                            ) : (
-                                                <p className="User_Info_Detail User_City">
-                                                    {editedAddress.number !== address.number ? `${editedAddress.number}*` : address.number}
-                                                </p>
-                                            )}
+                                        <div className="User_Main_Info">
+                                            <p className="User_Info_Label">Nome</p>
+                                            <p className="User_Info_Detail User_Name">{user.displayName || "Nenhum Nome"}</p>
+                                            <p className="User_Info_Label">Email</p>
+                                            <p className="User_Info_Detail User_Email">{user.email}</p>
+                                            <p className="User_Info_Label">Telefone</p>
+                                            <p className="User_Info_Detail User_ID">{telephone}</p>
                                         </div>
-
-                                        {isEditing.number ? (
-                                            <span
-                                                className="material-icons"
-                                                onClick={() => {
-                                                    setIsEditing({ ...isEditing, number: false });
-                                                }}
-                                            >
-                                                save
-                                            </span>
-                                        ) : (
-                                            <span
-                                                className="material-icons"
-                                                onClick={() => {
-                                                    setIsEditing({ ...isEditing, number: true });
-                                                }}
-                                            >
-                                                edit
-                                            </span>
-                                        )}
                                     </div>
 
-                                    <div className="User_Info_Item">
-                                        <div className="Info_Item_Text">
-                                            <p className="User_Info_Label">Complemento</p>
-                                            {isEditing.extra ? (
-                                                <input
-                                                    className="User_Info_Input"
-                                                    type="text"
-                                                    placeholder="Novo Complemento"
-                                                    value={editedAddress.extra}
-                                                    onChange={(e) => handleAddressChange("extra", e.target.value)}
-                                                />
-                                            ) : (
-                                                <p className="User_Info_Detail User_City">
-                                                    {editedAddress.extra !== address.extra ? `${editedAddress.extra}*` : address.extra}
-                                                </p>
-                                            )}
-                                        </div>
-
-                                        {isEditing.extra ? (
-                                            <span
-                                                className="material-icons"
-                                                onClick={() => {
-                                                    setIsEditing({ ...isEditing, extra: false });
-                                                }}
-                                            >
-                                                save
-                                            </span>
-                                        ) : (
-                                            <span
-                                                className="material-icons"
-                                                onClick={() => {
-                                                    setIsEditing({ ...isEditing, extra: true });
-                                                }}
-                                            >
-                                                edit
-                                            </span>
-                                        )}
-                                    </div>
-
-                                    <div className="User_Info_Item">
-                                        <div className="Info_Item_Text">
-                                            <p className="User_Info_Label">Cidade</p>
-                                            {isEditing.city ? (
-                                                <input
-                                                    className="User_Info_Input"
-                                                    type="text"
-                                                    placeholder="Nova Cidade"
-                                                    value={editedAddress.city}
-                                                    onChange={(e) => handleAddressChange("city", e.target.value)}
-                                                />
-                                            ) : (
-                                                <p className="User_Info_Detail User_City">
-                                                    {editedAddress.city !== address.city ? `${editedAddress.city}*` : address.city}
-                                                </p>
-                                            )}
-                                        </div>
-
-                                        {isEditing.city ? (
-                                            <span
-                                                className="material-icons"
-                                                onClick={() => {
-                                                    setIsEditing({ ...isEditing, city: false });
-                                                }}
-                                            >
-                                                save
-                                            </span>
-                                        ) : (
-                                            <span
-                                                className="material-icons"
-                                                onClick={() => {
-                                                    setIsEditing({ ...isEditing, city: true });
-                                                }}
-                                            >
-                                                edit
-                                            </span>
-                                        )}
-                                    </div>
-
-                                    <div className="User_Info_Item">
-                                        <div className="Info_Item_Text">
-                                            <p className="User_Info_Label">CEP</p>
-                                            {isEditing.postalCode ? (
-                                                <input
-                                                    className="User_Info_Input"
-                                                    type="text"
-                                                    placeholder="Novo CEP"
-                                                    value={editedAddress.postalCode}
-                                                    onChange={(e) => handleAddressChange("postalCode", e.target.value)}
-                                                />
-                                            ) : (
-                                                <p className="User_Info_Detail User_City">
-                                                    {editedAddress.postalCode !== address.postalCode
-                                                        ? `${editedAddress.postalCode}*`
-                                                        : address.postalCode}
-                                                </p>
-                                            )}
-                                        </div>
-
-                                        {isEditing.postalCode ? (
-                                            <span
-                                                className="material-icons"
-                                                onClick={() => {
-                                                    setIsEditing({ ...isEditing, postalCode: false });
-                                                }}
-                                            >
-                                                save
-                                            </span>
-                                        ) : (
-                                            <span
-                                                className="material-icons"
-                                                onClick={() => {
-                                                    setIsEditing({ ...isEditing, postalCode: true });
-                                                }}
-                                            >
-                                                edit
-                                            </span>
-                                        )}
-                                    </div>
-
-                                    {isSomeAddressEdited && (
-                                        <div className="User_Info_Edit_Control">
-                                            <button className="Order_SeeMore_Btn" onClick={discardChanges}>
-                                                <span className="material-icons">delete_forever</span>Descartar Alterações
-                                            </button>
-                                            <button className="Order_SeeMore_Btn" onClick={updateAddress}>
-                                                Atualizar Informações <span className="material-icons">update</span>
-                                            </button>
+                                    {isAdmin && (
+                                        <div className="User_Info_Item Control_Panel_Link">
+                                            <Link href="/control-panel">
+                                                <h3>Abrir Painel de Controle</h3> <span className="material-icons">tune</span>
+                                            </Link>
                                         </div>
                                     )}
-                                </div>
+                                    <h2 className="User_Adress_Title User_Page_Title">Endereço</h2>
+                                    <div className="User_Adress_Info">
+                                        <div className="User_Info_Item">
+                                            <div className="Info_Item_Text">
+                                                <p className="User_Info_Label">Rua</p>
+                                                {isEditing.street ? (
+                                                    <input
+                                                        className="User_Info_Input"
+                                                        type="text"
+                                                        placeholder="Nova Rua"
+                                                        value={editedAddress.street}
+                                                        onChange={(e) => handleAddressChange("street", e.target.value)}
+                                                    />
+                                                ) : (
+                                                    <p className="User_Info_Detail User_City">
+                                                        {editedAddress.street !== address.street ? `${editedAddress.street}*` : address.street}
+                                                    </p>
+                                                )}
+                                            </div>
 
-                                <h2 className="User_Adress_Title User_Page_Title">Pedidos</h2>
+                                            {isEditing.street ? (
+                                                <span
+                                                    className="material-icons"
+                                                    onClick={() => {
+                                                        setIsEditing({ ...isEditing, street: false });
+                                                    }}
+                                                >
+                                                    save
+                                                </span>
+                                            ) : (
+                                                <span
+                                                    className="material-icons"
+                                                    onClick={() => {
+                                                        setIsEditing({ ...isEditing, street: true });
+                                                    }}
+                                                >
+                                                    edit
+                                                </span>
+                                            )}
+                                        </div>
 
-                                <div className="User_Order_Info">
-                                    {displayedOrders.map((order, index) => {
-                                        return <OrderItem key={index} order={order} index={index} />;
-                                    })}
+                                        <div className="User_Info_Item">
+                                            <div className="Info_Item_Text">
+                                                <p className="User_Info_Label">Número</p>
+                                                {isEditing.number ? (
+                                                    <input
+                                                        className="User_Info_Input"
+                                                        type="text"
+                                                        placeholder="Novo Número"
+                                                        value={editedAddress.number}
+                                                        onChange={(e) => handleAddressChange("number", e.target.value)}
+                                                    />
+                                                ) : (
+                                                    <p className="User_Info_Detail User_City">
+                                                        {editedAddress.number !== address.number ? `${editedAddress.number}*` : address.number}
+                                                    </p>
+                                                )}
+                                            </div>
 
-                                    <div className="User_Order_SeeMore">
-                                        <button
-                                            className="Order_SeeMore_Btn"
-                                            onClick={() => {
-                                                setSeeMore(!seeMore);
-                                            }}
-                                        >
-                                            {(seeMore && (
-                                                <>
-                                                    Ver apenas pedidos recentes
-                                                    <span className="material-icons">expand_less</span>
-                                                </>
-                                            )) ||
-                                                (!seeMore && (
+                                            {isEditing.number ? (
+                                                <span
+                                                    className="material-icons"
+                                                    onClick={() => {
+                                                        setIsEditing({ ...isEditing, number: false });
+                                                    }}
+                                                >
+                                                    save
+                                                </span>
+                                            ) : (
+                                                <span
+                                                    className="material-icons"
+                                                    onClick={() => {
+                                                        setIsEditing({ ...isEditing, number: true });
+                                                    }}
+                                                >
+                                                    edit
+                                                </span>
+                                            )}
+                                        </div>
+
+                                        <div className="User_Info_Item">
+                                            <div className="Info_Item_Text">
+                                                <p className="User_Info_Label">Complemento</p>
+                                                {isEditing.extra ? (
+                                                    <input
+                                                        className="User_Info_Input"
+                                                        type="text"
+                                                        placeholder="Novo Complemento"
+                                                        value={editedAddress.extra}
+                                                        onChange={(e) => handleAddressChange("extra", e.target.value)}
+                                                    />
+                                                ) : (
+                                                    <p className="User_Info_Detail User_City">
+                                                        {editedAddress.extra !== address.extra ? `${editedAddress.extra}*` : address.extra}
+                                                    </p>
+                                                )}
+                                            </div>
+
+                                            {isEditing.extra ? (
+                                                <span
+                                                    className="material-icons"
+                                                    onClick={() => {
+                                                        setIsEditing({ ...isEditing, extra: false });
+                                                    }}
+                                                >
+                                                    save
+                                                </span>
+                                            ) : (
+                                                <span
+                                                    className="material-icons"
+                                                    onClick={() => {
+                                                        setIsEditing({ ...isEditing, extra: true });
+                                                    }}
+                                                >
+                                                    edit
+                                                </span>
+                                            )}
+                                        </div>
+
+                                        <div className="User_Info_Item">
+                                            <div className="Info_Item_Text">
+                                                <p className="User_Info_Label">Cidade</p>
+                                                {isEditing.city ? (
+                                                    <input
+                                                        className="User_Info_Input"
+                                                        type="text"
+                                                        placeholder="Nova Cidade"
+                                                        value={editedAddress.city}
+                                                        onChange={(e) => handleAddressChange("city", e.target.value)}
+                                                    />
+                                                ) : (
+                                                    <p className="User_Info_Detail User_City">
+                                                        {editedAddress.city !== address.city ? `${editedAddress.city}*` : address.city}
+                                                    </p>
+                                                )}
+                                            </div>
+
+                                            {isEditing.city ? (
+                                                <span
+                                                    className="material-icons"
+                                                    onClick={() => {
+                                                        setIsEditing({ ...isEditing, city: false });
+                                                    }}
+                                                >
+                                                    save
+                                                </span>
+                                            ) : (
+                                                <span
+                                                    className="material-icons"
+                                                    onClick={() => {
+                                                        setIsEditing({ ...isEditing, city: true });
+                                                    }}
+                                                >
+                                                    edit
+                                                </span>
+                                            )}
+                                        </div>
+
+                                        <div className="User_Info_Item">
+                                            <div className="Info_Item_Text">
+                                                <p className="User_Info_Label">CEP</p>
+                                                {isEditing.postalCode ? (
+                                                    <input
+                                                        className="User_Info_Input"
+                                                        type="text"
+                                                        placeholder="Novo CEP"
+                                                        value={editedAddress.postalCode}
+                                                        onChange={(e) => handleAddressChange("postalCode", e.target.value)}
+                                                    />
+                                                ) : (
+                                                    <p className="User_Info_Detail User_City">
+                                                        {editedAddress.postalCode !== address.postalCode
+                                                            ? `${editedAddress.postalCode}*`
+                                                            : address.postalCode}
+                                                    </p>
+                                                )}
+                                            </div>
+
+                                            {isEditing.postalCode ? (
+                                                <span
+                                                    className="material-icons"
+                                                    onClick={() => {
+                                                        setIsEditing({ ...isEditing, postalCode: false });
+                                                    }}
+                                                >
+                                                    save
+                                                </span>
+                                            ) : (
+                                                <span
+                                                    className="material-icons"
+                                                    onClick={() => {
+                                                        setIsEditing({ ...isEditing, postalCode: true });
+                                                    }}
+                                                >
+                                                    edit
+                                                </span>
+                                            )}
+                                        </div>
+
+                                        {isSomeAddressEdited && (
+                                            <div className="User_Info_Edit_Control">
+                                                <button className="Order_SeeMore_Btn" onClick={discardChanges}>
+                                                    <span className="material-icons">delete_forever</span>Descartar Alterações
+                                                </button>
+                                                <button className="Order_SeeMore_Btn" onClick={updateAddress}>
+                                                    Atualizar Informações <span className="material-icons">update</span>
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    <h2 className="User_Adress_Title User_Page_Title">Pedidos</h2>
+
+                                    <div className="User_Order_Info">
+                                        {displayedOrders.map((order, index) => {
+                                            return <OrderItem key={index} order={order} index={index} />;
+                                        })}
+
+                                        <div className="User_Order_SeeMore">
+                                            <button
+                                                className="Order_SeeMore_Btn"
+                                                onClick={() => {
+                                                    setSeeMore(!seeMore);
+                                                }}
+                                            >
+                                                {(seeMore && (
                                                     <>
-                                                        Ver todos os pedidos <span className="material-icons">more_horiz</span>
+                                                        Ver apenas pedidos recentes
+                                                        <span className="material-icons">expand_less</span>
                                                     </>
-                                                ))}
+                                                )) ||
+                                                    (!seeMore && (
+                                                        <>
+                                                            Ver todos os pedidos <span className="material-icons">more_horiz</span>
+                                                        </>
+                                                    ))}
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <button className="User_Btn" onClick={logout}>
+                                        <span className="material-icons">logout</span>
+                                        Logout
+                                    </button>
+                                </>
+                            ) : (
+                                <div className="User_Login_Container">
+                                    <button onClick={signIn} className="User_Google_Login_Btn">
+                                        Faça Login com Google <span className="material-icons">login</span>
+                                    </button>
+                                    <div className="User_Email_Login">
+                                        <input
+                                            className="User_Login_Input"
+                                            type="email"
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            placeholder="Email"
+                                        />
+                                        <input
+                                            className="User_Login_Input Login_Password"
+                                            type="password"
+                                            value={password}
+                                            onChange={(e) => setPassword(e.target.value)}
+                                            placeholder="Senha"
+                                        />
+                                        <button className="User_Login_Btn Register_Btn" onClick={signUp}>
+                                            Registre uma conta com este Email <span className="material-icons">person_add_alt</span>
+                                        </button>
+                                        <button className="User_Login_Btn" onClick={login}>
+                                            Login com Email <span className="material-icons">login</span>
                                         </button>
                                     </div>
                                 </div>
-
-                                <button className="User_Btn" onClick={logout}>
-                                    <span className="material-icons">logout</span>
-                                    Logout
-                                </button>
-                            </>
-                        ) : (
-                            <div className="User_Login_Container">
-                                <button onClick={signIn} className="User_Google_Login_Btn">
-                                    Faça Login com Google <span className="material-icons">login</span>
-                                </button>
-                                <div className="User_Email_Login">
-                                    <input
-                                        className="User_Login_Input"
-                                        type="email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        placeholder="Email"
-                                    />
-                                    <input
-                                        className="User_Login_Input Login_Password"
-                                        type="password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        placeholder="Senha"
-                                    />
-                                    <button className="User_Login_Btn Register_Btn" onClick={signUp}>
-                                        Registre uma conta com este Email <span className="material-icons">person_add_alt</span>
-                                    </button>
-                                    <button className="User_Login_Btn" onClick={login}>
-                                        Login com Email <span className="material-icons">login</span>
-                                    </button>
-                                </div>
-                            </div>
-                        )}
+                            )}
+                        </div>
                     </m.div>
                 )}
             </AnimatePresence>
