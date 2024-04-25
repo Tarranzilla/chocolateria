@@ -1,9 +1,12 @@
 import { useState, useEffect } from "react";
-import CardGrid from "./cardGrid";
+
+import { useSimpleTranslation } from "@/international/useSimpleTranslation";
+
 import Product from "@/types/Product";
 import { Product_Category } from "@/types/Product";
 
-import { useSimpleTranslation } from "@/international/useSimpleTranslation";
+import CardGrid from "./cardGrid";
+import CardList from "./cardSlider";
 
 export default function GroupSlider() {
     const t = useSimpleTranslation();
@@ -122,7 +125,7 @@ export default function GroupSlider() {
                 </div>
             </div>
 
-            <CardGrid content={activeProducts} order={activeOrder} />
+            <CardList content={activeProducts} order={activeOrder} />
         </div>
     );
 }

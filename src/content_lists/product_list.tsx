@@ -138,10 +138,7 @@ const productList: Product[] = [
         category: "Páscoa",
         title: "Mini Ovo",
         subtitle: "Cada mini ovo acompanha duas mini barrinhas de chocolate do mesmo sabor.",
-        description: [
-            "Cada mini ovo acompanha duas mini barrinhas de chocolate do mesmo sabor.",
-            "Não esqueça de escolher o sabor da casca: ao leite, intenso 70%, branco, doce de leite, intenso 55% ao leite ou café 40% ao leite.",
-        ],
+        description: ["Cada mini ovo acompanha duas mini barrinhas de chocolate do mesmo sabor.", "Disponível em todos os sabores clássicos."],
         price: 35.0,
         weight: "120g",
         ingredients: [

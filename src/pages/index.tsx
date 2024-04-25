@@ -1,16 +1,21 @@
+// General Imports
+
+import { useState } from "react";
+import { motion as m, AnimatePresence } from "framer-motion";
+
+import { useSimpleTranslation } from "@/international/useSimpleTranslation";
+
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 
+// Component Imports
+
 import ImageSlider from "@/components/ImageSlider";
-import CardGrid from "@/components/cardGrid";
 import GroupSlider from "@/components/groupSlider";
-
-import { useSimpleTranslation } from "@/international/useSimpleTranslation";
-import { use, useState } from "react";
-
-import { motion as m, AnimatePresence } from "framer-motion";
 import InstaFeed from "@/components/InstaFeed";
+
+// WhatsApp Functions
 
 const businessTelephone = "5541999977955";
 
@@ -23,6 +28,16 @@ const generateWhatsAppURL = () => {
     // Return a WhatsApp Click to Chat URL
     return `https://wa.me/${businessTelephone}?text=${encodedMessage}`;
 };
+
+const generateWhatsAppURL_Advanced = (business_telephone: string, message: string) => {
+    // Encode the message in a URL
+    const encodedMessage = encodeURIComponent(message);
+
+    // Return a WhatsApp Click to Chat URL
+    return `https://wa.me/${businessTelephone}?text=${encodedMessage}`;
+};
+
+// About Content
 
 const AboutContent = [
     {
@@ -96,54 +111,57 @@ type AboutContainerProps = {
 function AboutContainer(AboutContainerProps: AboutContainerProps) {
     const t = useSimpleTranslation();
 
-    const [isExpanded, setIsExpanded] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(true);
 
     return (
-        <div className="About_Container About_Container_Special">
-            <Image
-                className="About_Container_Image"
-                src={AboutContainerProps.bannerImgSrc}
-                alt={AboutContainerProps.title}
-                width={800}
-                height={400}
-                layout="responsive"
-                onClick={() => {
-                    setIsExpanded(!isExpanded);
-                }}
-            />
+        <div className="Scrollable_Item">
+            <div className="Scrollable_Item_Content_Wrapper">
+                <Image
+                    className="Scrollable_Item_Image"
+                    src={AboutContainerProps.bannerImgSrc}
+                    alt={AboutContainerProps.title}
+                    width={800}
+                    height={800}
+                    onClick={() => {
+                        setIsExpanded(!isExpanded);
+                    }}
+                />
 
-            <div
-                className="About_Container_Header"
-                onClick={() => {
-                    setIsExpanded(!isExpanded);
-                }}
-            >
-                <h3 className="About_Container_UpTitle">Sobre</h3>
-                <h2 className="About_Container_Title" key={AboutContainerProps.title}>
-                    {AboutContainerProps.title}
-                </h2>
+                <div
+                    className="About_Container_Header"
+                    onClick={() => {
+                        setIsExpanded(!isExpanded);
+                    }}
+                >
+                    <h3 className="About_Container_UpTitle">Sobre</h3>
+                    <h2 className="About_Container_Title" key={AboutContainerProps.title}>
+                        {AboutContainerProps.title}
+                    </h2>
 
-                <span className={isExpanded ? "material-icons About_Expand_Btn Active" : "material-icons About_Expand_Btn"}>expand_more</span>
+                    <span className={isExpanded ? "material-icons About_Expand_Btn Active" : "material-icons About_Expand_Btn"}>expand_more</span>
+                </div>
+
+                <AnimatePresence>
+                    {isExpanded && (
+                        <m.div
+                            className="About_Container_Text"
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96] }}
+                        >
+                            {AboutContainerProps.paragraphs.map((paragraph, index) => (
+                                <p key={index}>{paragraph}</p>
+                            ))}
+                        </m.div>
+                    )}
+                </AnimatePresence>
             </div>
-
-            <AnimatePresence>
-                {isExpanded && (
-                    <m.div
-                        className="About_Container_Text"
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.4, ease: [0.43, 0.13, 0.23, 0.96] }}
-                    >
-                        {AboutContainerProps.paragraphs.map((paragraph, index) => (
-                            <p key={index}>{paragraph}</p>
-                        ))}
-                    </m.div>
-                )}
-            </AnimatePresence>
         </div>
     );
 }
+
+// Home Component
 
 export default function Home() {
     const t = useSimpleTranslation();
@@ -162,44 +180,67 @@ export default function Home() {
 
                 <meta name="author" content="https://pragmata.ninja/"></meta>
 
-                <link rel="icon" href="/favicon.ico" />
+                <link rel="icon" href="/favicon.png" />
             </Head>
             <m.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.5 }} key="home">
                 <main className="Page_Wrapper">
-                    <section id="inicio" key={"inicio"}>
+                    <section id="inicio" className="Page_Section LP_Section" key={"inicio"}>
                         <ImageSlider content={t.landingPage.sections.home.bannerList} />
                     </section>
-                    <section id="quem-somos" key={"quem-somos"}>
-                        <div className="About_Container">
-                            <h1 className="Section_Title" key={t.landingPage.sections.about.title}>
-                                {t.landingPage.sections.about.title}
-                            </h1>
-                            {t.landingPage.sections.about.paragraphs.map((paragraph, index) => (
-                                <p className={"About_Main_Description_P"} key={index}>
-                                    {paragraph}
-                                </p>
-                            ))}
-                        </div>
+                    <section id="quem-somos" className="Page_Section LP_Section" key={"quem-somos"}>
+                        <h1 className="Section_Title" key={t.landingPage.sections.about.title}>
+                            {t.landingPage.sections.about.title}
+                        </h1>
 
+                        <div className="Section_Horizontal_Content">
+                            <Image
+                                src={"/team_imgs/Leticia_Tropical_Cacau.jpg"}
+                                alt="Foto Leticia"
+                                className="Section_Main_Image"
+                                width={400}
+                                height={600}
+                            />
+
+                            <div className="Section_Text_Wrapper">
+                                <div className="Section_Text_Container">
+                                    {t.landingPage.sections.about.paragraphs.map((paragraph, index) => (
+                                        <p className={"Section_Text_Container_P"} key={index}>
+                                            {paragraph}
+                                        </p>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section id="universo_cacau" className="Page_Section LP_Section" key={"universo-cacau"}>
                         <h2 className="Section_Title Club_Title">O Universo do Cacau</h2>
-                        {AboutContent.map((content, index) => (
-                            <AboutContainer key={index} title={content.title} paragraphs={content.paragraphs} bannerImgSrc={content.bannerImgSrc} />
-                        ))}
-                    </section>
-                    <section id="Instagram-News">
-                        <h2 className="Section_Title">Publicações nas Redes</h2>
-                        <InstaFeed />
-                    </section>
-                    <section id="chocolates" key={"chocolates"}>
-                        <div className="Services_Container">
-                            <h2 className="Section_Title" key={t.landingPage.sections.expertise.title}>
-                                {t.landingPage.sections.expertise.title}
-                            </h2>
-                            <GroupSlider />
+
+                        <div className="Section_Horizontal_Content">
+                            <div className="Section_Scrollable_Content_Wrapper">
+                                {AboutContent.map((content, index) => (
+                                    <AboutContainer
+                                        key={index}
+                                        title={content.title}
+                                        paragraphs={content.paragraphs}
+                                        bannerImgSrc={content.bannerImgSrc}
+                                    />
+                                ))}
+                            </div>
                         </div>
                     </section>
-
-                    <section id="clube-tropical" className="Club_Section" key={"clube-tropical"}>
+                    <section id="Instagram-News" className="Page_Section LP_Section" key={"insta-feed"}>
+                        <h2 className="Section_Title">Publicações nas Redes</h2>
+                        <div className="Section_Horizontal_Content">
+                            <InstaFeed />
+                        </div>
+                    </section>
+                    <section id="chocolates" className="Page_Section LP_Section" key={"chocolates"}>
+                        <h2 className="Section_Title" key={t.landingPage.sections.expertise.title}>
+                            {t.landingPage.sections.expertise.title}
+                        </h2>
+                        <GroupSlider />
+                    </section>
+                    <section id="clube-tropical" className="Page_Section LP_Section Club_Section" key={"clube-tropical"}>
                         <h2 className="Section_Title Club_Title">Clube Tropical</h2>
 
                         <p className="Club_Text">Que tal ter uma seleção de chocolates deliciosos chegando todo mês na sua casa?</p>
@@ -214,58 +255,55 @@ export default function Home() {
                             <span className="material-icons">loyalty</span>
                         </Link>
                     </section>
+                    <section id="contato" className="Page_Section LP_Section" key={"contato"}>
+                        <h2 className="Section_Title" key={t.landingPage.sections.contact.title}>
+                            {t.landingPage.sections.contact.title}
+                        </h2>
 
-                    <section id="contato" key={"contato"}>
-                        <div className="Contact_Container">
-                            <h2 className="Section_Title" key={t.landingPage.sections.contact.title}>
-                                {t.landingPage.sections.contact.title}
-                            </h2>
+                        <div className="Contact_Content">
+                            <div className="Contact_Card">
+                                <p className="Contact_CallToAction">Sinta-se a vontade para entrar em contato!</p>
+                                <p className="Contact_CallToAction">
+                                    Estamos de prontidão para responder suas dúvidas, atender pedidos e encomendar chocolates especiais e
+                                    personalizados!
+                                </p>
 
-                            <div className="Contact_Content">
-                                <div className="Contact_Card">
-                                    <p className="Contact_CallToAction">Sinta-se a vontade para entrar em contato!</p>
-                                    <p className="Contact_CallToAction">
-                                        Estamos de prontidão para responder suas dúvidas, atender pedidos e encomendar chocolates especiais e
-                                        personalizados!
-                                    </p>
+                                <div className="Contact_Layout_Container">
+                                    <div className="Telephone Contact_Layout_Item" key={"contato_telefone"}>
+                                        <h3 className="Contact_Layout_Item_Title">{t.landingPage.sections.contact.telephone.title}</h3>
+                                        <p>+55 (41) 987 754 906</p>
+                                    </div>
 
-                                    <div className="Contact_Layout_Container">
-                                        <div className="Telephone Contact_Layout_Item" key={"contato_telefone"}>
-                                            <h3 className="Contact_Layout_Item_Title">{t.landingPage.sections.contact.telephone.title}</h3>
-                                            <p>+55 (41) 987 754 906</p>
-                                        </div>
+                                    <div className="Working_Hours Contact_Layout_Item" key={"contato_email"}>
+                                        <h3 className="Contact_Layout_Item_Title">Email</h3>
+                                        <p>contato@tropicalcacau.com</p>
+                                    </div>
 
-                                        <div className="Working_Hours Contact_Layout_Item" key={"contato_email"}>
-                                            <h3 className="Contact_Layout_Item_Title">Email</h3>
-                                            <p>contato@tropicalcacau.com</p>
-                                        </div>
+                                    <div className="Working_Hours Contact_Layout_Item">
+                                        <h3 key={t.landingPage.sections.contact.functioningHours.title} className="Contact_Layout_Item_Title">
+                                            {t.landingPage.sections.contact.functioningHours.title}
+                                        </h3>
+                                        <p key={"schedule"}>{t.landingPage.sections.contact.functioningHours.schedule}</p>
+                                    </div>
 
-                                        <div className="Working_Hours Contact_Layout_Item">
-                                            <h3 key={t.landingPage.sections.contact.functioningHours.title} className="Contact_Layout_Item_Title">
-                                                {t.landingPage.sections.contact.functioningHours.title}
-                                            </h3>
-                                            <p key={"schedule"}>{t.landingPage.sections.contact.functioningHours.schedule}</p>
-                                        </div>
-
-                                        <div className="Working_Hours Contact_Layout_Item">
-                                            <h3 key={t.landingPage.sections.contact.functioningHours.title} className="Contact_Layout_Item_Title">
-                                                Endereço
-                                            </h3>
-                                            <p key={"schedule"}>
-                                                Rua Francisco Camargo, nº 262 - Apto 01 <br></br> Colombo - PR - Brasil
-                                            </p>
-                                        </div>
+                                    <div className="Working_Hours Contact_Layout_Item">
+                                        <h3 key={t.landingPage.sections.contact.functioningHours.title} className="Contact_Layout_Item_Title">
+                                            Endereço
+                                        </h3>
+                                        <p key={"schedule"}>
+                                            Rua Francisco Camargo, nº 262 - Apto 01 <br></br> Colombo - PR - Brasil
+                                        </p>
                                     </div>
                                 </div>
-
-                                <iframe
-                                    title="Mapa de localização da Chocolateria Tropical Cacau"
-                                    className="Map"
-                                    referrerPolicy="no-referrer-when-downgrade"
-                                    src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBoWxQtCEHcm-AqgB3fjGveoXqVgy8g9pI&q=Rua+Franscisco+Camargo,+262,+Colombo+-+PR+-+Brasil"
-                                    allowFullScreen
-                                ></iframe>
                             </div>
+
+                            <iframe
+                                title="Mapa de localização da Chocolateria Tropical Cacau"
+                                className="Map"
+                                referrerPolicy="no-referrer-when-downgrade"
+                                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBoWxQtCEHcm-AqgB3fjGveoXqVgy8g9pI&q=Rua+Franscisco+Camargo,+262,+Colombo+-+PR+-+Brasil"
+                                allowFullScreen
+                            ></iframe>
                         </div>
                     </section>
                 </main>

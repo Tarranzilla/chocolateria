@@ -3,7 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-const fields = "id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,username";
+// const fields = "id,caption,media_type,media_url,permalink,thumbnail_url,timestamp,username";
 
 type FeedItem = {
     id: string;
@@ -21,7 +21,7 @@ export default function InstaFeed() {
 
     async function getInstagramPosts() {
         const { data } = await axios.get("/api/instagram");
-        console.log(data.data);
+        // console.log(data.data);
         setFeedList(data.data);
     }
 
@@ -30,21 +30,19 @@ export default function InstaFeed() {
     }, []);
 
     return (
-        <div>
-            <div className="Feed_Wrapper">
-                {feedList.map((item) => (
-                    <div className="Feed_Item" key={item.id}>
-                        {item.media_type === "VIDEO" && (
-                            <video controls>
-                                <source src={item.media_url} type="video/mp4" />
-                            </video>
-                        )}
+        <div className="Feed_Wrapper">
+            {feedList.map((item) => (
+                <div className="Feed_Item" key={item.id}>
+                    {item.media_type === "VIDEO" && (
+                        <video controls>
+                            <source src={item.media_url} type="video/mp4" />
+                        </video>
+                    )}
 
-                        {item.media_type === "IMAGE" && <Image width={400} height={400} src={item.media_url} alt={item.caption} />}
-                        {item.media_type === "CAROUSEL_ALBUM" && <Image width={400} height={400} src={item.media_url} alt={item.caption} />}
-                    </div>
-                ))}
-            </div>
+                    {item.media_type === "IMAGE" && <Image width={400} height={400} src={item.media_url} alt={item.caption} />}
+                    {item.media_type === "CAROUSEL_ALBUM" && <Image width={400} height={400} src={item.media_url} alt={item.caption} />}
+                </div>
+            ))}
         </div>
     );
 }

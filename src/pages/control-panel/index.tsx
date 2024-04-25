@@ -426,6 +426,9 @@ export default function ControlPanel() {
     const [orderList, setOrderList] = useState<CheckoutOrder[]>([]);
     const sortedOrders = orderList.sort((a, b) => b.orderDate.toMillis() - a.orderDate.toMillis());
 
+    const [userOrderList, setUserOrderList] = useState<CheckoutOrder[]>([]);
+    const sortedUserOrders = userOrderList.sort((a, b) => b.orderDate.toMillis() - a.orderDate.toMillis());
+
     // Fetch the user's document from Firestore when the user logs in
     const fetchUserDoc = async (uid: string) => {
         const db = getFirestore();
@@ -464,7 +467,7 @@ export default function ControlPanel() {
         });
 
         if (orders.length > 0) {
-            setOrderList(orders);
+            setUserOrderList(orders);
         }
 
         return orders;
