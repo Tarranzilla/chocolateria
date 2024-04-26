@@ -353,160 +353,165 @@ export default function Checkout() {
                             <h3 className="Checkout_Card_OrderNumber_Content">{mercadoPagoSlice.preferenceId}</h3>
                         </div>
 
-                        <div className="Checkout_Card ">
-                            <h2 className="Checkout_Card_OrderNumber">Itens</h2>
+                        <div className="Checkout_Card_Wrapper">
+                            <div className="Checkout_Card ">
+                                <h2 className="Checkout_Card_OrderNumber">Itens</h2>
 
-                            {cartItems.length > 0 &&
-                                translatedCartItems.map((item, index) => {
-                                    return (
-                                        <div className="Checkout_Order_Item" key={index}>
-                                            <h3 className="Checkout_Order_Item_Name">{item.translatedTitle}</h3>
-                                            <p className="Checkout_Order_Item_Quantity">x {item.quantity}</p>
-                                            <p className="Checkout_Order_Item_Price">R$ {item.value.toFixed(2)}</p>
-                                        </div>
-                                    );
-                                })}
+                                {cartItems.length > 0 &&
+                                    translatedCartItems.map((item, index) => {
+                                        return (
+                                            <div className="Checkout_Order_Item" key={index}>
+                                                <h3 className="Checkout_Order_Item_Name">{item.translatedTitle}</h3>
+                                                <p className="Checkout_Order_Item_Quantity">x {item.quantity}</p>
+                                                <p className="Checkout_Order_Item_Price">R$ {item.value.toFixed(2)}</p>
+                                            </div>
+                                        );
+                                    })}
 
-                            {cartItems.length === 0 && <p className="Empty_Cart_Message">Seu carrinho está vazio!</p>}
+                                {cartItems.length === 0 && <p className="Empty_Cart_Message">Seu carrinho está vazio!</p>}
+                            </div>
+
+                            <div className="Checkout_Card">
+                                <h2 className="Checkout_Card_OrderNumber">Perfil</h2>
+                                <div className="Checkout_User">
+                                    <span className="material-icons User_No_Image">person_pin</span>
+                                    <div className="Checkout_User_Info">
+                                        <h3 className="Checkout_User_Name">{checkoutUser.name}</h3>
+                                        <p className="Checkout_User_Email">{checkoutUser.email}</p>
+
+                                        {!registeredUser && <p>Nenhum endereço registrado</p>}
+
+                                        {registeredUser && (
+                                            <>
+                                                <div className="Checkout_User_Adress_Detail">
+                                                    <p className="Checkout_User_Street">{checkoutAdress.street}</p>
+                                                    <p className="Checkout_User_Number">{checkoutAdress.number}</p>
+                                                    <p className="Checkout_User_Complement">{checkoutAdress.extra}</p>
+                                                </div>
+
+                                                <p className="Checkout_User_City">{checkoutAdress.city}</p>
+                                                <p className="Checkout_User_PostalCode">{checkoutAdress.postalCode}</p>
+                                            </>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div className="Checkout_Card">
-                            <h2 className="Checkout_Card_OrderNumber">Perfil</h2>
-                            <div className="Checkout_User">
-                                <span className="material-icons User_No_Image">person_pin</span>
-                                <div className="Checkout_User_Info">
-                                    <h3 className="Checkout_User_Name">{checkoutUser.name}</h3>
-                                    <p className="Checkout_User_Email">{checkoutUser.email}</p>
+                        <div className="Checkout_Card_Wrapper">
+                            <div className="Checkout_Card Checkout_Shipping">
+                                <h2 className="Checkout_Card_OrderNumber">Como você gostaria de receber o pedido?</h2>
+                                <div className="Checkout_Shipping_Options">
+                                    <div className="Checkout_Shipping_Option" onClick={() => handleOptionChange("Retirada")}>
+                                        <span className="material-icons Shipping_Icon">store</span>
 
-                                    {!registeredUser && <p>Nenhum endereço registrado</p>}
+                                        <div className="Shipping_Content">
+                                            <h3>Retirada</h3>
+                                            <p>Retire na loja</p>
+                                        </div>
 
-                                    {registeredUser && (
+                                        <a
+                                            href="https://maps.app.goo.gl/xVtMm7faZSJDcnT57"
+                                            target="_blank"
+                                            rel="noopener noreferer"
+                                            className="Shipping_Map_Btn"
+                                        >
+                                            Ver no Mapa
+                                        </a>
+
+                                        <div className="Shipping_Selector_Frame">
+                                            {shippingOption === "Retirada" && <span className="material-icons">check_circle</span>}
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        className={registeredUser ? "Checkout_Shipping_Option" : "Checkout_Shipping_Option Disabled"}
+                                        onClick={() => handleOptionChange("Entrega")}
+                                    >
+                                        <span className="material-icons Shipping_Icon">local_shipping</span>
+
+                                        <div className="Shipping_Content">
+                                            <h3>Entrega</h3>
+                                            <p>Receba em casa</p>
+                                        </div>
+
+                                        <div className="Shipping_Selector_Frame">
+                                            {shippingOption === "Entrega" && <span className="material-icons">check_circle</span>}
+                                        </div>
+                                    </div>
+
+                                    {!registeredUser && (
+                                        <div className="Disabled_Shipping_Message">
+                                            <span className="material-icons">info</span>{" "}
+                                            <p className="Disabled_Shipping_Text">
+                                                <button className="Disabled_Shipping_Link" onClick={openUserTabAction}>
+                                                    Faça login ou crie uma conta
+                                                </button>{" "}
+                                                para habilitar a entrega!
+                                            </p>
+                                        </div>
+                                    )}
+
+                                    {shippingOption === "Entrega" && (
                                         <>
-                                            <div className="Checkout_User_Adress_Detail">
-                                                <p className="Checkout_User_Street">{checkoutAdress.street}</p>
-                                                <p className="Checkout_User_Number">{checkoutAdress.number}</p>
-                                                <p className="Checkout_User_Complement">{checkoutAdress.extra}</p>
+                                            <div className="Shipping_Costs Card_Subtopic">
+                                                <h4 className="Shipping_Detail_Info_Title">
+                                                    <span className="material-icons">info</span> Valor da Entrega
+                                                </h4>
+                                                <p className="Shipping_Detail_Info">Os custos de entrega variam dependendo de sua localização.</p>
+                                                <p className="Shipping_Detail_Info">
+                                                    Para entregas em Curitiba e Região Metropolitana a média é de 15,00 a 30,00 reais. Já para
+                                                    entregas interestaduais e internacionais estes valores podem ser mais elevados.
+                                                </p>
+                                                <p className="Shipping_Detail_Info">
+                                                    Após a finalização da compra entraremos em contato para lhe repassar o valor e combinar a data.
+                                                </p>
                                             </div>
-
-                                            <p className="Checkout_User_City">{checkoutAdress.city}</p>
-                                            <p className="Checkout_User_PostalCode">{checkoutAdress.postalCode}</p>
                                         </>
                                     )}
+
+                                    <div className="Checkout_Observations Card_Subtopic">
+                                        <h3>Observações</h3>
+                                        <textarea
+                                            className="Observation_TextArea"
+                                            name="observation"
+                                            onChange={handleObservationChange}
+                                            placeholder="Caso tenha alguma observação sobre o seu pedido, escreva aqui."
+                                            value={observation}
+                                        />
+                                    </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div className="Checkout_Card Checkout_Shipping">
-                            <h2 className="Checkout_Card_OrderNumber">Como você gostaria de receber o pedido?</h2>
-                            <div className="Checkout_Shipping_Options">
-                                <div className="Checkout_Shipping_Option" onClick={() => handleOptionChange("Retirada")}>
-                                    <span className="material-icons Shipping_Icon">store</span>
+                            <div className="Checkout_Card Total_Value_Card">
+                                <h2 className="Checkout_Card_OrderNumber">Valor Total</h2>
+                                <h3 className="Checkout_Card_Total">R$ {cartSlice.cartTotal},00</h3>
 
-                                    <div className="Shipping_Content">
-                                        <h3>Retirada</h3>
-                                        <p>Retire na loja</p>
-                                    </div>
-
-                                    <a
-                                        href="https://maps.app.goo.gl/xVtMm7faZSJDcnT57"
-                                        target="_blank"
-                                        rel="noopener noreferer"
-                                        className="Shipping_Map_Btn"
-                                    >
-                                        Ver no Mapa
-                                    </a>
-
-                                    <div className="Shipping_Selector_Frame">
-                                        {shippingOption === "Retirada" && <span className="material-icons">check_circle</span>}
-                                    </div>
-                                </div>
-
-                                <div
-                                    className={registeredUser ? "Checkout_Shipping_Option" : "Checkout_Shipping_Option Disabled"}
-                                    onClick={() => handleOptionChange("Entrega")}
+                                <Link
+                                    className={cartItems.length > 0 ? "Checkout_Btn" : "Checkout_Btn Disabled"}
+                                    href={generateWhatsAppURL()}
+                                    onClick={() => {
+                                        handleCheckout("whatsapp");
+                                    }}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
                                 >
-                                    <span className="material-icons Shipping_Icon">local_shipping</span>
+                                    Comprar pelo WhatsApp
+                                </Link>
 
-                                    <div className="Shipping_Content">
-                                        <h3>Entrega</h3>
-                                        <p>Receba em casa</p>
-                                    </div>
-
-                                    <div className="Shipping_Selector_Frame">
-                                        {shippingOption === "Entrega" && <span className="material-icons">check_circle</span>}
-                                    </div>
-                                </div>
-
-                                {!registeredUser && (
-                                    <div className="Disabled_Shipping_Message">
-                                        <span className="material-icons">info</span>{" "}
-                                        <p className="Disabled_Shipping_Text">
-                                            <button className="Disabled_Shipping_Link" onClick={openUserTabAction}>
-                                                Faça login ou crie uma conta
-                                            </button>{" "}
-                                            para habilitar a entrega!
-                                        </p>
-                                    </div>
-                                )}
-
-                                {shippingOption === "Entrega" && (
-                                    <>
-                                        <div className="Shipping_Costs Card_Subtopic">
-                                            <h4 className="Shipping_Detail_Info_Title">
-                                                <span className="material-icons">info</span> Valor da Entrega
-                                            </h4>
-                                            <p className="Shipping_Detail_Info">Os custos de entrega variam dependendo de sua localização.</p>
-                                            <p className="Shipping_Detail_Info">
-                                                Para entregas em Curitiba e Região Metropolitana a média é de 15,00 a 30,00 reais. Já para entregas
-                                                interestaduais e internacionais estes valores podem ser mais elevados.
-                                            </p>
-                                            <p className="Shipping_Detail_Info">
-                                                Após a finalização da compra entraremos em contato para lhe repassar o valor e combinar a data.
-                                            </p>
-                                        </div>
-                                    </>
-                                )}
-
-                                <div className="Checkout_Observations Card_Subtopic">
-                                    <h3>Observações</h3>
-                                    <textarea
-                                        className="Observation_TextArea"
-                                        name="observation"
-                                        onChange={handleObservationChange}
-                                        placeholder="Caso tenha alguma observação sobre o seu pedido, escreva aqui."
-                                        value={observation}
+                                <div id="wallet_container" className={cartItems.length > 0 ? "Wallet" : "Wallet Disabled"}>
+                                    <Wallet
+                                        initialization={{ redirectMode: "modal" }}
+                                        customization={{ texts: { action: "buy", valueProp: "smart_option" } }}
+                                        onSubmit={handleMercadoClick}
+                                        onError={(error) => console.error("Wallet error", error)}
+                                        onReady={() => {
+                                            setMpWalletLoaded(true);
+                                            console.log("Wallet ready");
+                                        }}
+                                        locale="pt-BR"
                                     />
                                 </div>
-                            </div>
-                        </div>
-
-                        <div className="Checkout_Card Total_Value_Card">
-                            <h2 className="Checkout_Card_OrderNumber">Valor Total</h2>
-                            <h3 className="Checkout_Card_Total">R$ {cartSlice.cartTotal},00</h3>
-
-                            <Link
-                                className={cartItems.length > 0 ? "Checkout_Btn" : "Checkout_Btn Disabled"}
-                                href={generateWhatsAppURL()}
-                                onClick={() => {
-                                    handleCheckout("whatsapp");
-                                }}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                Comprar pelo WhatsApp
-                            </Link>
-
-                            <div id="wallet_container" className={cartItems.length > 0 ? "Wallet" : "Wallet Disabled"}>
-                                <Wallet
-                                    initialization={{ redirectMode: "modal" }}
-                                    customization={{ texts: { action: "buy", valueProp: "smart_option" } }}
-                                    onSubmit={handleMercadoClick}
-                                    onError={(error) => console.error("Wallet error", error)}
-                                    onReady={() => {
-                                        setMpWalletLoaded(true);
-                                        console.log("Wallet ready");
-                                    }}
-                                />
                             </div>
                         </div>
                     </>
