@@ -4,7 +4,7 @@ const privacyList: ParagraphsWithTitle[] = [
     {
         title: "Política de Privacidade",
         paragraphs: [
-            "Esta Política de Privacidade descreve como o escritório de advocacia Stresser e Machado (nós, nosso ou nos) coleta, usa e compartilha informações pessoais quando você usa nosso site www.stresseremachado.adv.br.",
+            "Esta Política de Privacidade descreve como a Chocolateria Tropical Cacau (nós, nosso ou nos) coleta, usa e compartilha informações pessoais quando você usa nosso site www.tropical-cacau.com",
         ],
     },
     {

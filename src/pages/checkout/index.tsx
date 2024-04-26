@@ -43,6 +43,11 @@ export type TranslatedCartItem = {
     quantity: number;
 };
 
+// Initialize Mercado Pago SDK
+if (process.env.NEXT_PUBLIC_MERCADO_PAGO_PUBLIC_KEY !== undefined) {
+    initMercadoPago(process.env.NEXT_PUBLIC_MERCADO_PAGO_PUBLIC_KEY);
+}
+
 export default function Checkout() {
     const dispatch = useDispatch();
 
@@ -149,7 +154,7 @@ export default function Checkout() {
             clientAdress: checkoutAdress.street + ", " + checkoutAdress.number + "( " + checkoutAdress.extra + " )" + " - " + checkoutAdress.city,
 
             status: {
-                confirmed: true,
+                confirmed: false,
                 waitingPayment: false,
                 inProduction: false,
                 waitingForRetrieval: false,
@@ -497,6 +502,10 @@ export default function Checkout() {
                                     customization={{ texts: { action: "buy", valueProp: "smart_option" } }}
                                     onSubmit={handleMercadoClick}
                                     onError={(error) => console.error("Wallet error", error)}
+                                    onReady={() => {
+                                        setMpWalletLoaded(true);
+                                        console.log("Wallet ready");
+                                    }}
                                 />
                             </div>
                         </div>

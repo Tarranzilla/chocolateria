@@ -4,7 +4,7 @@ const termsList: ParagraphsWithTitle[] = [
     {
         title: "Termos de Uso",
         paragraphs: [
-            "Estes Termos de Uso regem o uso do site do escritório de advocacia Stresser e Machado (nós, nosso ou nos). Ao acessar e usar nosso site [inserir URL do site], você concorda com estes termos e condições.",
+            "Estes Termos de Uso regem o uso do site da Chocolateria Tropical Cacau (nós, nosso ou nos). Ao acessar e usar nosso site www.tropical-cacau.com, você concorda com estes termos e condições.",
         ],
     },
     {
@@ -16,13 +16,13 @@ const termsList: ParagraphsWithTitle[] = [
     {
         title: "Propriedade Intelectual",
         paragraphs: [
-            "O conteúdo do nosso site, incluindo texto, gráficos, logotipos, ícones de botões, imagens, clipes de áudio, downloads digitais, compilações de dados e software, é de propriedade exclusiva do escritório de advocacia Stresser e Machado e está protegido por leis de direitos autorais e outras leis de propriedade intelectual aplicáveis.",
+            "O conteúdo do nosso site, incluindo texto, gráficos, logotipos, ícones de botões, imagens, clipes de áudio, downloads digitais, compilações de dados e software, é de propriedade exclusiva da Chocolateria Tropical Cacau e está protegido por leis de direitos autorais e outras leis de propriedade intelectual aplicáveis.",
         ],
     },
     {
         title: "Limitação de Responsabilidade",
         paragraphs: [
-            "Em nenhuma circunstância o escritório de advocacia Stresser e Machado, seus diretores, funcionários ou afiliados serão responsáveis por quaisquer danos diretos, indiretos, punitivos, incidentais, especiais ou consequenciais decorrentes do uso ou incapacidade de uso do site.",
+            "Em nenhuma circunstância a Chocolateria Tropical Cacau, seus diretores, funcionários ou afiliados serão responsáveis por quaisquer danos diretos, indiretos, punitivos, incidentais, especiais ou consequenciais decorrentes do uso ou incapacidade de uso do site.",
         ],
     },
     {
@@ -34,7 +34,7 @@ const termsList: ParagraphsWithTitle[] = [
     {
         title: "Lei Aplicável",
         paragraphs: [
-            "Estes Termos de Uso serão regidos e interpretados de acordo com as leis do [inserir país ou estado], sem considerar suas disposições de conflito de leis.",
+            "Estes Termos de Uso serão regidos e interpretados de acordo com as leis do Brasil, sem considerar suas disposições de conflito de leis.",
         ],
     },
 ];

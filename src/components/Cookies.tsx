@@ -38,6 +38,7 @@ export default function Cookies() {
 
                         {currentLocale === "pt-BR" && (
                             <>
+                                <span className="material-icons Cookie_Icon">cookie</span>
                                 <h1 className="Cookie_Title">Cookies</h1>
                                 <p className="Cookie_Text">Nós usamos cookies para melhorar a sua experiência no nosso site.</p>
                                 <p className="Cookie_Text">

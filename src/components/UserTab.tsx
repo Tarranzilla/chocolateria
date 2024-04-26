@@ -221,6 +221,9 @@ export default function UserTab() {
     const [isAdmin, setIsAdmin] = useState(false);
 
     const [orderList, setOrderList] = useState<CheckoutOrder[]>([]);
+
+    const noOrders = orderList.length === 0;
+
     const orderNeedUpdate = useSelector((state: RootState) => state.user.ordersNeedUpdate);
 
     const [seeMore, setSeeMore] = useState(false);
@@ -507,6 +510,7 @@ export default function UserTab() {
                                             </Link>
                                         </div>
                                     )}
+
                                     <h2 className="User_Adress_Title User_Page_Title">Endereço</h2>
                                     <div className="User_Adress_Info">
                                         <div className="User_Info_Item">
@@ -529,7 +533,7 @@ export default function UserTab() {
 
                                             {isEditing.street ? (
                                                 <span
-                                                    className="material-icons"
+                                                    className="material-icons User_Tab_Edit_Icon"
                                                     onClick={() => {
                                                         setIsEditing({ ...isEditing, street: false });
                                                     }}
@@ -538,7 +542,7 @@ export default function UserTab() {
                                                 </span>
                                             ) : (
                                                 <span
-                                                    className="material-icons"
+                                                    className="material-icons User_Tab_Edit_Icon"
                                                     onClick={() => {
                                                         setIsEditing({ ...isEditing, street: true });
                                                     }}
@@ -568,7 +572,7 @@ export default function UserTab() {
 
                                             {isEditing.number ? (
                                                 <span
-                                                    className="material-icons"
+                                                    className="material-icons User_Tab_Edit_Icon"
                                                     onClick={() => {
                                                         setIsEditing({ ...isEditing, number: false });
                                                     }}
@@ -577,7 +581,7 @@ export default function UserTab() {
                                                 </span>
                                             ) : (
                                                 <span
-                                                    className="material-icons"
+                                                    className="material-icons User_Tab_Edit_Icon"
                                                     onClick={() => {
                                                         setIsEditing({ ...isEditing, number: true });
                                                     }}
@@ -607,7 +611,7 @@ export default function UserTab() {
 
                                             {isEditing.extra ? (
                                                 <span
-                                                    className="material-icons"
+                                                    className="material-icons User_Tab_Edit_Icon"
                                                     onClick={() => {
                                                         setIsEditing({ ...isEditing, extra: false });
                                                     }}
@@ -616,7 +620,7 @@ export default function UserTab() {
                                                 </span>
                                             ) : (
                                                 <span
-                                                    className="material-icons"
+                                                    className="material-icons User_Tab_Edit_Icon"
                                                     onClick={() => {
                                                         setIsEditing({ ...isEditing, extra: true });
                                                     }}
@@ -646,7 +650,7 @@ export default function UserTab() {
 
                                             {isEditing.city ? (
                                                 <span
-                                                    className="material-icons"
+                                                    className="material-icons User_Tab_Edit_Icon"
                                                     onClick={() => {
                                                         setIsEditing({ ...isEditing, city: false });
                                                     }}
@@ -655,7 +659,7 @@ export default function UserTab() {
                                                 </span>
                                             ) : (
                                                 <span
-                                                    className="material-icons"
+                                                    className="material-icons User_Tab_Edit_Icon"
                                                     onClick={() => {
                                                         setIsEditing({ ...isEditing, city: true });
                                                     }}
@@ -687,7 +691,7 @@ export default function UserTab() {
 
                                             {isEditing.postalCode ? (
                                                 <span
-                                                    className="material-icons"
+                                                    className="material-icons User_Tab_Edit_Icon"
                                                     onClick={() => {
                                                         setIsEditing({ ...isEditing, postalCode: false });
                                                     }}
@@ -696,7 +700,7 @@ export default function UserTab() {
                                                 </span>
                                             ) : (
                                                 <span
-                                                    className="material-icons"
+                                                    className="material-icons User_Tab_Edit_Icon"
                                                     onClick={() => {
                                                         setIsEditing({ ...isEditing, postalCode: true });
                                                     }}
@@ -708,10 +712,10 @@ export default function UserTab() {
 
                                         {isSomeAddressEdited && (
                                             <div className="User_Info_Edit_Control">
-                                                <button className="Order_SeeMore_Btn" onClick={discardChanges}>
+                                                <button className="Order_SeeMore_Btn User_Info_Edit_Btn" onClick={discardChanges}>
                                                     <span className="material-icons">delete_forever</span>Descartar Alterações
                                                 </button>
-                                                <button className="Order_SeeMore_Btn" onClick={updateAddress}>
+                                                <button className="Order_SeeMore_Btn User_Info_Edit_Btn" onClick={updateAddress}>
                                                     Atualizar Informações <span className="material-icons">update</span>
                                                 </button>
                                             </div>
@@ -725,26 +729,36 @@ export default function UserTab() {
                                             return <OrderItem key={index} order={order} index={index} />;
                                         })}
 
-                                        <div className="User_Order_SeeMore">
-                                            <button
-                                                className="Order_SeeMore_Btn"
-                                                onClick={() => {
-                                                    setSeeMore(!seeMore);
-                                                }}
-                                            >
-                                                {(seeMore && (
-                                                    <>
-                                                        Ver apenas pedidos recentes
-                                                        <span className="material-icons">expand_less</span>
-                                                    </>
-                                                )) ||
-                                                    (!seeMore && (
+                                        {noOrders && (
+                                            <p className="User_No_Orders">
+                                                {" "}
+                                                <span className="material-icons User_No_Orders_Icon">receipt_long</span>Você ainda não fez nenhum
+                                                pedido
+                                            </p>
+                                        )}
+
+                                        {!noOrders && orderList.length > 3 && (
+                                            <div className="User_Order_SeeMore">
+                                                <button
+                                                    className="Order_SeeMore_Btn"
+                                                    onClick={() => {
+                                                        setSeeMore(!seeMore);
+                                                    }}
+                                                >
+                                                    {(seeMore && (
                                                         <>
-                                                            Ver todos os pedidos <span className="material-icons">more_horiz</span>
+                                                            Ver apenas pedidos recentes
+                                                            <span className="material-icons">expand_less</span>
                                                         </>
-                                                    ))}
-                                            </button>
-                                        </div>
+                                                    )) ||
+                                                        (!seeMore && (
+                                                            <>
+                                                                Ver todos os pedidos <span className="material-icons">more_horiz</span>
+                                                            </>
+                                                        ))}
+                                                </button>
+                                            </div>
+                                        )}
                                     </div>
 
                                     <button className="User_Btn" onClick={logout}>

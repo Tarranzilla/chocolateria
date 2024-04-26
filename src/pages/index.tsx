@@ -265,12 +265,6 @@ export default function Home() {
                             </div>
                         </div>
                     </section>
-                    <section id="Instagram-News" className="Page_Section LP_Section" key={"insta-feed"}>
-                        <h2 className="Section_Title">Publicações nas Redes</h2>
-                        <div className="Section_Horizontal_Content">
-                            <InstaFeed />
-                        </div>
-                    </section>
                     <section id="chocolates" className="Page_Section LP_Section" key={"chocolates"}>
                         <h2 className="Section_Title" key={t.landingPage.sections.expertise.title}>
                             {t.landingPage.sections.expertise.title}
@@ -300,6 +294,13 @@ export default function Home() {
                             alt="Clube Tropical"
                         />
                     </section>
+                    <section id="Instagram-News" className="Page_Section LP_Section" key={"insta-feed"}>
+                        <h2 className="Section_Title">Publicações nas Redes</h2>
+                        <div className="Section_Horizontal_Content">
+                            <InstaFeed />
+                        </div>
+                    </section>
+
                     <section id="contato" className="Page_Section LP_Section" key={"contato"}>
                         <h2 className="Section_Title" key={t.landingPage.sections.contact.title}>
                             {t.landingPage.sections.contact.title}

@@ -8,6 +8,8 @@ import { addCartItem, removeCartItem, decrementCartItem } from "@/store/slices/c
 import { setCartOpen } from "@/store/slices/interface";
 import { setPreferenceId } from "@/store/slices/mercado_pago";
 
+import { v4 as uuidv4 } from "uuid";
+
 import { useRouter } from "next/router";
 import Link from "next/link";
 
@@ -53,8 +55,10 @@ export default function Cart() {
             return;
         }
 
+        let customOrderID = uuidv4();
+
         setPaymentLoading(true);
-        setPreferenceIdAction("FAKE PREFERENCE");
+        setPreferenceIdAction(customOrderID);
         closeCartAction();
         setPaymentLoading(false);
         router.push("/checkout");
@@ -110,7 +114,7 @@ export default function Cart() {
 
                     {cartItems.length < 1 && (
                         <div className="Empty_Cart_Message">
-                            <p>Seu carrinho está vazio no momento, adicione itens da loja para poder realizar pedidos!</p>
+                            <p>Sua lista está vazia no momento, adicione itens da loja para poder realizar pedidos!</p>
                         </div>
                     )}
 
@@ -181,16 +185,20 @@ export default function Cart() {
                             {cartItems.length > 0 ? (
                                 <>
                                     <button className="Cart_Checkout_Btn" onClick={handleMercadoClick}>
-                                        Finalizar Pedido
+                                        Finalizar Pedido <span className="material-icons">receipt_long</span>
                                     </button>
                                 </>
                             ) : (
                                 <>
                                     <button className="Cart_Checkout_Btn Disabled" disabled>
-                                        Finalizar Pedido
+                                        Finalizar Pedido <span className="material-icons">receipt_long</span>
                                     </button>
                                 </>
                             )}
+
+                            <button className="Cart_Checkout_Btn Cart_Checkout_Info_Btn">
+                                <span className="material-icons">help</span>Como o pagamento é finalizado?
+                            </button>
                         </div>
                     </div>
                 </m.div>
