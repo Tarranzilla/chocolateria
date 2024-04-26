@@ -174,12 +174,29 @@ p {
 }
 
 .Cookie_Btn {
-    padding: var(--medium-gap) var(--large-gap);
     background-color: var(--bg-color);
     color: var(--text-color);
     border-radius: var(--border-radius);
     border: none;
     cursor: pointer;
+    height: 3rem;
+
+    transition: background-color 0.3s ease, color 0.3s ease, font-size 0.3s ease, scale 0.3s ease;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: var(--normal-gap);
+    font-size: 1rem;
+}
+
+.Cookie_Btn:hover,
+.Cookie_Btn:focus-within {
+    background-color: white;
+    color: var(--bg-color);
+    font-size: 1.2rem;
+    scale: 1.025;
 }
 
 /* ============ TERMS OF POLICY & PRIVACY ============ */
@@ -460,6 +477,7 @@ p {
 
     overflow-x: auto;
     scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
 }
 
 .Scrollable_Item {
@@ -609,7 +627,6 @@ p {
     margin-block: var(--Navbar-height);
     padding-block: 0;
     gap: var(--normal-gap);
-    min-height: 100vh;
 }
 
 .Checkout_Card {
@@ -1154,22 +1171,31 @@ p {
     align-items: center;
     justify-content: center;
     gap: var(--normal-gap);
+
+    transition: background-color 0.3s ease, scale 0.3s ease, font-size 0.3s ease;
 }
 
 .Cart_Item_Action_Btn:focus-within,
 .Cart_Item_Action_Btn:hover {
     background-color: white;
     scale: 1.05;
+    font-size: 1rem;
 }
 
 .Cart_Item_Action_Circle_Btn {
-    width: 2rem;
-    height: 2rem;
+    width: 2.4rem;
+    height: 2.4rem;
     border-radius: 50%;
     font-size: 1.6rem;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0;
+}
+
+.Cart_Item_Action_Circle_Btn:focus-within,
+.Cart_Item_Action_Circle_Btn:hover {
+    font-size: 2rem;
 }
 
 .Cart_Item_Quantity {
@@ -1465,9 +1491,55 @@ p {
 .About_Container_Header {
     display: flex;
     flex-direction: column;
+
+    transition: scale 0.3s ease-in-out;
+}
+
+.About_Container_Header_Content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.AC_HC_Text {
+    display: flex;
+    flex-direction: column;
     cursor: pointer;
 
     transition: scale 0.3s ease-in-out;
+}
+
+.AC_HC_Arrow {
+    width: 3rem;
+    height: 3rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--bg-color);
+    border-radius: 50%;
+
+    cursor: pointer;
+
+    transition: background-color 0.3s ease, scale 0.3s ease;
+}
+
+.AC_HC_Arrow:focus-within,
+.AC_HC_Arrow:hover {
+    background-color: white;
+    scale: 1.05;
+}
+
+.AC_HC_Arrow.Disabled {
+    background-color: transparent;
+    pointer-events: none;
+}
+
+.AC_HC_Arrow_Icon {
+    font-size: 2rem;
+    color: var(--text-color);
+    transition: font-size 0.3s ease, color 0.3s ease;
 }
 
 .About_Container_Special {
@@ -1647,6 +1719,8 @@ p {
     flex: 1;
     gap: var(--medium-gap);
     overflow-x: auto;
+    scroll-behavior: smooth;
+    scroll-snap-type: x mandatory;
 
     padding-bottom: var(--medium-gap);
 }
@@ -1658,6 +1732,8 @@ p {
     flex: 1;
     width: 340px;
     height: 100%;
+
+    scroll-snap-align: start;
 
     padding: var(--medium-gap);
     border: 1px solid var(--text-color);
@@ -1784,7 +1860,7 @@ p {
 .Card_Btn:focus-within,
 .Card_Btn:hover {
     scale: 1.025;
-    background-color: var(--text-color);
+    background-color: white;
     color: var(--bg-color);
 }
 
@@ -2625,6 +2701,15 @@ p {
     border-radius: var(--border-radius);
     font-size: 1rem;
     font-family: var(--text-font);
+
+    transition: background-color 0.3s ease, font-size 0.3s ease;
+}
+
+.User_Order_Status_Call_Btn:hover,
+.User_Order_Status_Call_Btn:focus-within {
+    background-color: white;
+    color: var(--bg-color);
+    font-size: 1.2rem;
 }
 
 .Order_Expand_Btn {

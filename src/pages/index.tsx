@@ -14,6 +14,7 @@ import Link from "next/link";
 import ImageSlider from "@/components/ImageSlider";
 import GroupSlider from "@/components/groupSlider";
 import InstaFeed from "@/components/InstaFeed";
+import next from "next";
 
 // WhatsApp Functions
 
@@ -43,6 +44,8 @@ const AboutContent = [
     {
         bannerImgSrc: "/about_imgs/historia_cacau.jpg",
         title: "A História do Cacau",
+        id: "historia_cacau",
+        next: "cacau_brasil",
         paragraphs: [
             "O Cacau, uma planta nativa da região amazônica, é uma das culturas mais importantes e populares no mundo, tendo uma história antiga e fascinante que inclui diversas lendas e mitos.",
             "Segundo a mitologia maia, Coração do Céu, a principal divindade, criou os seres humanos utilizando vários materiais da natureza, incluindo o cacau, como um dos ingredientes essenciais.",
@@ -59,6 +62,9 @@ const AboutContent = [
     {
         bannerImgSrc: "/about_imgs/cacau_brasil.jpg",
         title: "O Cacau no Brasil",
+        id: "cacau_brasil",
+        previous: "historia_cacau",
+        next: "propriedades_cacau",
         paragraphs: [
             "O cacau tem uma longa história no Brasil, remontando a milhares de anos, quando as civilizações indígenas já o consumiam. No entanto, foi somente durante o século XVIII que a cultura do cacau ganhou impulso significativo no país. Em meados do século XIX, a Bahia se tornou o principal estado produtor de cacau, graças às condições climáticas favoráveis e ao solo rico da região cacaueira.",
             "Com a crescente demanda mundial por chocolate na virada do século XX, a produção de cacau no Brasil aumentou substancialmente. A partir da década de 1930, o país se consolidou como o maior produtor mundial de cacau, impulsionado principalmente pela produção de chocolate em grande escala por empresas brasileiras e internacionais.",
@@ -71,6 +77,9 @@ const AboutContent = [
     {
         bannerImgSrc: "/about_imgs/propriedades_cacau.jpg",
         title: "Propriedades do Cacau",
+        id: "propriedades_cacau",
+        previous: "cacau_brasil",
+        next: "producao_cacau",
         paragraphs: [
             "O cacau, especialmente em sua forma não processada, oferece várias propriedades benéficas para o corpo humano, graças à presença de compostos naturais.",
             "Abaixo estão as principais propriedades e efeitos do cacau no corpo:",
@@ -86,6 +95,8 @@ const AboutContent = [
     {
         bannerImgSrc: "/about_imgs/producao_cacau.jpg",
         title: "Produção do Cacau",
+        id: "producao_cacau",
+        previous: "propriedades_cacau",
         paragraphs: [
             "O ciclo sazonal da plantação e do crescimento do cacau segue um padrão bem definido, com quatro principais etapas:",
             "Florada: O ciclo começa com a florada, que geralmente ocorre entre novembro e janeiro, período em que as árvores de cacau florescem. As pequenas flores são de coloração branca e nascem diretamente no tronco e nos galhos mais velhos das árvores.",
@@ -105,7 +116,12 @@ const AboutContent = [
 type AboutContainerProps = {
     bannerImgSrc: string;
     title: string;
+    id: string;
     paragraphs: string[];
+    index: number;
+    arrayLength: number;
+    previous?: string;
+    next?: string;
 };
 
 function AboutContainer(AboutContainerProps: AboutContainerProps) {
@@ -114,7 +130,7 @@ function AboutContainer(AboutContainerProps: AboutContainerProps) {
     const [isExpanded, setIsExpanded] = useState(true);
 
     return (
-        <div className="Scrollable_Item">
+        <div className="Scrollable_Item" id={`${AboutContainerProps.id}`}>
             <div className="Scrollable_Item_Content_Wrapper">
                 <Image
                     className="Scrollable_Item_Image"
@@ -127,16 +143,32 @@ function AboutContainer(AboutContainerProps: AboutContainerProps) {
                     }}
                 />
 
-                <div
-                    className="About_Container_Header"
-                    onClick={() => {
-                        setIsExpanded(!isExpanded);
-                    }}
-                >
-                    <h3 className="About_Container_UpTitle">Sobre</h3>
-                    <h2 className="About_Container_Title" key={AboutContainerProps.title}>
-                        {AboutContainerProps.title}
-                    </h2>
+                <div className="About_Container_Header">
+                    <div className="About_Container_Header_Content">
+                        <div className={AboutContainerProps.index == 0 ? "AC_HC_Arrow Disabled" : "AC_HC_Arrow"}>
+                            {AboutContainerProps.index !== 0 && (
+                                <Link href={`#${AboutContainerProps.previous}`} className="material-icons AC_HC_Arrow_Icon">
+                                    arrow_back
+                                </Link>
+                            )}
+                        </div>
+                        <div
+                            className="AC_HC_Text"
+                            onClick={() => {
+                                setIsExpanded(!isExpanded);
+                            }}
+                        >
+                            <h3 className="About_Container_UpTitle">Sobre</h3>
+                            <h2 className="About_Container_Title" key={AboutContainerProps.title}>
+                                {AboutContainerProps.title}
+                            </h2>
+                        </div>
+                        <div className={AboutContainerProps.index == AboutContainerProps.arrayLength - 1 ? "AC_HC_Arrow Disabled" : "AC_HC_Arrow"}>
+                            <Link href={`#${AboutContainerProps.next}`} className="material-icons AC_HC_Arrow_Icon">
+                                arrow_forward
+                            </Link>
+                        </div>
+                    </div>
 
                     <span className={isExpanded ? "material-icons About_Expand_Btn Active" : "material-icons About_Expand_Btn"}>expand_more</span>
                 </div>
@@ -223,6 +255,11 @@ export default function Home() {
                                         title={content.title}
                                         paragraphs={content.paragraphs}
                                         bannerImgSrc={content.bannerImgSrc}
+                                        index={index}
+                                        arrayLength={AboutContent.length}
+                                        id={content.id}
+                                        previous={content.previous}
+                                        next={content.next}
                                     />
                                 ))}
                             </div>

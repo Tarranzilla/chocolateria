@@ -50,7 +50,7 @@ const portugueseWebStructure: WebStructure = {
         title: "Menu",
         links: [
             {
-                path: "/",
+                path: "/#",
                 name: "Início",
             },
             {

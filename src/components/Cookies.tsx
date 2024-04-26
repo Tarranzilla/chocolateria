@@ -53,7 +53,7 @@ export default function Cookies() {
                                 localStorage.setItem("cookie", "true");
                             }}
                         >
-                            {t.cookies.btnText}
+                            {t.cookies.btnText} <span className="material-icons">thumb_up</span>
                         </button>
                     </div>
                 </m.div>
