@@ -21,7 +21,7 @@
 
     --bg-color-faded-50: #6f2f11c2;
 
-    --sidebar-bg-color: #aaaaaa81;
+    --sidebar-bg-color: #aaaaaabf;
 
     --dark-text-color: #c7ab0f;
 
@@ -1801,6 +1801,8 @@ p {
     gap: var(--small-gap);
     flex: 1;
     width: 340px;
+    min-width: 340px;
+    max-width: 340px;
     height: 100%;
 
     scroll-snap-align: start;

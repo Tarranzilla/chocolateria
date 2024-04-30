@@ -43,11 +43,6 @@ export type TranslatedCartItem = {
     quantity: number;
 };
 
-// Initialize Mercado Pago SDK
-if (process.env.NEXT_PUBLIC_MERCADO_PAGO_PUBLIC_KEY !== undefined) {
-    initMercadoPago(process.env.NEXT_PUBLIC_MERCADO_PAGO_PUBLIC_KEY);
-}
-
 export default function Checkout() {
     const dispatch = useDispatch();
 
@@ -264,6 +259,11 @@ export default function Checkout() {
     };
 
     useEffect(() => {
+        // Initialize Mercado Pago SDK
+        if (process.env.NEXT_PUBLIC_MERCADO_PAGO_PUBLIC_KEY !== undefined) {
+            initMercadoPago(process.env.NEXT_PUBLIC_MERCADO_PAGO_PUBLIC_KEY);
+        }
+
         const auth = getAuth();
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (user) {
@@ -400,7 +400,7 @@ export default function Checkout() {
 
                         <div className="Checkout_Card_Wrapper">
                             <div className="Checkout_Card Checkout_Shipping">
-                                <h2 className="Checkout_Card_OrderNumber">Como você gostaria de receber o pedido?</h2>
+                                <h2 className="Checkout_Card_OrderNumber">Opções de Recebimento</h2>
                                 <div className="Checkout_Shipping_Options">
                                     <div className="Checkout_Shipping_Option" onClick={() => handleOptionChange("Retirada")}>
                                         <span className="material-icons Shipping_Icon">store</span>
@@ -504,7 +504,6 @@ export default function Checkout() {
                                         initialization={{ redirectMode: "modal" }}
                                         customization={{ texts: { action: "buy", valueProp: "smart_option" } }}
                                         onSubmit={handleMercadoClick}
-                                        onError={(error) => console.error("Wallet error", error)}
                                         onReady={() => {
                                             setMpWalletLoaded(true);
                                             console.log("Wallet ready");
